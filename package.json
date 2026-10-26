@@ -1,0 +1,14 @@
+{
+  "name": "x-ai-tips",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "validate": "node scripts/validate-tips.mjs",
+    "build": "npm run validate && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.4.1"
+  }
+}
