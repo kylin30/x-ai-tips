@@ -2,6 +2,90 @@
   "version": 1,
   "tips": [
     {
+      "id": "2114858150537130057",
+      "title": "去AI味提示词：6条规则+自检表",
+      "summary": "笼统说「写自然点」压不住AI味；把套话/排比/预告/免责等习惯逐条点名禁掉，附可复制改写指令与自检清单。",
+      "body": "【去AI味改写指令】按6条规则改写，事实数字观点不变：\n1. 删开场收尾客套（不写「在当今时代」「总之」「希望对你有帮助」）\n2. 不预告重点：删「值得注意的是」「关键在于」「本质上」\n3. 少排比对仗：不硬凑三点，不写「不是A，而是B」\n4. 每段只说一件事，段尾不做总结\n5. 免责和提醒只说一次，放在最需要处\n6. 用具体代替抽象：能写数字/例子/人名就不写「显著提升」\n语气像跟同事说话；只输出改写正文。\n自检：首句有信息；搜「值得注意/关键在于/本质上/总之」；数「不是…而是…」与三连排比；段尾删掉意思是否仍在；加粗/emoji/小标题是否多于内容。\n合同/说明书等本需结构的文本可保留结构。",
+      "tags": [
+        "提示词",
+        "技巧",
+        "写作",
+        "ChatGPT"
+      ],
+      "author": "NanshanTalk",
+      "sourceUrl": "https://x.com/NanshanTalk/status/2114858150537130057",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114855594851262640",
+      "title": "Harness engineering：循环+工具+权限+上下文，约200行",
+      "summary": "多数「建Agent」教程只在拼提示词；真正有用的是 harness：循环、工具、权限门、上下文文件与回合上限。",
+      "body": "编码Agent harness 约200行要素：\n• while-loop：model → tool calls → results → repeat until done\n• 少量工具：read / write / shell\n• permission gate：allow / deny / ask\n• 把 AGENTS.md 或 CLAUDE.md 载入 system prompt\n• turn budget，防止无限跑\n入门仓库：shareAI-lab/learn-claude-code（s01 裸循环约150行）；mycoder-mini（TypeScript CLI，src/index.ts≈181行）。\n结论：引擎是模型，产品是 model + harness。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "Agent",
+        "Claude"
+      ],
+      "author": "EveryDevAi",
+      "sourceUrl": "https://x.com/EveryDevAi/status/2114855594851262640",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114691183968768009",
+      "title": "先让AI问5个会改答案的问题，再作答",
+      "summary": "在任意提示末尾加：回答前先问我5个最会改变答案的问题并等待回复，避免模型用通用假设填空。",
+      "body": "可粘贴前缀：\n\"Before you answer, ask me the 5 questions that would most change your answer. Wait for my replies.\"\n原理：AI 会用通用假设填空；先提问再作答，相当于强制做需求澄清。",
+      "tags": [
+        "提示词",
+        "技巧",
+        "通用"
+      ],
+      "author": "ServiceBOT_au",
+      "sourceUrl": "https://x.com/ServiceBOT_au/status/2114691183968768009",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114824625926349125",
+      "title": "上线前让Claude扮演最挑剔买家：挑刺写进落地页",
+      "summary": "给产品/价格/成本/竞品后，让Claude停止「帮忙」、扮演最怀疑的买家；把反对意见写进首页、FAQ与钩子。",
+      "body": "流程：贴 product、price、landed cost、竞品 listing → 要求 stop being helpful，扮演最挑剔买家。\n追问：为什么不买？第二周为什么退款？付完为什么会觉得自己傻？半价竞品多做了什么？\n落地：反对意见→落地页首屏；退款理由→FAQ/物流文案；「感觉被坑」答案→钩子文案。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "Claude",
+        "电商"
+      ],
+      "author": "n1ck_ecom",
+      "sourceUrl": "https://x.com/n1ck_ecom/status/2114824625926349125",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114787736163078406",
+      "title": "给Agent加 debug_message 工具：卡住就写旁路日志",
+      "summary": "加 debug_message 工具，指令执行不了/条件不满足/输入缺失/提示冲突时写入独立带标签文件，再用 Codex/Claude 自动扫。",
+      "body": "设计：加 tool `debug_message`，并写一句指南——当无法执行当前指令、不满足条件、缺预期输入、或提示互相矛盾时调用它。\n把该工具输出写到独立带标签文件；再用 Codex/Claude（或同类）自动检测这些日志。\n适合上下文复杂、结构难全量手查时。",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Agent",
+        "Claude"
+      ],
+      "author": "lukepark_fn12",
+      "sourceUrl": "https://x.com/lukepark_fn12/status/2114787736163078406",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114823412422000864",
       "title": "小红书轮播图 Skill：先分镜表再渲染，20 模板可复用",
       "summary": "Ian 的 ian-xhs-carousel：文章→3:4 轮播图；先确认分镜再渲染，20 模板+深浅色；适合产品/AI 类图文。",
