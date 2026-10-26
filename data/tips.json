@@ -2,6 +2,72 @@
   "version": 1,
   "tips": [
     {
+      "id": "2114718890349502772",
+      "title": "Claude Code：先复现失败测试，再给修 bug 提示词",
+      "summary": "Anthropic/Boris：修 bug 前先给可复现失败用例；CLAUDE.md 约束 + Read/Grep 定位 + 最小补丁 + Bash 回归。附可粘贴调查提示词。",
+      "body": "Investigate the checkout total mismatch in this repository\n\nRead CLAUDE.md and the relevant implementation, callers, and tests\n\nFirst reproduce the failure and explain the calculation error\nShow your proposed fix before editing and wait for my approval\n\nAfter approval, make the smallest correct patch\nKeep money in integer cents and apply discounts before tax\nAdd or update a regression test that fails on the original implementation\nRun that test, then the relevant suite\n\nReturn the final diff, commands executed, test results, and any remaining uncertainty\nDo not commit or push",
+      "tags": [
+        "工作流",
+        "提示词",
+        "技巧",
+        "Claude"
+      ],
+      "author": "Lummox_eth",
+      "sourceUrl": "https://x.com/Lummox_eth/status/2114718890349502772",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114700277924110354",
+      "title": "Claude Code 每轮只做一步：CLAUDE.md 精简到 10 条硬规则",
+      "summary": "每轮只选一个下一步；CLAUDE.md 每次全量加载宜<200 行；项目细节挪到 skills 按需加载；少连 MCP；只读用 Haiku、终审用 Opus；只在关键步抬 effort。",
+      "body": "1) CLAUDE.md loads every session — keep under 200 lines; put project specifics in skills (load on demand)\n2) Keep unused MCPs OFF — each connected server is read before every move\n3) Route read-only scans to Haiku; keep Opus for final diff review\n4) Raise effort only on the one hard step, not the whole session\n5) Subagents inherit main model — spawning many Explores on Opus burns money\n6) Thinking tokens bill as output",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude"
+      ],
+      "author": "mojeskoqq",
+      "sourceUrl": "https://x.com/mojeskoqq/status/2114700277924110354",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114558066347982864",
+      "title": "Grok Bot 三角色回测：写规则 / 跑指标 / 怀疑者否决",
+      "summary": "AI 回测最大坑是自己给自己打分。用三角色：A 写可回测条件，B 跑胜率/盈亏比/回撤，C 专找过拟合等假象；C 不签字不上策略。",
+      "body": "你是三个人。\nA：把我的规则写成可回测的条件。\nB：在 BTC 4H 近2年数据上跑，给胜率、盈亏比、最大回撤。\nC：你是怀疑者，专门找这个结果为什么是假的：过拟合、样本太少、手续费没算、只在牛市有效。\nC 不签字，这个策略就不上。",
+      "tags": [
+        "提示词",
+        "工作流",
+        "Grok"
+      ],
+      "author": "waveking1314",
+      "sourceUrl": "https://x.com/waveking1314/status/2114558066347982864",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114624765793046626",
+      "title": "Claude/Codex 经 Webhook Routine 给 Grok Bot 派活",
+      "summary": "用 Grok Bot Routine 的 webhook Trigger：外面 POST 带 key 即可叫醒 Bot。Bridge Bot 模板会建 Inbound Routine，并给出可贴进 Claude/Codex 的 setup 提示词做成 skill。",
+      "body": "Routine = 指令 + Trigger。Webhook Trigger：往专属 URL 发一次带 key 的 POST。\nBridge Bot 模板：① 首次打开聊天自动创建「Inbound from other AI tools」，触发器 {\"type\":\"webhook\"} ② 建好后给 setup 提示词，去面板复制 URL/key。\n把该提示词粘进 Claude/Codex 做成 skill，即可给 Grok Bot 派活。",
+      "tags": [
+        "工作流",
+        "工具",
+        "Grok",
+        "Claude"
+      ],
+      "author": "ai_edisonZ",
+      "sourceUrl": "https://x.com/ai_edisonZ/status/2114624765793046626",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114607206423470571",
       "title": "Prompt caching：可变内容放末尾，日期/ID 放开头会每次 miss",
       "summary": "Prompt caching 从提示词最开头匹配；把今天的日期或 request id 放在 system prompt 顶部会导致每次 cache miss。可变内容挪到末尾。",
