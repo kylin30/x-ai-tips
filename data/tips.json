@@ -2,6 +2,99 @@
   "version": 1,
   "tips": [
     {
+      "id": "2114819820193825080",
+      "title": "改稿时先划保护区：告诉 AI 哪些段落不许动",
+      "summary": "修订草稿时明确「开头和例子保留，只收紧中间」；无界重写会丢掉最好的句子。",
+      "body": "Quick tip: when revising a draft, tell AI what NOT to touch.\nExample: \"Keep the opening and the examples. Only tighten the middle.\"\nUnbounded rewrites lose your best lines — guardrails keep them.",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "NeyronixAI",
+      "sourceUrl": "https://x.com/NeyronixAI/status/2114819820193825080",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114809485634228355",
+      "title": "同一规章跑四次结果不同：提示词别塞动态 ID/变动列表",
+      "summary": "模型响应一致，但提示词里的动态上传标识和变动列表让输入被改写，导致合规抽取条数抖动。",
+      "body": "现象：同一九页规章跑四次，分别抓出 32/31/33/33 条合规义务；底层模型响应一致。\n原因：提示词塞了动态上传标识和变动列表，链路自己改了输入。\n做法：\n- 提示词与工具入参里避免每次变化的临时 ID、乱序列表、可变包装字段\n- 要可复现：固定输入序列化、去掉非决策相关噪声变量\n- 智能体代人拍板前，先管住代码里乱窜的变量",
+      "tags": [
+        "提示词",
+        "工作流",
+        "技巧"
+      ],
+      "author": "DavisNc9527",
+      "sourceUrl": "https://x.com/DavisNc9527/status/2114809485634228355",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114813604860199034",
+      "title": "Cursor Agent SDK：提示词进 Git + 改一句就跑 evals",
+      "summary": "Agent 当代码写：Markdown 提示词、TS 工具、Git/CR；自带 evals 测改动好坏。定时用 Automations，不写代码用 Bot，要版本管理才上 SDK。",
+      "body": "Cursor Agent SDK 要点：\n・提示词放 Markdown，工具用 TypeScript，项目进 Git / code review\n・可 Cursor 托管或自建服务器\n・自带 evals：改一句提示词就能跑分，看变好还是变差\n・底层与 Bugbot、Security Review 同一套 harness\n・分工：定时/事件 → Automations；不写代码 → Grok Bot；要团队版本管理与反复调优 → Agent SDK\n核心：agent 跑起来不难，难的是证明改完没变差。\n文档：https://cursor.com/docs/agent-sdk",
+      "tags": [
+        "工作流",
+        "技巧",
+        "工具"
+      ],
+      "author": "Kenwy05Kenwy",
+      "sourceUrl": "https://x.com/Kenwy05Kenwy/status/2114813604860199034",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114820392326193437",
+      "title": "行业日报 Agent 提示词：3–5 条 + 为什么重要 + 行动建议",
+      "summary": "可复制提示：角色=资深分析师；剔公关稿；只留 3–5 条；每条含标题/为什么重要/行动建议。",
+      "body": "Role: 资深行业信息分析师\nTask: 请将输入的原始新闻列表整理为一份高价值的《每日 AI 动态速递》。\nOutput Rules:\n1. 剔除所有无实质内容的公关稿与营销文。\n2. 仅保留最具行业影响力的 3-5 条新闻。\n3. 每条新闻按以下格式输出：\n 📌 [标题]（一句话总结核心事实）\n 💡 [为什么重要]（从行业影响/商业价值角度阐述 2 点）\n 🚀 [行动建议]（对普通创作者/开发者的启示）",
+      "tags": [
+        "提示词",
+        "工作流",
+        "模板"
+      ],
+      "author": "FlyingpigAI",
+      "sourceUrl": "https://x.com/FlyingpigAI/status/2114820392326193437",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114825762339774801",
+      "title": "让 AI 说人话：把禁用填充词写进提示词",
+      "summary": "NYU 研究总结六种让人累的 AI 文风；最常见是答完再总结一遍。把禁用词写进提示词即可压掉。",
+      "body": "AI 文风常见疲劳点：答完再总结一遍、零信息量填充。\n做法：把禁用词/禁用句式写进提示词，例如：\n- 不要用「总而言之 / 综上所述 / 值得注意的是」收尾复述\n- 不要重复已给出的结论\n- 直接给答案，禁止空话垫场\n参考 NYU 对 14 模型、980 篇文章的语言模式拆解。",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "zack6116",
+      "sourceUrl": "https://x.com/zack6116/status/2114825762339774801",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114827528338874381",
+      "title": "AI 视频提示词分三层：主体 / 镜头 / 环境",
+      "summary": "别把视频提示揉成一句话；拆成主体动作、镜头运动、环境变化，时长选 5 秒更稳，负向提示挡废片。",
+      "body": "分三层写视频提示词：\n1) 主体在做什么\n2) 镜头怎么动\n3) 环境有什么变化\n\n例：别写「一个女孩在海边奔跑」；写「女孩沿海岸线慢跑，镜头平行跟随，海浪拍礁石，黄昏光线」。\n工具常用即梦/可灵；时长选 5 秒比 10 秒稳。\n负向提示词加：变形、闪烁、多余手指。",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "lh17601",
+      "sourceUrl": "https://x.com/lh17601/status/2114827528338874381",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114806616751067464",
       "title": "交片提示词写死验收：限额 / 失败码 / 可撤销",
       "summary": "把验收行写进提示词：限额、失败码、可撤销，缺一个都不算完。AI 省的是敲键盘，省不掉你对结果负责。",
