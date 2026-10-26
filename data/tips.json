@@ -2,6 +2,104 @@
   "version": 1,
   "tips": [
     {
+      "id": "2114823412422000864",
+      "title": "小红书轮播图 Skill：先分镜表再渲染，20 模板可复用",
+      "summary": "Ian 的 ian-xhs-carousel：文章→3:4 轮播图；先确认分镜再渲染，20 模板+深浅色；适合产品/AI 类图文。",
+      "body": "流程：贴文章 → 先出分镜表（页数/模板/标题）→ 确认后再排版渲染；单页可换模板。\n输出：每页 PNG、总览图、HTML 源。\n安装：克隆到 Claude skills，装 Playwright+Pillow；命令 /ian-xhs-carousel 或「做成小红书」。\n建议：分镜多花时间；图上字少；约五页；截图高清、Logo 用 SVG。\n仓库：https://github.com/helloianneo/ian-xhs-carousel",
+      "tags": [
+        "工具",
+        "工作流",
+        "Claude",
+        "小红书"
+      ],
+      "author": "MirrortekUK",
+      "sourceUrl": "https://x.com/MirrortekUK/status/2114823412422000864",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114825703724110213",
+      "title": "系统提示是愿望，PreToolUse hook 才是规则",
+      "summary": "「测试过再 push」写在 system prompt 只是愿望；PreToolUse 返回 permissionDecision: deny 才是可执行规则。",
+      "body": "\"Please don't push before tests pass\" in a system prompt is a wish.\nA PreToolUse hook that returns permissionDecision: \"deny\" is a rule.\n用 hooks 在工具调用前硬拦截（Claude Code），比把禁令只写进提示词可靠。",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude Code"
+      ],
+      "author": "Sattva2012",
+      "sourceUrl": "https://x.com/Sattva2012/status/2114825703724110213",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114842263071428954",
+      "title": "Claude Code 与 Codex 共用规则：CLAUDE.md 指向 AGENTS.md",
+      "summary": "Codex 读的是 /AGENTS.md 不是 /CLAUDE.md；两边都用时把共用规则放 AGENTS.md，CLAUDE.md 用 @AGENTS.md 引入。",
+      "body": "Claude Code 用的 /CLAUDE.md 规则不会自动进 Codex。\nCodex 读的是 /AGENTS.md。\n两边都用：共用规则放 /AGENTS.md；/CLAUDE.md 里用 @AGENTS.md 引入，避免两边规则漂移。",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude",
+        "Codex"
+      ],
+      "author": "ai_hacks_jp",
+      "sourceUrl": "https://x.com/ai_hacks_jp/status/2114842263071428954",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114822163567910915",
+      "title": "作业辅导 Prompt：只给家长一步提示，答案留给孩子",
+      "summary": "把题与孩子作答贴给 AI，先判 INPUT/CONCEPT/OVERLOAD 三卡点之一；每次只给家长一句可照说的提示，禁止代答。",
+      "body": "思路：家长贴题目+孩子写的内容 → AI 判三卡点：\n- 没读对题：指读、圈关键词，家长闭嘴\n- 概念没学会：放下本题，用实物补概念再回来\n- 脑子装不下：已知与中间结果写草稿纸\n规则：每次只给家长一句提示；最后一步必须孩子自己算；绝不把答案交给家长转述。\n可复制工程书见原帖（HOMEWORK-COACH v1.0）。",
+      "tags": [
+        "提示词",
+        "模板",
+        "教育"
+      ],
+      "author": "ai_chuhai",
+      "sourceUrl": "https://x.com/ai_chuhai/status/2114822163567910915",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114831940385984846",
+      "title": "Prime Agent：让 Claude Code 类 Agent 过夜持续干活",
+      "summary": "PrimeIntellect 开源 Prime Agent：RLM 把上下文当变量、子 Agent 当函数；Continual Harness 记住提示词/记忆/技能并按结果优化。",
+      "body": "Claude Code 跑长任务易断。Prime Agent 核心两套：\n1) RLM：上下文当变量，子 Agent 当函数，在持久环境持续执行\n2) Continual Harness：记住提示词、记忆和技能，按执行结果持续优化\n另有心跳、定时、目标持久化、Agent 间通信、/refine 小步改进与回滚；重复工作可封装成 Python 技能。\n仓库：https://github.com/PrimeIntellect-ai/prime-agent",
+      "tags": [
+        "工具",
+        "工作流",
+        "Claude"
+      ],
+      "author": "tantanyuli",
+      "sourceUrl": "https://x.com/tantanyuli/status/2114831940385984846",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114841473115971975",
+      "title": "工具调用不等于授权：提示词劝阻 vs 执行路径硬拦截",
+      "summary": "系统提示里的「先问/别做」只是建议；真正拦截要把会改状态的工具放在有明确授权才会构造的执行路径上，并失败关闭。",
+      "body": "A tool call is not authority.\nMost agents treat the model's decision to call a tool as permission to run it. A system prompt that says \"ask first\" or \"don't do X\" is still a request to the model.\nAdvisory: the instruction says stop.\nEnforcing: the mutating tool is never constructed until a grant for that exact change exists.\nOne lives in the prompt. The other lives in the execution path and fails closed.\nAnd if the host can still invoke the tool outside the guarded table, you don't have a gate. You have documentation.",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Agent安全"
+      ],
+      "author": "coderifts_dev",
+      "sourceUrl": "https://x.com/coderifts_dev/status/2114841473115971975",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114819820193825080",
       "title": "改稿时先划保护区：告诉 AI 哪些段落不许动",
       "summary": "修订草稿时明确「开头和例子保留，只收紧中间」；无界重写会丢掉最好的句子。",
