@@ -2,6 +2,85 @@
   "version": 1,
   "tips": [
     {
+      "id": "2114806616751067464",
+      "title": "交片提示词写死验收：限额 / 失败码 / 可撤销",
+      "summary": "把验收行写进提示词：限额、失败码、可撤销，缺一个都不算完。AI 省的是敲键盘，省不掉你对结果负责。",
+      "body": "把验收行写进提示词：限额、失败码、可撤销，缺一个都不算完。\n没 QA，AI 省的是敲键盘，省不掉你对结果负责。\n把这三行贴进交片页旁边。",
+      "tags": [
+        "提示词",
+        "工作流",
+        "技巧"
+      ],
+      "author": "yuanliuwei",
+      "sourceUrl": "https://x.com/yuanliuwei/status/2114806616751067464",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114809511122776440",
+      "title": "防幻觉：让 AI 为每条主张引用你原文，否则写 NOT IN SOURCE",
+      "summary": "别问「这是真的吗」。粘贴资料并要求：答案里每条主张都引用原文句子；没有就写 NOT IN SOURCE。编造会立刻露馅。",
+      "body": "For each claim in your answer, quote the exact sentence from my text that supports it. If there isn't one, write NOT IN SOURCE.",
+      "tags": [
+        "提示词",
+        "技巧",
+        "ChatGPT"
+      ],
+      "author": "Jack_tech_edu",
+      "sourceUrl": "https://x.com/Jack_tech_edu/status/2114809511122776440",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114797786629595223",
+      "title": "别在 ~/Downloads 启动 Codex/Claude：AGENTS.md 投毒",
+      "summary": "Forever Security：网页可往 Downloads 塞 AGENTS.md，诱导 Codex 加恶意 MCP 并 npm install。复测 Codex 九成以上照做；CLAUDE.md 同理。不要在下载目录开 agent。",
+      "body": "用 Codex 或 Claude Code 的，别在 ~/Downloads 里启动它们。\n\n网页可往下载文件夹塞 AGENTS.md，内容让 Codex 往 ~/.codex/config.toml 加 MCP server，再 npm install 恶意包。复测 Codex 九成以上照做；换成 CLAUDE.md 同样危险。\n\n快速自查：\nfind ~/Downloads ~ -maxdepth 1 -name AGENTS.md -o -name CLAUDE.md",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude"
+      ],
+      "author": "wuguanzheng2",
+      "sourceUrl": "https://x.com/wuguanzheng2/status/2114797786629595223",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114800449073405956",
+      "title": "睡前复盘提示词：复利 / 假忙 / 明天只做一件",
+      "summary": "把今天做过的事贴给 AI，让它分成三类：一年后还有复利的、只是看起来很忙的、明天只做一件该选哪件及前 30 分钟怎么开头。",
+      "body": "下面是我今天做过的事。帮我分三类：\n1. 一年后还会有复利的（技能 / 作品 / 关系 / 身体）\n2. 只是看起来很忙的\n3. 明天只做一件事的话，选哪件、前 30 分钟怎么开头",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "snakeace",
+      "sourceUrl": "https://x.com/snakeace/status/2114800449073405956",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114809185414041725",
+      "title": "CLAUDE.md 是请求，PreToolUse hook 才是硬拦截",
+      "summary": "不想让 Claude 动 .env 等文件时，别只写在 CLAUDE.md：用 PreToolUse hook，工具执行前跑脚本，exit 2 即拦截，stderr 会回传给 Claude 当理由。",
+      "body": "A rule in CLAUDE.md is a request. A hook is enforced.\n\nIf something must never happen, like Claude editing .env, use a PreToolUse hook instead of a rule. It runs before the tool does; exit code 2 blocks it. What it prints to stderr goes back to Claude as the reason.",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude"
+      ],
+      "author": "jjb2519",
+      "sourceUrl": "https://x.com/jjb2519/status/2114809185414041725",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114718890349502772",
       "title": "Claude Code：先复现失败测试，再给修 bug 提示词",
       "summary": "Anthropic/Boris：修 bug 前先给可复现失败用例；CLAUDE.md 约束 + Read/Grep 定位 + 最小补丁 + Bash 回归。附可粘贴调查提示词。",
