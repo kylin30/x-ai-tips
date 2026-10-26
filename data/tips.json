@@ -2,11 +2,96 @@
   "version": 1,
   "tips": [
     {
+      "id": "2114607206423470571",
+      "title": "Prompt caching：可变内容放末尾，日期/ID 放开头会每次 miss",
+      "summary": "Prompt caching 从提示词最开头匹配；把今天的日期或 request id 放在 system prompt 顶部会导致每次 cache miss。可变内容挪到末尾。",
+      "body": "Prompt caching only matches from the very start. Put today's date or a request id at the top of your system prompt and every call is a cache miss. Move anything that changes to the end.",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude"
+      ],
+      "author": "yoayush",
+      "sourceUrl": "https://x.com/yoayush/status/2114607206423470571",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114659029540581416",
+      "title": "prompts.chat 上线 331 个 Grok Bot 现成配方，别从零手搓",
+      "summary": "Awesome ChatGPT Prompts 作者 Fatih 在 prompts.chat 上线 Grok Bot 配方库，打包约 331 个社区配方，可直接挂进 Grok Bot。",
+      "body": "prompts.chat 已有约 331 个 Grok Bot 社区配方，可直接挂进 Grok Bot；作者同 Awesome ChatGPT Prompts。",
+      "tags": [
+        "模板",
+        "工具",
+        "工作流",
+        "Grok"
+      ],
+      "author": "AYi_AInotes",
+      "sourceUrl": "https://x.com/AYi_AInotes/status/2114659029540581416",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114741560956878865",
+      "title": "Agent 循环 Prompt caching 清单：静态前缀 + 工具顺序固定",
+      "summary": "Agent 循环里让缓存命中：静态 system prompt 与 tool schemas 放前、工具顺序固定、前缀不含时间戳/用户 id、可变上下文放最后。",
+      "body": "Prompt caching checklist: 1) static system prompt + tool schemas first 2) identical tool order every call 3) no timestamps or user ids in the prefix 4) variable context last. One timestamp at the top busts the cache every step.",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude"
+      ],
+      "author": "SaiTarunRonanki",
+      "sourceUrl": "https://x.com/SaiTarunRonanki/status/2114741560956878865",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114780533997838548",
+      "title": "提示词用编号列表 + 分轮确认，比一大段长文执行率更高",
+      "summary": "提示词不是越长越好：要求拆成编号列表、每条只写一件事；复杂任务分轮——先背景目标确认理解，再给具体要求。",
+      "body": "要求拆成带编号列表，每条只写一件事。复杂任务分几轮：第一轮只给背景和目标并让它复述确认，再给具体要求。一次砸五千字通常只执行前几条。",
+      "tags": [
+        "技巧",
+        "提示词"
+      ],
+      "author": "lh17601",
+      "sourceUrl": "https://x.com/lh17601/status/2114780533997838548",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114782864269259031",
+      "title": "Anthropic 建议：少拆子 agent，一 agent + skills 往往更好",
+      "summary": "Anthropic 近期建议能不拆子 agent 就别拆：一个 agent 配一套 skills，很多时候比复杂多 agent 系统更稳；多 agent 上下文易丢、难调试。",
+      "body": "能不拆子 agent 就别拆；一 agent + skills 往往优于多 agent。多 agent 上下文来回传易丢信息、难调试。",
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude"
+      ],
+      "author": "FrozenEel427",
+      "sourceUrl": "https://x.com/FrozenEel427/status/2114782864269259031",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114736625913573779",
       "title": "agent-purge：一份人格/系统提示词同步到多款 coding agent",
-      "summary": "开源工具 agent-purge：写一次 system prompt，经配置块、PATH shim 或会话内 /purge 同步到 Codex、Claude、OpenCode、Grok 等，可逆。",
+      "summary": "写一次 system prompt，经配置块/PATH shim 或会话内 /purge 同步到 Codex、Claude、OpenCode、Grok 等，可逆。",
       "body": "One persona every coding agent; npm i -g agent-purge; reversible via config blocks, PATH shims or /purge.",
-      "tags": ["工具", "工作流", "Claude", "Grok", "通用"],
+      "tags": [
+        "工具",
+        "工作流",
+        "Claude",
+        "Grok"
+      ],
       "author": "Z3nlyte",
       "sourceUrl": "https://x.com/Z3nlyte/status/2114736625913573779",
       "lang": "en",
@@ -15,10 +100,14 @@
     },
     {
       "id": "2114353170969432154",
-      "title": "Grok Bot 201：4 个 Bot 各干一件，每 24 小时自动跑一轮",
-      "summary": "SpaceXAI 工程师演示：一个 Bot 包揽不如多 Bot 分工；贴纸店案例每天下架浏览最少的 3 款并上架新款，定时自动跑。",
+      "title": "Grok Bot 201：4 个 Bot 各干一件 + 每 24 小时自动跑一轮",
+      "summary": "一个 Bot 包揽不如多 Bot 分工；贴纸店案例每天定时自动下架弱款并上架新款。",
       "body": "Joseph Yang 在 Grok Bot 201 分享：每 24 小时自动跑一轮，不用人发提示词；多 Bot 各司其职。",
-      "tags": ["工作流", "技巧", "Grok"],
+      "tags": [
+        "工作流",
+        "技巧",
+        "Grok"
+      ],
       "author": "bdall_1",
       "sourceUrl": "https://x.com/bdall_1/status/2114353170969432154",
       "lang": "zh",
@@ -28,9 +117,13 @@
     {
       "id": "2114229379114955243",
       "title": "Grok Bot：用 Marketplace 模板改工作流，比从零写系统提示词快",
-      "summary": "从 Marketplace 精选模板起步（如造 Bot 的 dr eggbot），连接工具后再按自己的流程改，省掉从零写系统提示词。",
+      "summary": "从 Marketplace 精选模板起步，连接工具后再按自己的流程改，省掉从零写系统提示词。",
       "body": "最省时间玩法：拿现成专用模板改成自己的工作流；团队精选了 10 个模板对应 10 份真实工作。",
-      "tags": ["模板", "工作流", "工具", "Grok"],
+      "tags": [
+        "模板",
+        "工作流",
+        "Grok"
+      ],
       "author": "bdall_1",
       "sourceUrl": "https://x.com/bdall_1/status/2114229379114955243",
       "lang": "zh",
@@ -40,9 +133,13 @@
     {
       "id": "2113950553063449015",
       "title": "开源 Grok Bot「内容主管」架构：一人搭 10 人内容小队",
-      "summary": "不要让单个对话框从头写到尾；有人开源了把 Grok Bot 当内容主管的多角色模板，自称十月跑出高曝光。",
+      "summary": "不要让单个对话框从头写到尾；有人开源了把 Grok Bot 当内容主管的多角色模板。",
       "body": "多 Bot 分工内容生产；附开源/模板链接；适合内容运营工作流参考。",
-      "tags": ["模板", "工作流", "工具", "Grok"],
+      "tags": [
+        "模板",
+        "工作流",
+        "Grok"
+      ],
       "author": "AYi_AInotes",
       "sourceUrl": "https://x.com/AYi_AInotes/status/2113950553063449015",
       "lang": "zh",
@@ -52,9 +149,15 @@
     {
       "id": "2113852061095997577",
       "title": "Agent Skills：写一次 SKILL.md，跨 ChatGPT/Cursor/Copilot 复用",
-      "summary": "别总重复同一套提示词：建文件夹放 SKILL.md 写清步骤并附脚本资料，agent 按需加载；已扩到多平台，规范捐给 AAIF。",
+      "summary": "建文件夹放 SKILL.md 写清步骤并附脚本资料，agent 按需加载；规范已扩到多平台。",
       "body": "建文件夹 + SKILL.md + 脚本/资料；支持 ChatGPT、Cursor、Copilot、VS Code 等；Anthropic 捐给 Linux 基金会 AAIF。",
-      "tags": ["技巧", "工作流", "模板", "ChatGPT", "Cursor", "通用"],
+      "tags": [
+        "技巧",
+        "工作流",
+        "模板",
+        "Cursor",
+        "ChatGPT"
+      ],
       "author": "fengwan217",
       "sourceUrl": "https://x.com/fengwan217/status/2113852061095997577",
       "lang": "zh",
@@ -63,10 +166,14 @@
     },
     {
       "id": "2113543479745749494",
-      "title": "Claude 极简技巧：粘贴乱文档，抽出可执行项并按优先级排序",
-      "summary": "无需复杂 system prompt：粘贴长乱文档，只说 pull out every actionable item and sort by priority，几秒完成原先半小时整理。",
+      "title": "Claude 极简技巧：粘贴乱文档 → 抽出可执行项并按优先级排序",
+      "summary": "无需复杂 system prompt：粘贴长乱文档，只说 pull out every actionable item and sort by priority。",
       "body": "One Claude trick: paste messy doc, say \"pull out every actionable item and sort by priority.\" No fancy prompt engineering.",
-      "tags": ["提示词", "技巧", "Claude"],
+      "tags": [
+        "提示词",
+        "技巧",
+        "Claude"
+      ],
       "author": "elgermerlo",
       "sourceUrl": "https://x.com/elgermerlo/status/2113543479745749494",
       "lang": "en",
@@ -78,7 +185,11 @@
       "title": "DeepSeek：少往 System Prompt 塞复杂规则，优先写清 User Message",
       "summary": "官方与社区实测：DeepSeek 对用户首条输入的敏感度远高于藏在深处的 System Prompt；复杂规则尽量放用户消息。",
       "body": "接入 DeepSeek 时尽量不要在 System Prompt 里塞满复杂规则；注意力机制对 User Message 更敏感。避坑：把关键约束写进用户首条输入。",
-      "tags": ["技巧", "提示词", "其他"],
+      "tags": [
+        "技巧",
+        "提示词",
+        "DeepSeek"
+      ],
       "author": "HunziDaily",
       "sourceUrl": "https://x.com/HunziDaily/status/2113442785617424448",
       "lang": "zh",
@@ -90,7 +201,11 @@
       "title": "Claude Code + Magpie/Kiro：本地系统提示词不会被整体替换",
       "summary": "翻 Magpie Kiro 插件源码：Claude Code 先在本地组装系统提示词，再经 Magpie 转发，不必担心被 Kiro 系统提示词整份替换。",
       "body": "流程：1) Claude Code 本地组装身份、工具规则和 CLAUDE.md；2) Magpie 处理转发。",
-      "tags": ["技巧", "工作流", "Claude", "其他"],
+      "tags": [
+        "技巧",
+        "工作流",
+        "Claude"
+      ],
       "author": "vincemask",
       "sourceUrl": "https://x.com/vincemask/status/2113283779150356495",
       "lang": "zh",
@@ -100,9 +215,14 @@
     {
       "id": "2112515068999225354",
       "title": "Harvard AI 家教系统提示词：改成可粘贴的 ChatGPT/Claude 教学提示词",
-      "summary": "哈佛公开 AI tutor 的 system prompt；作者改成可复制提示词，让 ChatGPT/Claude 按该风格教任意科目（需自行核原文链接）。",
+      "summary": "哈佛公开 AI tutor 的 system prompt；作者改成可复制提示词（需自行核原文链接）。",
       "body": "Harvard published the system prompt behind this AI tutor; turned into copy-paste prompt for any subject.",
-      "tags": ["提示词", "模板", "ChatGPT", "Claude"],
+      "tags": [
+        "提示词",
+        "模板",
+        "ChatGPT",
+        "Claude"
+      ],
       "author": "CrazyShyyt",
       "sourceUrl": "https://x.com/CrazyShyyt/status/2112515068999225354",
       "lang": "en",
@@ -111,10 +231,13 @@
     },
     {
       "id": "2112468763404853330",
-      "title": "模型变聪明后：少限制、多自由，翻译和回答质量反而升",
-      "summary": "提示词工程仍在，但依赖下降；DeepSeek Flash 更新后作者删减翻译 prompt/skills 限制，质量明显提升。",
+      "title": "模型变聪明后：少限制、多自由，翻译/回答质量反而升",
+      "summary": "提示词工程仍在，但依赖下降；删减翻译 prompt/skills 限制后质量提升。",
       "body": "主要是移除限制、给 AI 更多自由发挥；提示词工程仍存在，只是模型更智能后依赖没那么高。",
-      "tags": ["技巧", "提示词", "其他", "通用"],
+      "tags": [
+        "技巧",
+        "提示词"
+      ],
       "author": "HelouMaster",
       "sourceUrl": "https://x.com/HelouMaster/status/2112468763404853330",
       "lang": "zh",
