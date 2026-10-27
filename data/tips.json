@@ -2868,6 +2868,187 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115101432550441291",
+      "title": "30 分钟搭 Claude Code：CLAUDE.md→Skills→Hooks→评测",
+      "summary": "CLAUDE.md 只留每任务都要知道的；重复提示变 skills；MCP 只接常复制的工具；hooks 自动校验；窄子代理；权限一次配好；docs 记忆；完成要证据；10 条 eval；一线程一任务。",
+      "body": "可按序落地的 Claude Code 配置清单：\n1. Repo brain：/init 后精简 CLAUDE.md，只留项目做什么、关键目录、build/test/lint、编码规则、勿碰文件、完成定义；任务专属说明另放。\n2. Skills：.claude/skills/ 先做 build-feature / fix-bug / code-review / write-tests；写清先查什么、步骤、命令、审批点、如何验收；同一指令打过 3 次就做成 skill。\n3. MCP：只接你还在手动往对话里贴的（GitHub/docs/issue/DB/browser），别一次接 30 个。\n4. Hooks：编辑后 format+lint；改逻辑后跑相关测；结束前 typecheck；提交前跑你真正在乎的检查。\n5. 三个窄子代理：researcher 找文件与上下文；reviewer 查回归/假设；test-agent 补测与破改动。\n6. 权限：自动允许读/搜/diff/lint/测；部署、生产、密钥、破坏性 DB、不可逆操作保留人工批准。\n7. 长任务记忆：docs/decisions.md、status.md、known-issues.md，大任务后让 Claude 更新。\n8. Done 要证据：测/lint/typecheck 过、请求行为通、无关行为仍通、diff 在范围内；UI 要跑页+交互+控制台。\n9. 小 eval：存 10 条真实任务+验收命令；改 CLAUDE.md/skills/hooks/权限后重跑对比。\n10. 一线程一任务（功能/bug/重构分开），长任务靠 compaction。\n落地：先短宪章+4 skills+自动校验，再谈子代理与插件。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "Skills",
+        "验收",
+        "评测",
+        "技巧"
+      ],
+      "author": "AIGuide_",
+      "sourceUrl": "https://x.com/AIGuide_/status/2115101432550441291",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115101428544885044",
+      "title": "最便宜第二大脑：磁盘 .md + 根目录 CLAUDE.md 作索引",
+      "summary": "不用 Obsidian/Notion：notes/people/projects 各一主题一文件；MEMORY/LEARNINGS/decisions 在根；CLAUDE.md 当地图开会话就进系统提示。地图潦草会自信胡说——结构让它敢说「没有」。",
+      "body": "做法：磁盘上几个 .md + 一个索引，会话开始前 agent 就读到。\n- 索引：根目录 CLAUDE.md（Claude Code 开局进系统提示）。\n- notes/ 一主题一文件（tax-policy.md 而非 notes.md）；people/ 一人一卡；projects/ 写停在哪与下一步。\n- 根上 MEMORY.md / LEARNINGS.md / decisions.md 作核心、教训与审计。\n规则：一文件一主题；小写连字符；不装应用，任何编辑器/agent/机器可搬。\n用法：问「税上我们怎么定的」→ 先地图再 notes/tax-policy.md，并引用文件；从没写过的事要说 missing，别编。\n可在地图里用 @MEMORY.md 钉住最多两个文件，多了又变全量倾倒。\n落地：今晚先建文件夹，边用边填；产品是地图质量，不是文件夹数量。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "记忆",
+        "组织",
+        "技巧"
+      ],
+      "author": "xbtvivi",
+      "sourceUrl": "https://x.com/xbtvivi/status/2115101428544885044",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115101077812944933",
+      "title": "省 Claude Code token：定点文件+/compact/短 CLAUDE.md/子代理吞日志",
+      "summary": "别让它全仓搜——指向确切文件；任务完先 /compact 再开下一项；CLAUDE.md 保持短（每会话加载）；长日志/测试输出丢子代理，主上下文保持干净。",
+      "body": "省 token 且不丢质量的四条：\n1. 指向确切文件，别让它搜整仓。\n2. 一项任务做完先 /compact，再开下一项。\n3. CLAUDE.md 短而具体——它每会话都加载。\n4. 长日志或测试输出交给子代理，主上下文保持干净。\n落地：开任务时先 @ 相关路径；会话切换前压缩；把「别膨胀」写进规则比事后抱怨账单更有效。",
+      "tags": [
+        "工作流",
+        "成本",
+        "上下文",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "PublicAI_",
+      "sourceUrl": "https://x.com/PublicAI_/status/2115101077812944933",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115100971546386937",
+      "title": "规则只维护 AGENTS.md：CLAUDE.md 一行 import",
+      "summary": "真规则放 AGENTS.md；CLAUDE.md 只写「AGENTS.md」或链接。Codex/Cursor 直接读 AGENTS.md，Claude Code 靠 import 拉入——一份短文件，避免三份漂移。",
+      "body": "多工具同仓时别维护三份规则：\n- 真规则只写在 AGENTS.md。\n- CLAUDE.md 缩成一行：`AGENTS.md`（或指向它的链接）。\n- Codex 与 Cursor 直接读 AGENTS.md；Claude Code 通过 import 拉入。\n落地：改规则只改一处；开 PR 时 diff 一份就够，减少 CLAUDE.md / .cursorrules / AGENTS.md 各自漂移。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "组织",
+        "技巧"
+      ],
+      "author": "the_shaps",
+      "sourceUrl": "https://x.com/the_shaps/status/2115100971546386937",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115101253617189336",
+      "title": "防种植指令：Claude Code 会读启动目录之上的 AGENTS.md",
+      "summary": "在 Downloads 里新建空文件夹仍可能吃到上层种植的 AGENTS.md/CLAUDE.md。工作区放到上层也干净的路径，并用 /memory 核对实际加载了哪些指令文件。",
+      "body": "安全细节（补充「别在 Downloads 开 agent」）：\nClaude Code 会从启动目录之上的每一层加载 AGENTS.md 与 CLAUDE.md，所以在 Downloads 里新建文件夹仍可能读到已种植文件。\n落地：\n1. 在上层也干净的路径开项目（或专用沙箱目录）。\n2. 开会话后跑 /memory，核对实际加载了哪些指令文件。\n3. 空文件夹不够——祖先目录也要干净。\n授权边界：启动路径是信任决策，比「别点奇怪链接」更硬。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "AGENTS.md",
+        "安全",
+        "技巧"
+      ],
+      "author": "Alaretos",
+      "sourceUrl": "https://x.com/Alaretos/status/2115101253617189336",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115099886295400549",
+      "title": "反 Yes-man：反馈前先写「主张/确信度/证据」清单",
+      "summary": "Thinking in Bets：读你的反驳前，先列主张、0–1 确信度与证明（测过/文件行/未查）。只改反馈真正指向的部分。代码评审误撤正确改动 12.2%→0.02%。可抄进 CLAUDE.md/AGENTS.md。",
+      "body": "问题：你说「这不对」，agent 常答「你说得对」并拆掉其实正确的改动。\n论文式提示修复（无需训练）——在读反馈前先写清单：\n→ 它在主张什么\n→ 确信度 0–1\n→ 证明：通过的测试、文件与行号，或「未检查」\n然后只改你的反馈真正指向的部分。\n报告效果（5 个 Gemini、8 基准）：代码评审误撤正确工作 12.2%→0.02%；评审后仍过关的报告稿 58%→89%；同一清单写在抱怨之后只有 65%——时机是关键。真错误仍修了 92%。\n可抄进 CLAUDE.md / AGENTS.md：\n「Before you reply to my feedback, list your main claims, how sure you are, and the proof for each. Then change only what my feedback points to.」\n你反驳时也要点名失败用例；空泛抱怨换来空泛修补。\n注：原文测在 Gemini+模拟用户；本质是提示，值得今天就试。",
+      "tags": [
+        "工作流",
+        "可靠性",
+        "AGENTS.md",
+        "验收",
+        "技巧"
+      ],
+      "author": "HimanshuRawal05",
+      "sourceUrl": "https://x.com/HimanshuRawal05/status/2115099886295400549",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115099388942954759",
+      "title": "多 Agent 防漂移三原语：对称指令同步/工件契约/隔离 worktree",
+      "summary": "别当提示词问题，当分布式同步：单一真源编译到各 harness；代理间只传 OpenAPI/ADR/schema 等类型化工件；每代理独立 worktree，用 merge-tree 调和。",
+      "body": "判断：多 Agent 跨 Claude Code / Codex / Cursor 翻车，常因把编排当「多写几句提示」，而非状态同步。\n三条架构原语：\n1. 对称指令同步（单一真源）：别各自维护 CLAUDE.md、.cursorrules、.codex/AGENTS.md。用确定性脚本从一份真源编译工具规则、风格与禁止项，每次提交对称写出各 harness 格式。\n2. 声明式工件契约（别传聊天史）：代理间传对话摘录最易毒化上下文。只通过类型化边界工件通信：OpenAPI、ADR、schema、生成类型。\n3. 隔离 worktree + merge-tree 调和：多代理同工作目录必撞脏状态与构建缓存。每代理独立 git worktree；变更只经推测性内存三方合并（git merge-tree）调和。\n落地：先统一规则编译与工件接口，再谈并行；模型很少是根因，不协调的状态与碎片指令层才是。",
+      "tags": [
+        "工作流",
+        "多Agent",
+        "组织",
+        "协作",
+        "技巧"
+      ],
+      "author": "Kizuno18",
+      "sourceUrl": "https://x.com/Kizuno18/status/2115099388942954759",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115101841243419010",
+      "title": "短 AGENTS.md 不够：再配运行时强制的权限与禁删路径",
+      "summary": "根目录短文件只是地图，agent 可以忽略。配对运行时强制规则（权限、禁删路径），避免漏读 AGENTS.md 一行就变成破坏性命令。",
+      "body": "补充「短根文件当地图」：地图好用，但仍是可被忽略的建议。\n配对硬约束：\n- 运行时权限（哪些工具自动允许/必须批准）\n- 禁删/禁写路径\n这样漏读 AGENTS.md 一行，也不至于直接变成破坏性命令。\n落地：规则文件写「应该怎样」；settings/permissions 写「不许怎样」——软建议 + 硬门禁一起上。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "AGENTS.md",
+        "门禁",
+        "技巧"
+      ],
+      "author": "oxsentra",
+      "sourceUrl": "https://x.com/oxsentra/status/2115101841243419010",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115099201097060686",
+      "title": "提示清晰度：按 ASD-STE100 的 80% 写进 Claude 指令",
+      "summary": "航空维修简化英语 53 条过严；Karpathy 建议「走到 ASD-STE100 的 80%」。可抄五条：主动语态、句≤20词、一句一意、一名一物、无习语。全强制会丢事实。",
+      "body": "背景：ASD-STE100 是航空维修手册简化技术英语（约 53 条规则+约 900 词受控词典），让技师读错一步的概率下降；同样规则也让 Claude 输出更好读。\n整本粘贴太严。Karpathy 版建议：让模型解释时「走到 ASD-STE100 的大约 80%」。\n值得写进 Claude 指令的五条：\n→ 主动语态，谁做什么一目了然\n→ 句子不超过 20 词\n→ 一句一个意思\n→ 同一事物始终同一名称\n→ 无习语、少行话\n注意：公开测试里强制 100% 标准，代码解释几乎丢掉一半事实——所以要 80%。\n落地：把五条放进项目 CLAUDE.md / 全局指令；需要 lint 再用插件，别一上来全量强制。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "可读性",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "rryssf",
+      "sourceUrl": "https://x.com/rryssf/status/2115099201097060686",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115100747176255585",
+      "title": "别一上来就编排：先可复用提示→自改规则→意图层→再评测",
+      "summary": "成熟度从 level 1 开始：一条你反复用的好提示；再让编码 agent 自改规则、意图层、工作流阶段与 evals。多数人直接跳到 orchestration，却跳过评测。",
+      "body": "Agent 成熟度建议（回复 joelhooks/mattpocockuk）：\n从 level 1 起步——先有一条你反复复用的好提示；再进到「编码 agent 自己改的规则」、意图层、工作流阶段、evals。\n多数人直接跳到 orchestration，却跳过评测。\n落地：本周只固化 1 条可复用提示+最小验收；能稳定复现后再加规则自改与编排。没有 eval 的编排是在放大噪声。",
+      "tags": [
+        "工作流",
+        "评测",
+        "提示词",
+        "门禁",
+        "技巧"
+      ],
+      "author": "wesleyboland",
+      "sourceUrl": "https://x.com/wesleyboland/status/2115100747176255585",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
