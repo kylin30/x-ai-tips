@@ -4352,6 +4352,212 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115212507715387441",
+      "title": "定时 Agent 空跑烧钱：改 1 时钟+事件唤醒+LEDGER no-op",
+      "summary": "7 个小时定时 Agent 一周可空烧 $47–70；改成全队 1 个安全时钟+事件触发，并强制无变更时只写 no-op 后停。",
+      "body": "成本与唤醒（prodsystems_）：\n1. 账：7 agents × 24 × 7 = 1176 次；多数空跑。单次空跑≈系统提示+tools+CLAUDE.md 15–25k in + ~1k out → Sonnet 约 $0.04–0.06；周 $47–70，月可近 $300。\n2. 小时跑还会打穿 prompt cache（默认约 5 分钟），每次冷启动付全价。\n3. 改法：全队只留 1 个安全时钟（如每 4h）；其余睡到事件（邮件/PR/落盘）；事件可批 10 分钟再跑一次。\n4. 写入每条 Agent 指令：开工前查 LEDGER.md 自上次条目后有无变化；无变化则追加 no-op+时间戳并停，且最多 1 次工具调用、不读其他文件。\n落地：用事件替代空轮询；保留低频安全钟兜底 webhook 失效。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "门禁",
+        "技巧"
+      ],
+      "author": "prodsystems_",
+      "sourceUrl": "https://x.com/prodsystems_/status/2115212507715387441",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115217820648976760",
+      "title": "过细工作流输给 raw Opus：给全貌上下文与工具，少写步骤护栏",
+      "summary": "花大力气写逐步检查与触碰边界后，与「无工作流+同工具」的 raw Opus 对照，后者更好；失败多在 harness/缺工具/缺上下文。",
+      "body": "复盘（brendenvonhouse）：\n1. 详细 workflow（逐步指令、阶段检查、可触碰边界）对照 raw Opus（同工具、无流程）→ raw 结果更好。\n2. 许多护栏是为「不会自己想」的旧模型写的；现在模型更需要业务全貌、目标与既往尝试。\n3. 接到人会用的一切：Search Console、分析、站点、邮箱、CRM。\n4. 出错时几乎不是模型，而是 harness、够不到的工具、或从未给过的上下文。\n落地：少堆步骤规则，多补上下文与可达工具；流程过细时用 A/B 对照 raw 强模型。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "可靠性",
+        "技巧"
+      ],
+      "author": "brendenvonhouse",
+      "sourceUrl": "https://x.com/brendenvonhouse/status/2115217820648976760",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115218804557189271",
+      "title": "每会话独立 worktree + deny list：Agent 不走出生成仓库",
+      "summary": "用 per-session worktree 与 deny list，让 Agent 永不在被生成仓库外启动，从而读不到 Downloads 里的 stray AGENTS.md。",
+      "body": "启动边界（ruyterfontes）：\n1. 每个会话独立 worktree。\n2. 配 deny list，禁止在生成该会话的仓库外启动。\n3. 效果：Downloads 等处的 stray AGENTS.md 不会被读入。\n落地：spawn 时绑定仓库根；启动路径校验失败则拒跑。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "ruyterfontes",
+      "sourceUrl": "https://x.com/ruyterfontes/status/2115218804557189271",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115219826155425888",
+      "title": "MCP 连上≠权限合格：只读/写范围/吊销/高风险人批",
+      "summary": "评估 MCP 先问只读、写入范围、谁可吊销、删除是否需人批；MCP 统一发现与调用，不替业务判断是否允许操作。",
+      "body": "授权边界（SeanchenZ）：\n1. 常见误区：只关心 Agent 能连多少工具。\n2. 评估清单：能否只读？写入范围？谁撤销授权？删数据是否需人工批准？\n3. MCP 角色：Host / Client / Server；tools/list → tools/call → 服务端校验身份/权限/参数。\n4. 高风险操作另走风控 + Human Approval。\n5. 分层：OAuth 管流程，Scope+服务端规则管权限，人批管高风险，审计留证。\n落地：接 MCP 前先定读写 Scope 与吊销；缺后几层＝把风险接得更方便。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "SeanchenZ",
+      "sourceUrl": "https://x.com/SeanchenZ/status/2115219826155425888",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115214378647822550",
+      "title": "规则文件后门：.cursor/rules 不可见 Unicode + CI/CODEOWNERS",
+      "summary": "攻击入口常在共享规则文件（零宽/双向 Unicode）；CI 扫描隐藏字符、规则变更走 CODEOWNERS，并以 diff 而非聊天为准验收。",
+      "body": "规则与授权（foryangxin / Pillar Security）：\n1. 载荷可藏在 .cursor/rules、Copilot 指令等「无害配置」里；人眼干净，模型读到完整恶意指令。\n2. 复制开源规则会把隐藏字符一并带入；PR 界面也可能看不见。\n3. 后果：覆盖安全默认、后门/弱加密、外传密钥；进仓后影响后续所有会话与 fork。\n4. 门禁：CI 扫零宽/双向控制符/Unicode Tags U+E0000–U+E007F，命中失败；规则文件变更 CODEOWNERS；外来规则先 cat -A/hex；diff 标红新外部 URL/script；Agent 说「没改」以 diff 为准。\n5. 局限：可见文字写的恶意规则扫描挡不住——内容意图仍需人读。\n落地：把 AI 规则当代码审，不当随手配置。",
+      "tags": [
+        "工作流",
+        "安全",
+        "授权边界",
+        "门禁",
+        "技巧"
+      ],
+      "author": "foryangxin",
+      "sourceUrl": "https://x.com/foryangxin/status/2115214378647822550",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115214273693798562",
+      "title": "给 Agent 的反馈用类型护栏：非法状态写不出来",
+      "summary": "类型检查比提示词喊「别写 bug」更管用；代码可批量生成后，测试与类型护栏更不能省，否则省下的时间全花在排查。",
+      "body": "门禁与反馈（dustADD，呼应 yminsky）：\n1. Agent 靠反馈变好；类型是强反馈之一。\n2. 让非法状态在类型层不可表示，比反复提示更稳。\n3. 生成加速后，测试/类型护栏更关键——否则排查吃掉节省。\n落地：把 tsc/类型检查与测试挂进完成条件；别只靠口头禁令。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "验收",
+        "可靠性",
+        "技巧"
+      ],
+      "author": "dustADD",
+      "sourceUrl": "https://x.com/dustADD/status/2115214273693798562",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115184781822734656",
+      "title": "每周一天维护 Skills：让 Agent 复盘会话纠错并瘦身",
+      "summary": "固定用一天让 Agent 通读与其他 Agent 的会话，提炼你的纠错如何优化 skill，并去掉臃肿。",
+      "body": "Skills 复盘（AdebimpeOmolaso）：\n1. 每周至少留一天维护 skills。\n2. 流程：让 Agent（偏好 Claude）通读你与其他 Agent 的会话，找本可更好之处，以及你的纠错如何固化进 skill、如何瘦身。\n落地：纠错→skill 补丁→去重；别只堆新 skill 不维护。",
+      "tags": [
+        "工作流",
+        "Skills",
+        "复盘",
+        "技巧"
+      ],
+      "author": "AdebimpeOmolaso",
+      "sourceUrl": "https://x.com/AdebimpeOmolaso/status/2115184781822734656",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115198322814464257",
+      "title": "多工具共读一份 AGENTS.md：跨生态同一大脑",
+      "summary": "Grok Bot / Claude Opus / Codex 指向 Obsidian 指挥中心里同一份共享 AGENTS.md，读同一上下文并向同一 vault 写回。",
+      "body": "规则组织（realcraigcowan）：\n1. 雇多 bot 时，跨生态共享同一「大脑」优于锁死单工具。\n2. 例：Grok Bot（日常）、Claude Opus（架构）、Codex（构建）→ 同一 Obsidian 指挥中心里的一份 AGENTS.md。\n3. 每个 Agent 读同一上下文，写回同一 vault。\n落地：一处宪法、多执行器；工具可换，规则源不换。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "协作",
+        "技巧"
+      ],
+      "author": "realcraigcowan",
+      "sourceUrl": "https://x.com/realcraigcowan/status/2115198322814464257",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115220775657501168",
+      "title": "子代理三条件：并行/新上下文/选不了工具，否则变 Skill",
+      "summary": "加子代理前先问解决什么问题；常因系统提示臃肿。仅当并行、需新鲜上下文、或主 Agent 选不对工具时保留，否则折回主循环或改成 skill。",
+      "body": "子代理组织（AgentScoutHQ / Addy Osmani）：\n1. 加子代理前问：它在解决什么？很多时候是提示词臃肿。\n2. 保留条件：工作可并行、需要 fresh context、或一个 Agent 实在选不对工具。\n3. 否则：折进主循环；把提示变成 skill；跑 eval 留赢家。\n4. 洞见：不少多 Agent 布置，做成「一 Agent + 好工具」更好调试；用流图看见再决定折叠。\n落地：默认不拆；拆前写清三条件之一，并用 eval 对照 skill 方案。",
+      "tags": [
+        "工作流",
+        "Skills",
+        "可靠性",
+        "技巧"
+      ],
+      "author": "AgentScoutHQ",
+      "sourceUrl": "https://x.com/AgentScoutHQ/status/2115220775657501168",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115217136050127074",
+      "title": "系统提示顶部一行变数会打断缓存：缓存输入约省 90%",
+      "summary": "编码 Agent 每次重读系统提示；顶部时间戳/用户 ID 一变就 miss cache。缓存命中时输入价约低 90%。",
+      "body": "缓存与成本（ramthamedia）：\n1. Agent 每请求重读同一系统提示，未命中缓存就付全价。\n2. 顶部一行变数（timestamp、user ID）会整段打断缓存。\n3. 缓存输入大约便宜 90%。\n落地：静态前缀在前、变数垫后；审计谁在往系统提示头塞动态字段。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "技巧"
+      ],
+      "author": "ramthamedia",
+      "sourceUrl": "https://x.com/ramthamedia/status/2115217136050127074",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115198100465697038",
+      "title": "把 boundary-once 写进 AGENTS.md：边界校验一次向内传类型值",
+      "summary": "Codex 常层层防御性校验。在 AGENTS.md 写明：未知值只在边界校验一次，向内传已类型化的值；避免预拆单次用 helper 与多余 try/catch。",
+      "body": "AGENTS.md 规则（Voxyz_ai）：\n1. 问题：Codex 对小改也层层 null/typeof。\n2. 写入 AGENTS.md：在拥有边界处校验未知值一次，向内传 typed 值；勿对 schema/构造器已保证的值再防御校验。\n3. 勿预拆单次 helper；除非复用、藏复杂边界、或有独立好名字。\n4. 尽量少 try/catch。\n落地：把边界一次原则固化进仓库规则，而不是每次提示口头说。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "Voxyz_ai",
+      "sourceUrl": "https://x.com/Voxyz_ai/status/2115198100465697038",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115223250980773901",
+      "title": "审计 Agent 还加载了什么：diff settings.json 与根 AGENTS.md 之外",
+      "summary": "根目录 AGENTS.md 人人加载，但很少查还会捡起什么；建议定期 diff settings.json，警惕静默改配置与 token 泄露通道。",
+      "body": "配置审计（arnabkarmkr）：\n1. 工作区根 AGENTS.md 被每个 Agent 加载，但「还捡起什么」常无人查。\n2. 相对 MCP 投毒，base_url 重定向更阴：看起来不坏，token 却在漏。\n3. 动作：今晚起 diff settings.json（及同类全局配置）。\n落地：把「审计 Agent 加载面」列入例行；配置变更需可 diff、可回滚。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "arnabkarmkr",
+      "sourceUrl": "https://x.com/arnabkarmkr/status/2115223250980773901",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
     }
   ]
 }
