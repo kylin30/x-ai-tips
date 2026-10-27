@@ -784,6 +784,161 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114890070742413429",
+      "title": "本地小模型调工具：改提示词基本没用，要靠硬护栏",
+      "summary": "4B 级小模型常不调工具却谎称已完成；作者结论是靠代码 Guards/沙箱约束，而不是堆提示词。",
+      "body": "现象：小模型可能不调用画图工具却说「图画好了」，或卡在死循环。调提示词对小模型往往无效，应在工程侧加硬护栏（Guards）、隔离沙箱（仅读写当前聊天目录、默认断网）、自动退回 CPU 兜底。本地桌面端 Hob（MIT）用 Electron+llama.cpp 走通日常文件任务；16G+ 内存时体验可接近云端开箱，且数据不出本机。",
+      "tags": [
+        "技巧",
+        "工作流",
+        "工具"
+      ],
+      "author": "tvytlx",
+      "sourceUrl": "https://x.com/tvytlx/status/2114890070742413429",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114889148746350827",
+      "title": "Agent 用法反转：多开并行，人只处理决策点",
+      "summary": "别盯着单个 Agent 补提示词；拆任务并行、预定义边界/验收/重试上限，让 Agent 等你。",
+      "body": "旧模式：开一个 Agent → 盯屏 → 出问题再补提示词 → 再给下一条。结果注意力被占满。新模式：尽量多开 Agent，可拆分任务并行；能自动执行/测试/修复/验证的就让它们 Loop；但 Loop 需提前定义任务边界、验收标准、重试上限与退出条件。只在真正需要人决策时打断你。优化目标是降低人类注意力被打断的频率，而不是单纯加速 Agent。",
+      "tags": [
+        "工作流",
+        "技巧"
+      ],
+      "author": "SeanchenZ",
+      "sourceUrl": "https://x.com/SeanchenZ/status/2114889148746350827",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114887129914560987",
+      "title": "Claude 桌面端当 IT：7 条可复制修机提示词",
+      "summary": "授权 Claude 桌面访问电脑后，用健康检查/启动项/存储/臃肿软件/入侵检测/备份/月度巡检七提示词排查卡顿。",
+      "body": "前置：打开 Claude 桌面客户端并授予电脑访问权限。\n1 健康检查：Tell me what's slowing this computer down. List everything using more than 5% of the processor or memory right now, what each one is in plain English, and anything you can't identify. Don't close or delete anything yet.\n2 启动清单：Show me everything that starts when I turn this computer on. Mark which ones I actually need and which ones just slow the boot. Turn off only the ones I tick.\n3 存储情况：Find what's eating my storage: the 20 biggest files and folders, old downloads, duplicate photos, and installers I've already used. Show me the list with sizes. Delete nothing until I say yes.\n4 清理臃肿软件：List every app I haven't opened in six months and what it does. Tell me which are safe to remove and which came with the computer and should stay. I'll pick.\n5 入侵检测：Look for anything that shouldn't be here: processes you don't recognise, browser extensions I didn't choose, anything connecting to the internet in the background. Explain each one and tell me if it's known to be harmful. Don't remove anything on your own.\n6 文件备份：Check whether this computer is backed up, where, and when the last backup ran. If it isn't, tell me the simplest way to set one up with what I already have.\n7 按月清理：On the first of every month, run the health check, the storage list and the intruder check, and send me a short report with anything that changed. Set this up as a scheduled task.",
+      "tags": [
+        "提示词",
+        "Claude",
+        "技巧"
+      ],
+      "author": "AioiA2000",
+      "sourceUrl": "https://x.com/AioiA2000/status/2114887129914560987",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114888414080467233",
+      "title": "CC Switch：Claude Code/Codex/Gemini CLI 配置一处管",
+      "summary": "服务商一键切、MCP/Skills 同步、聊天记录检索、用量与失败自动切备选。",
+      "body": "痛点：多 CLI 配置分散。CC Switch 亮点：①服务商一键切换；②MCP/Skills 统一添加并同步到所选工具，提示词集中维护；③聊天记录搜索/工具调用查看/导出 Markdown；④Token/请求/费用与部分额度；⑤本地路由+备用队列，失败自动切服务商。仓库：https://github.com/farion1231/cc-switch",
+      "tags": [
+        "工具",
+        "Claude",
+        "Cursor"
+      ],
+      "author": "TiedGST",
+      "sourceUrl": "https://x.com/TiedGST/status/2114888414080467233",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114886703022305663",
+      "title": "Cursor Agent SDK：最值钱的是 eval，不是文件结构",
+      "summary": "提示词改一句行为可能全变；把 Agent 当软件管（版本+测试+回滚）才敢常驻。",
+      "body": "Cursor Agent SDK：提示词写 Markdown，工具放 TypeScript，自带 eval。核心建议：给 Agent 写测试/评测；改完靠感觉上线风险大。有版本、有测试、能回滚，才适合让 Agent 常驻干活。",
+      "tags": [
+        "技巧",
+        "Cursor",
+        "工作流"
+      ],
+      "author": "SebastienLefeuk",
+      "sourceUrl": "https://x.com/SebastienLefeuk/status/2114886703022305663",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114887686230089829",
+      "title": "口语陪练三原则：一情景、一纠错、一替换跟读",
+      "summary": "不必下新 App；用现成聊天机器人 + 少量提示词，再加错题本复练。",
+      "body": "练法三条：1）一个情景，别贪多；2）一次纠错，只改一个错；3）一句替换说法，马上跟读。再加错题本：反复错的表达记下来，下周专门练。",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "0xopencitizen",
+      "sourceUrl": "https://x.com/0xopencitizen/status/2114887686230089829",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114884829049213413",
+      "title": "ChatGPT tip: answer \"Not stated\" instead of inventing deadlines",
+      "summary": "要求缺失信息标 Not stated，避免模型编造截止日期并写进客户邮件承诺。",
+      "body": "ChatGPT tip: when extracting or drafting client emails, instruct the model that missing deadlines/dates must be answered as \"Not stated\" so it does not invent a deadline that later becomes a promise.",
+      "tags": [
+        "提示词",
+        "ChatGPT",
+        "技巧"
+      ],
+      "author": "RhobearI",
+      "sourceUrl": "https://x.com/RhobearI/status/2114884829049213413",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114871504399933865",
+      "title": "System prompt：先把用户首条提示改写成更好的 prompt",
+      "summary": "在 Claude/ChatGPT/Gemini 系统提示里加一句：用 10 条关键标准改写用户第一条提示。",
+      "body": "Add to your system prompt:\n\"turn all of my first prompts into a better prompt using the 10 most critical criteria for great prompting\"\nWorks as a lightweight meta-prompt rewriter before the model answers.",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "KeyOrgSystems",
+      "sourceUrl": "https://x.com/KeyOrgSystems/status/2114871504399933865",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114888832692945117",
+      "title": "Claude Code tip: long chats melt on cache_read — start fresh with a summary",
+      "summary": "长会话里 cache_read token 可比其他项大 10–100×；用量飙升就开新会话并带摘要。",
+      "body": "Claude Code tip: cache_read tokens are often 10–100× larger than everything else in a long chat. If usage melts, the chat is too long — start a fresh session with a summary of decisions and open work.",
+      "tags": [
+        "技巧",
+        "Claude"
+      ],
+      "author": "aivex2024",
+      "sourceUrl": "https://x.com/aivex2024/status/2114888832692945117",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114889531657003092",
+      "title": "别让写代码的同一 Agent 自查安全：像学生自批卷",
+      "summary": "同一 Agent「检查安全」常报 production-ready，却漏 RLS/结账等问题；需独立审查。",
+      "body": "Asking the same AI agent that wrote your code to \"check for security bugs\" is like asking a student to grade their own exam. It may happily say production-ready while shipping issues (e.g. missing RLS, checkout flaws). Use a separate review pass/agent with explicit security checklist.",
+      "tags": [
+        "技巧",
+        "工作流"
+      ],
+      "author": "rsg_rishi",
+      "sourceUrl": "https://x.com/rsg_rishi/status/2114889531657003092",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
