@@ -2,6 +2,183 @@
   "version": 1,
   "tips": [
     {
+      "id": "2115158071219765695",
+      "title": "Anthropic 五步编码机：先写清 spec 与「完成」定义",
+      "summary": "把 Claude 当编码机：1) spec（任务、范围文件、done 标准）；2) context（相关上下文）；再往下拆执行。忌模糊指令——验收门先于开写。",
+      "body": "流程拆分与验收（Anthropic 向玩法摘要）：\n1. → spec：写清确切任务、涉及文件范围、以及什么叫「完成」；禁止含糊指令。\n2. → context：把相关上下文放进会话/指令，而不是指望模型自己猜。\n后续步骤按同样「任务切块 + 可验收」节奏推进（帖中续有步骤，核心是先门禁后开干）。\n落地：开写前先有一页短 spec；PR/会话结束对照 done 勾选，未勾选不算完成。",
+      "tags": [
+        "工作流",
+        "验收",
+        "Claude",
+        "协作",
+        "技巧"
+      ],
+      "author": "choopyplug1",
+      "sourceUrl": "https://x.com/choopyplug1/status/2115158071219765695",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115156464461619455",
+      "title": "别整单付 Opus：sonnet 干活 + advisor opus 参谋",
+      "summary": "三模型各干最便宜的一段。启动：`claude --model sonnet --advisor opus`，主循环用 Sonnet，顾问位才拉 Opus，避免全程 Opus 烧钱。",
+      "body": "缓存与成本控制（Claude Code 模型分工）：\n1. 一个任务拆给多个模型，各自只做「自己最便宜」的那一段。\n2. 启动示例：`claude --model sonnet --advisor opus`——主模型 Sonnet 执行，顾问位 Opus 给高难判断。\n3. 效果：停止「全程 Opus」的溢价，仍保留需要时的强推理。\n落地：默认 Sonnet；把 Opus 限制在顾问/终审；在 CLAUDE.md 写清何时升顾问。",
+      "tags": [
+        "工作流",
+        "缓存成本",
+        "Claude",
+        "技巧"
+      ],
+      "author": "rvaniaaaa",
+      "sourceUrl": "https://x.com/rvaniaaaa/status/2115156464461619455",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115152804197306778",
+      "title": "Subagent 回传会丢细节：重写后同漏检、快约 30%",
+      "summary": "Anthropic：子代理回主会话只交摘要，细节在回程丢失。按此重写偏重 review skills 后，评测同漏检、多数流程约快 30%。",
+      "body": "让 agent 更稳 + 成本（subagent 设计）：\n1. 应用侧发现：每个 subagent 交回主会话的是摘要，细节在回程丢掉。\n2. 作者据此重写偏 subagent 的 review skills；在自有 evals 上多数工作流约快 30%，漏检持平。\n3. 新模型也改变了「何时值得开子代理」的阈值。\n落地：子代理只做真正并行/需干净上下文的事；回传契约写清「必须带回的证据字段」，别只收一段散文摘要。",
+      "tags": [
+        "工作流",
+        "subagent",
+        "Claude",
+        "评测",
+        "技巧"
+      ],
+      "author": "sdusteric",
+      "sourceUrl": "https://x.com/sdusteric/status/2115152804197306778",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115152053995745458",
+      "title": "Codex AGENTS.md 加载栈：全局→逐层，override 覆盖",
+      "summary": "先读 ~/.codex/AGENTS.md，再从 git 根走到启动目录逐层叠加；同目录 AGENTS.override.md 盖过 AGENTS.md。别在 ~/Downloads 开 agent。",
+      "body": "AGENTS.md / 规则组织（Codex 文档机制）：\n1. 先读全局 `~/.codex/AGENTS.md`。\n2. 再从 git 根目录向下走到你启动 agent 的文件夹，每层一个文件，全部叠加。\n3. 同层里 `AGENTS.override.md` 优先于 `AGENTS.md`。\n4. 因此在 `~/Downloads` 打开 Codex 会吃到那里的指令文件——这是路径作用域，不是玄学。\n落地：启动目录只放受信项目；全局文件保持短而硬；需要局部例外用 override，而不是再堆一层互相打架的规则。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "Codex",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "trydiv",
+      "sourceUrl": "https://x.com/trydiv/status/2115152053995745458",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115159529356959949",
+      "title": "多模型流水线：Issue→实施文档→落地→PR→Claude Review",
+      "summary": "GitHub+AI Coding：Issue → Claude 写实施文档 → Deepseek 落地 → PR → Claude Review → Release；人只管 Milestone/需求，代价是 Token 猛涨。",
+      "body": "流程拆分与协作（多模型分工）：\n1. Issue 立项。\n2. Claude 写实施文档（规格/拆解）。\n3. Deepseek 落地开发。\n4. 开 PR → Claude Review → Release。\n5. 人的核心工作变成管需求与 Milestone；代价是一周可烧掉两个 Claude Max 20x 量级的额度。\n落地：把「写文档的模型」与「写代码的模型」分开；Review 必须独立于落地模型；预算按阶段设上限。",
+      "tags": [
+        "工作流",
+        "协作",
+        "Claude",
+        "多模型",
+        "技巧"
+      ],
+      "author": "amigoer",
+      "sourceUrl": "https://x.com/amigoer/status/2115159529356959949",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115158752974520347",
+      "title": "别把 agent 的「已完成」当成你的「已验收」",
+      "summary": "墙上任务显示圆满完成，PR 描述还停在 Update。Agent done ≠ 人验收；状态栏绿灯不能代替门禁。",
+      "body": "验收门禁：\n1. Agent 会话/看板可以标「已完成」，但交付物（PR 描述、测试、变更说明）可能仍是占位。\n2. 「已完成」是模型侧状态；「已验收」是人侧对照 done 标准的动作。\n落地：把验收清单写成独立勾选项（测过/类型过/描述写清）；未勾选不许合入，不管 agent 怎么报喜。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "monekysleepy",
+      "sourceUrl": "https://x.com/monekysleepy/status/2115158752974520347",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115156579141951619",
+      "title": "CLAUDE.md 当地图：1 文件夹 + 6 命令接上长期记忆",
+      "summary": "不用 App/DB/订阅：Claude Code + CLAUDE.md 当地图 + 若干文件夹与命令 + Git；每轮对话从客户、项目与既有决策续上。",
+      "body": "CLAUDE.md / 记忆组织：\n1. CLAUDE.md 当作「地图」：告诉 Claude 去哪读客户、项目、历史决策。\n2. 配合少量文件夹与固定命令（作者示例约 5 文件夹 + 6 命令）+ Git 版本化。\n3. 无需单独 App、数据库或订阅即可让每轮会话带着连续上下文开场。\n落地：地图文件只索引路径与规则，正文细节放版本库；会话结束用命令把新决策写回对应文件夹。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "Claude",
+        "记忆",
+        "技巧"
+      ],
+      "author": "ellfyy_",
+      "sourceUrl": "https://x.com/ellfyy_/status/2115156579141951619",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115154307137860032",
+      "title": "session-activity：会话里看清用了哪个 Skill/子代理/Hook",
+      "summary": "Claude 会话中常问：刚用了哪个 SKILL？有没有跑 subagent？哪条 hook 拦了命令？`session-activity` 模组把这些活动摊开。",
+      "body": "可观测性 → 更稳地干活：\n1. 长会话里难以复盘「刚才发生了什么」。\n2. `session-activity`（作者的 Claude 模组）展示：用过的 SKILL、是否跑过 subagent、哪条 hook 拦了命令。\n落地：排障与规则体检前先看活动流；把异常触发写进复盘，而不是凭感觉加规则。",
+      "tags": [
+        "工作流",
+        "Skills",
+        "subagent",
+        "Claude",
+        "复盘",
+        "技巧"
+      ],
+      "author": "tinesoft",
+      "sourceUrl": "https://x.com/tinesoft/status/2115154307137860032",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115142738534367277",
+      "title": "做 Agent 产品三教训：记忆是产品决策、evals 胜过堆提示",
+      "summary": "1) agent 记得什么、能做什么先是产品决策；2) evals 比 prompt engineering 更能告诉你真相；3) 干净数据模型能消掉一半怪 bug。",
+      "body": "工作流与门禁（产品/工程一体）：\n1. 记忆边界与能力边界先当产品决策，再当工程实现。\n2. 评测集比继续堆提示词更能暴露回归。\n3. 干净的数据模型能消掉大量「agent 行为怪异」类问题。\n落地：改提示之前先问「这是产品边界还是措辞问题」；每次改流程附一条 eval；共享状态先建模再写 skill。",
+      "tags": [
+        "工作流",
+        "评测",
+        "技巧"
+      ],
+      "author": "brianrey_x",
+      "sourceUrl": "https://x.com/brianrey_x/status/2115142738534367277",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115156296802398719",
+      "title": "Agent 变代码文件夹：Markdown 提示 + TS 工具 + PR replay 先验",
+      "summary": "Cursor Agent SDK：提示词写 Markdown、工具写 TypeScript；init/dev/deploy。亮点 replay——拿真实 PR 当测试，改动先过内置评测。",
+      "body": "协作与验收（Agent 工程化）：\n1. Cursor 开放 Agent SDK：提示词 → Markdown；工具 → TypeScript。\n2. 流程：init 搭脚手架 → dev 本地调 → deploy 上云或自托管。\n3. 亮点 replay：用真实 PR 当测试用例，每次改动先跑内置评测再合。\n4. 判断：agent 从画布配置变成可版本、可评测的代码，才进得了正式流程。\n落地：新 agent 能力先落成可 diff 的目录；合入前强制 replay 绿；画布原型只作草稿。",
+      "tags": [
+        "工作流",
+        "Cursor",
+        "评测",
+        "验收",
+        "技巧"
+      ],
+      "author": "LeoAgentAI",
+      "sourceUrl": "https://x.com/LeoAgentAI/status/2115156296802398719",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
       "id": "2115116467230298492",
       "title": "Claude Code 定期体检：/doctor、/skill-doctor、/memory",
       "summary": "规则越加越多会过期互撞。每隔几周跑 /doctor（含 prompt-audit）、/skill-doctor、/memory 清理 CLAUDE.md 与闲置 skills；删掉一条指令若结果不变，说明它本就不该存在。",
