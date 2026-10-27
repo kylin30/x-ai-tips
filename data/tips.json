@@ -1194,6 +1194,144 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114947225780355191",
+      "title": "各 Agent 规则文件名对照：CLAUDE.md 一出现就忽略 AGENTS.md",
+      "summary": "Codex/Claude/Cursor/Gemini/Copilot/Windsurf 规则文件名不统一；Claude Code 在已有 CLAUDE.md 时会忽略 AGENTS.md——建仓前先定一份权威规则源。",
+      "body": "every coding agent wants its own rules file and none of them agree on the name.\n\n作者对照了 Codex、Claude Code、Cursor、Gemini CLI、Copilot、Windsurf 文档后的关键坑：Claude Code 一旦存在 CLAUDE.md，就会忽略 AGENTS.md。\n\n落地建议：\n1. 选一份权威规则（常用 AGENTS.md）作为唯一真相源\n2. Claude-only 规则用一行从 CLAUDE.md import/指向 AGENTS.md，再追加 Claude 专属条目\n3. 建仓/换工具前先查清「谁读谁、谁覆盖谁」，避免规则静默失效\n\nfull map 见原帖配图。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "CLAUDE.md",
+        "AGENTS.md"
+      ],
+      "author": "sachintwtss",
+      "sourceUrl": "https://x.com/sachintwtss/status/2114947225780355191",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114943423274729955",
+      "title": "一台 Claude Code 盯十个项目：健康页 + 主从会话 + 权限分层",
+      "summary": "每项目 JSON 健康页（一句人话说明故障）；项目会话修、空目录 lead 会话 /loop 巡检；修完 lead 再拉健康页验收；成本上只在变更时发消息。",
+      "body": "How to make one Claude Code session watch ten projects and hand out the fixes.\n\n1. Give every project a health page returning JSON: one row per check with status + plain sentence (\"Payment webhooks: 14 failed in the last hour…\" beats \"payments: FAIL\"). Cover cert days, latency, queue backlog, disk/log, backups, jobs, API error rate, third-party quotas.\n2. One Claude Code session per project folder (/rename to project name). CLAUDE.md: how to run checks, deploy, and what it may change alone.\n3. Lead session in an empty folder (no code). /loop 15m: fetch every health JSON, compare with last run; on new error/warning, message the matching project session with check name + sentence + ask.\n4. Project session fixes, re-runs checks, reports back. Lead does not trust the report—re-fetches the health page before closing.\n5. Alone vs wait-for-you: restart stuck worker / clear DLQ / re-run job / rotate full log = alone. Rotate secret / touch payments or customer data / spend money = message you and wait. Cross-session messages cannot approve tools; if lead has bypass and project does not, messages wait for approval and expire ~5m.\n6. Cost: each delivered message costs like a typed prompt. Poll at check-change speed; message only on change; keep lead out of fixing so its context stays small. Loop only while idle; expires after a week—desk-hours tool, not pager.\n\nSetup is one afternoon; hardest part is writing the health page in step 1.",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收",
+        "成本",
+        "Claude"
+      ],
+      "author": "RashadMirza404",
+      "sourceUrl": "https://x.com/RashadMirza404/status/2114943423274729955",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114929834233147558",
+      "title": "生产 System Prompt 当代码依赖：进 Git、钉 hash、CI 回归",
+      "summary": "别在网页后台改生产提示词；入库版本控制、CI 钉 prompt hash、合并前跑回归——没有 Git 的 prompt engineering 等于在生产里猜。",
+      "body": "If your production software uses LLMs, your system prompts are code dependencies.\n\nDon't edit them inside a web dashboard UI.\nDon't treat them as loose strings.\n\nPut them in version control.\nPin the prompt hash in your CI pipeline.\nRun regression tests before merging.\n\nPrompt engineering without Git is just guessing in production.",
+      "tags": [
+        "工作流",
+        "门禁",
+        "验收",
+        "提示词"
+      ],
+      "author": "Jogoh95",
+      "sourceUrl": "https://x.com/Jogoh95/status/2114929834233147558",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114937635479142589",
+      "title": "Context Engineering：窗口是预算不是桶，七条策",
+      "summary": "提示词措辞≠上下文策：优先级、压缩、检索替代倾倒、工具收窄、结构化工作记忆、首尾放关键指令、鲜度。少而准胜过塞满。",
+      "body": "AI for Software Engineers Lesson 41: Context Engineering\n\nPrompt engineering is about wording. Context engineering is about what's in the window at all.\n\nWhat goes into context: system prompt, user message, history, RAG docs, tool defs/results, few-shot, memory, task state—all compete for tokens.\n\nStrategies:\n1. Prioritization — rank by relevance; trim history oldest-first\n2. Compression — summarize long history; structured facts over raw prose\n3. Retrieval over dumping — retrieve the 3 that matter, not 50 docs\n4. Tool scoping — three tools focus; twenty confuse\n5. Structured state — compact key-value working memory vs growing chat log\n6. Position matters — models attend better to start/end; put critical rules near the end for long contexts; never bury them in the middle\n7. Freshness — pull live data when it matters\n\nLost-in-the-middle: bigger windows are a capability, not a strategy. Mindset: minimum this turn needs, not how to fit more. A focused context beats a maximal one—the window is a budget, not a bucket.",
+      "tags": [
+        "工作流",
+        "技巧",
+        "缓存成本",
+        "上下文"
+      ],
+      "author": "askarthemass",
+      "sourceUrl": "https://x.com/askarthemass/status/2114937635479142589",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114941687789387940",
+      "title": "Claude Code 上下文膨胀：/context → 关闲置 MCP → CLAUDE.md<200 → /clear",
+      "summary": "先 /context 看谁吃窗口；关掉不用的 MCP；CLAUDE.md 控在约200行，流程下沉到 skills；无关任务之间 /clear。",
+      "body": "Run /context first, it shows what's eating the window. Usual culprits:\n- MCP servers you're not using (switch them off in /mcp)\n- a long CLAUDE.md (docs say under 200 lines; move workflow stuff into skills)\n- stale chat\n\n/clear between unrelated tasks.",
+      "tags": [
+        "工作流",
+        "技巧",
+        "成本",
+        "CLAUDE.md",
+        "Cursor"
+      ],
+      "author": "novalinklabs",
+      "sourceUrl": "https://x.com/novalinklabs/status/2114941687789387940",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114941865950609440",
+      "title": "把本机 Agent 会话日志做成周复盘看板（成本/技能/纠错）",
+      "summary": "从 ~/.claude/projects、~/.codex/sessions 落 SQLite；按 message id 去重只计你键入的提示；周统计模型成本与纠错意图，输出本地 HTML 消化。",
+      "body": "Coding agents keep full session logs on disk—use them for weekly retrospectives.\n\nPrompt-shaped workflow:\n1) Find session logs (Claude Code: ~/.claude/projects, Codex: ~/.codex/sessions, plus others). Read real files first; say what each records.\n2) Copy into a local SQLite on every run (Claude Code deletes transcripts after ~30 days—this copy is the archive).\n3) Count each model response once. Claude Code repeats usage on every content block—dedupe by message id. Only count prompts you typed, not tool results, injected context, or subagent tasks.\n4) Weekly stats: prompts, tokens and API-equivalent cost per model, top skills, hour-by-weekday heatmap, prompt length, first words.\n5) Cheap model tags prompts by intent and flags corrections to the agent; write a short digest from numbers only (persona name ok).\n6) One HTML file openable from disk, no raw prompt text. Schedule Monday mornings.\n\nUse for: cost awareness, which skills actually stick, how often you correct the agent.",
+      "tags": [
+        "工作流",
+        "复盘",
+        "成本"
+      ],
+      "author": "uzairansar",
+      "sourceUrl": "https://x.com/uzairansar/status/2114941865950609440",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114949853054931161",
+      "title": "Anthropic 七层代码评审：风险分级 + 事件变 eval",
+      "summary": "AI 写码占比高时，用人审全量会堵：预检+子代理审 diff、多代理投票、安全/CI 挡合并、风险分级审批、特性开关回滚，事故写回 eval。",
+      "body": "With AI generating a large share of Claude Code's codebase, Anthropic reshaped review into a continuous validation stack (summarized):\n\n1. Pre-PR Verification — tests/build/lint before PR; a second subagent inspects the diff in fresh context.\n2. Multi-Agent AI Review — parallel agents vs whole codebase; verifier panel votes to filter noise before prioritized inline comments.\n3. Automated Security & CI — unresolved security/bug findings block merge.\n4. Risk-Based Approvals — classifier tiers: low-risk (docs/flagged features) can auto-merge after checks; high-risk paths need human approval.\n5. Safe Rollouts & Incident Evals — feature flags, merge queues, fast rollback; every bug/revert becomes an automated eval case to refine the AI reviewer.\n\nReported outcomes: more merged PRs with lower revert rate by shifting routine reading to machines and reserving humans for architecture/taste/product.\n\nSource write-up: https://claude.dev/blog/solving-code-review-at-anthropic/",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作",
+        "门禁",
+        "Claude"
+      ],
+      "author": "Pavan_Belagatti",
+      "sourceUrl": "https://x.com/Pavan_Belagatti/status/2114949853054931161",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114927608303677453",
+      "title": "Harness Engineering：先验证/状态再补信息，最后才改 Prompt",
+      "summary": "三代演进：表达→信息→完成任务全过程。挂了别先改 Prompt：①缺验证 ②缺外部状态 ③缺信息/工具 ④最后改 Prompt 并跑回归。",
+      "body": "三代区分：\n- Prompt Engineering 优化「表达」\n- Context Engineering 优化「信息」\n- Harness Engineering 优化「完成任务的整个过程」\n\n核心不是赌模型单次不犯错，而是出错时外层系统能发现、修复并持续交付。\n\n自建 Domain Harness 时：定任务集与验收，先让 Agent 跑，失败就分析 Trajectory。排查优先级：\n① 缺验证机制 → 加验证脚本/Linter，强制看结果再推进\n② 缺外部状态 → Todolist / Dynamic workflows 锚定长程位置\n③ 缺信息 → 再加 Tool 或补上下文\n④ 最后才改 Prompt（成本最低但不应是默认选项）；改完跑回归比成功率/耗时/副作用\n\n心理模型：从「教模型如何做事」转向「设计让模型把事情做对的系统」。长文：《Everything is Harness》。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "复盘"
+      ],
+      "author": "xiqingongzi",
+      "sourceUrl": "https://x.com/xiqingongzi/status/2114927608303677453",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
