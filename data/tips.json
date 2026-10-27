@@ -1994,6 +1994,175 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115022477709422657",
+      "title": "AGENTS.md 自治四条：能做的自己做，只问「可否做 X」",
+      "summary": "把四条写进 AGENTS.md/CLAUDE.md：工具能做的绝不甩给人；不确定先问批准再自己干；被权限拦下说明原因求批；只有物理/2FA 等工具做不到才交人手。避免 agent 把半截活变成待办清单。",
+      "body": "If you don't want to be an assistant to your agent, add this very helpful rule to add to your AGENTS.md or CLAUDE.md.\n\nNow, instead of the agent giving tasks for you to do, it does everything itself.\n\nWithout this rule, it does most of the stuff and then gives you a list of tasks to do that it could do itself perfectly fine.\n\n规则原文（图中）：\n- Never give me a task that is within your capabilities. If you can do it with any tool you have (browser, SSH, CLI, API, files), do it yourself. No \"click this\", \"paste that\", \"run this\" lists.\n- If you're not sure you should do something (risky, irreversible, production, outward-facing), ask me for approval to do it, then do it yourself. Ask \"OK if I do X?\", never \"Do X\".\n- If a permission check or safety rule blocks you, say exactly what was blocked and ask me to approve it, or find another legitimate route. Don't turn it into instructions for me.\n- Only hand me a step when none of your tools can do it (a physical device, a password or 2FA prompt you can't fill), and say why you can't.\n\n落地：这是协作边界与工具调用习惯——先穷尽工具，再把不可逆动作改成「可否做 X」的批准请求。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "工具调用",
+        "协作"
+      ],
+      "author": "velvet_shark",
+      "sourceUrl": "https://x.com/velvet_shark/status/2115022477709422657",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115013160503558449",
+      "title": "Claude Code：.claude/commands 一文件一活，斜杠调用",
+      "summary": "建 .claude/commands，每个常用活写成一份 markdown（如 daily-brief.md），输入 / 选用。用可复用命令替代每次粘贴 30 行提示词。",
+      "body": "how to stop retyping the same prompt in Claude Code:\n\n1. make a .claude/commands folder\n2. save one markdown file per job (daily-brief.md, reply.md, research.md)\n3. type / and pick it\n\none keystroke instead of a 30 line paste.\n\n落地：把高频提示词沉淀为 slash command；这是 skills/commands 组织，不是某业务模板。",
+      "tags": [
+        "工作流",
+        "skills",
+        "技巧",
+        "Claude"
+      ],
+      "author": "sousa_brothers",
+      "sourceUrl": "https://x.com/sousa_brothers/status/2115013160503558449",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115020426514469165",
+      "title": "skill-diet：评测门禁下给 Skill 减重，更瘦但不更差",
+      "summary": "meta-skill 压薄 SKILL.md、校对过期工具说明；瘦版须在「旧/新/无 skill」同任务评测里至少不输才留下。事实分层：description→SKILL.md→references→工具 help；涨约 10% 再 diet。",
+      "body": "[开源 Skills 推荐] skill-diet 给 Skill 减重：用评测保证「更瘦但不更差」\n\nskill-diet 是一个管其他 skill 的 meta-skill：一边把臃肿 SKILL.md 压薄并校对工具是否过时，一边给后续每次改 skill 立规矩；瘦身版只有在「旧 skill / 新 skill / 无 skill」同任务评测里至少不输才会留下。作者 @nicopreme 测试在真实 skill 上可砍 70–80% token，且测出文档里已失效的命令。\nhttps://github.com/nicobailon/skill-diet\n\nAgent 每次用 skill 都会读完整 SKILL.md。常见冗余是：多数任务用不到的细节、模型本就会的常识、写给人看的说明、可用一条原则代替的长列表；教 CLI/API/SDK/MCP 的 skill 还会抄一份工具手册，工具一变就过期。让 agent「更新一下 skill」通常只会越写越长。\n\n它做了两件事\n· Put on a diet：重写、修与工具不符之处；只有评测过关才保留瘦版。\n· Keep lean：之后每次增补都先过一套门槛，避免教训和代码变更把体积又养回来；相对上次 diet 大约涨 10% 就要再做一轮。\n\n分层：事实放在「刚好够用」的最低层\n· skill description：每个场景一条触发，几乎每个会话\n· SKILL.md：几乎每任务都要的规则，启用该 skill 时\n· references/：少数任务才要的细节，点到该场景时\n· 工具自带 help：flag、合法值、示例，选到那条命令时\n· 工具回复 / 报错 / checker：正确名、修法、下一步，调用出错或猜错时\n\n落地：Skill 体积用评测门禁管；能下沉到工具报错/自检的别堆进 SKILL.md。",
+      "tags": [
+        "工作流",
+        "skills",
+        "门禁",
+        "成本"
+      ],
+      "author": "shao__meng",
+      "sourceUrl": "https://x.com/shao__meng/status/2115020426514469165",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115008886579093945",
+      "title": "Claude Code 工具别囤 20 个：先装 3 类再 A/B",
+      "summary": "收藏夹不等于工作流。起步只装：1 记忆/规划落文件、1 砍上下文噪音、1 跟当天任务绑定的 Skill；同一代表任务前后对比，无增益就卸。",
+      "body": "20 GitHub tools for Claude Code worth bookmarking, but you probably only need 3 of them to start\n\nClaude Code setups have a tendency to spiral out of control.\n\nYou start looking for one useful plugin and 20 minutes later you have:\n> 40 GitHub tabs\n> 6 overlapping tools\n> 3 memory systems\n> 4 agent frameworks\n> no idea whether your workflow actually improved\n\nSo what should you actually install?\n\nProbably not 20 tools.\n\nStart with 3:\n1 memory tool — claude-mem or planning-with-files\n1 context-efficiency tool — rtk, headroom or context-mode\n1 tool directly related to what you actually do — engineering, design, product, research, career, whatever.\n\nThen run the same representative task before and after.\n\nCompare:\n> Did Claude finish correctly?\n> Did it need fewer corrections?\n> Did it consume fewer tokens?\n> Was it actually faster?\n> Did the new tool create extra maintenance?\n\nIf a tool doesn’t noticeably improve the result, remove it.\n\nA bigger Claude Code setup isn’t the goal.\nA better workflow is.\n\n落地：装插件用「三类起步 + 同任务前后比」做验收；没增益就卸，别把收藏当工作流。",
+      "tags": [
+        "工作流",
+        "skills",
+        "验收",
+        "成本"
+      ],
+      "author": "hakimieiqbal",
+      "sourceUrl": "https://x.com/hakimieiqbal/status/2115008886579093945",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115019231712399542",
+      "title": "CLAUDE.md：陌生功能先搜同类开源再动手",
+      "summary": "一条规则：遇到不熟功能别从零写，先搜 GitHub 找 lookalike 开源、对比做法再开工。用检索工作流降低盲写返工。",
+      "body": "Lately, coding with Claude Code has become noticeably smoother.\n\nOne of the biggest improvements came from adding this simple rule to my CLAUDE.md:\n\n\"For unfamiliar features, don't write from scratch, first search GitHub for lookalike open-source projects, compare approaches, then get started\"\n\n落地：把「先调研再实现」写成 CLAUDE.md 流程门禁，而不是某框架样板代码。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "Mr_TuanHoang",
+      "sourceUrl": "https://x.com/Mr_TuanHoang/status/2115019231712399542",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115024747436163145",
+      "title": "AGENTS.md 当安装脚本：开跑前先扫一眼",
+      "summary": "不只 Downloads：刚 clone 的仓自带 AGENTS.md 也会被信任。把指令文件当 install script——首次运行前先 skim；可用 hook 在会话前标记新增 AGENTS.md。",
+      "body": "Half is wild. The project folder isn't a clean fix either - a repo you've just cloned can ship its own AGENTS.md and the agent trusts it just as readily. I think instruction files need treating like install scripts: skim them before the first run. A Claude hook that flags any new AGENTS.md before a session starts would be a nice default.\n\n落地：授权边界——陌生仓的 AGENTS.md/CLAUDE.md 先人工过目；可用启动 hook 提示新增指令文件。",
+      "tags": [
+        "工作流",
+        "授权",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "last_byte_",
+      "sourceUrl": "https://x.com/last_byte_/status/2115024747436163145",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115018670090932645",
+      "title": "警惕 Agent Debt：捷径悄悄变成政策",
+      "summary": "第一周魔法、第六个月伤人：重复工具、不可检 memory、边角补丁式 prompt、失败无人认领。加能力前先让工具/记忆/降级路径无聊地可读。",
+      "body": "The agent that looks magical in week one is often the one that hurts you in month six.\n\nNot because the model got worse. Because every shortcut quietly became policy:\n\n- three tools that do the same thing\n- memory nobody can inspect\n- prompts patched after every edge case\n- no owner for when it fails\n\nThat is agent debt.\n\nThe interest isn't paid in tokens. It's paid when your team stops trusting the workflow and starts doing the work around it.\n\nBefore you add another capability, make one agent's tools, memory, and fallback path boringly legible.\n\n落地：复盘门禁——扩张前先把工具清单、记忆来源、失败兜底写清楚并可检查。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "门禁",
+        "协作"
+      ],
+      "author": "nielskaspers",
+      "sourceUrl": "https://x.com/nielskaspers/status/2115018670090932645",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115021775171997984",
+      "title": "省额度四习惯：定点文件、短 AGENTS.md、低力度、任务结束即关线程",
+      "summary": "大仓一轮乱读最耗额度。做法：任务指向具体文件而非「看整个仓」、AGENTS.md 保持短、降低 reasoning effort、做完就结束线程；用一次受控任务对照用量面板找最贵习惯。",
+      "body": "Plus has a small pool, and one agent turn on a big repo can read a lot of files, which is what eats 5-hour usage. Ways to stretch it: point the task at specific files instead of \"look at the repo\", keep AGENTS.md short, use a lower reasoning effort, and end the thread when the task is done. Check the usage panel after one controlled task to see which habit costs most.\n\n落地：成本习惯——缩小读盘范围、瘦指令文件、降推理档、单任务单线程；用用量面板验收。",
+      "tags": [
+        "工作流",
+        "成本",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "TrcNguyn635861",
+      "sourceUrl": "https://x.com/TrcNguyn635861/status/2115021775171997984",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115007898510323839",
+      "title": "CLAUDE.md 当索引：规则按模块拆，需要再加载",
+      "summary": "CLAUDE.md/AGENTS.md 只留核心约束与索引，细则拆到分文件按需加载（类似 skills）。拆完还要管旧规则更新、冲突检测与清理，否则只是把大文件变成一堆小文件；可验证的交给 CI。",
+      "body": "对，这种方式更合理。CLAUDE.md 只保留核心约束和索引，具体规则按模块拆分，需要时再加载。不过文件拆分只是第一步，旧规则的更新、冲突检测和清理还是得解决，不然只是把一个大文件变成了一堆小文件。\n\n相关补充（同作者）：能自动验证的就交给测试和 CI，经验教训留给插件管理。这样即使 Agent 忘了规则，CI 也能拦下来。关键是别让 CLAUDE.md 变成一本没人维护的项目历史书。\n\n落地：组织方式——索引 + 按需加载 + 可验证规则进 CI，避免提示词当唯一执法手段。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "门禁",
+        "技巧"
+      ],
+      "author": "TiagerBao",
+      "sourceUrl": "https://x.com/TiagerBao/status/2115007898510323839",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115023241031098545",
+      "title": "Agent 自动化：退出码 0 ≠ 任务成功",
+      "summary": "claude -p 等自动化可能 exit 0 却空返回。工作流不能只看退出码，还要检查实际输出，必要时重试与异常处理。",
+      "body": "明白你的意思了，你是通过 claude -p 做自动化调用，遇到了退出码为 0，但实际没有返回内容的情况。\n\n确实，命令执行成功，不代表任务成功。\n\n尤其是 Agent 自动化工作流，不能只依赖退出码，还需要检查实际返回结果，必要时增加重试和异常处理。\n\n落地：验收门禁——把「有有效输出」写进自动化成功条件，而不是只信 exit code。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "xiaojiecode",
+      "sourceUrl": "https://x.com/xiaojiecode/status/2115023241031098545",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
