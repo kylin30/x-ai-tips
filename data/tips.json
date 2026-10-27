@@ -2,6 +2,151 @@
   "version": 1,
   "tips": [
     {
+      "id": "2114918650981261445",
+      "title": "Claude Code 开 PR 七步：CLAUDE.md 检查 + REVIEW.md + 三轮封顶",
+      "summary": "检查写进 CLAUDE.md/hooks；要输出不要状态；写作 agent 别自审；REVIEW.md 沉淀重复评论；PR 模板 Testing/Risk/Revert；审轮封顶三轮。",
+      "body": "How to use Claude Code for pull requests properly:\n1. Put checks in CLAUDE.md (tests/build/lint short list); hooks so formatter/linter run on every edit.\n2. Ask for the output, not the status — \"Run the tests and show me the result\" beats \"did the tests pass.\" Verification the agent can run is the biggest quality lever.\n3. Before PR: /code-review and /security-review locally, or spawn a subagent with fresh context. The agent that wrote the code is the wrong reviewer.\n4. Add REVIEW.md — every review comment that comes up twice goes there.\n5. PR template: Testing / Risk / How to revert — Claude drafts, you sign.\n6. Add Claude Code GitHub Action or Code Review on one repo first; tune REVIEW.md weeks, then widen.\n7. Cap review rounds at three; after that re-review only the new diff. Agent author + agent reviewer can loop all night until a person stops them.",
+      "tags": [
+        "工作流",
+        "技巧",
+        "验收"
+      ],
+      "author": "RashadMirza404",
+      "sourceUrl": "https://x.com/RashadMirza404/status/2114918650981261445",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114915321056485704",
+      "title": "Agent 查库用只读账号：系统提示「别写」不算控制",
+      "summary": "给问答 Agent 单独只读 DB 用户与最小表/视图；注入「清理旧行」会直接报错。权限在账号，不在 prompt。",
+      "body": "Agent that answers questions from your database? Give it its own read-only DB user, not the app's.\nThen an injected \"clean up old rows\" just errors out. Grant only the tables it needs, or views minus sensitive columns.\n\"Never write\" in a system prompt isn't a control.",
+      "tags": [
+        "工作流",
+        "技巧",
+        "授权边界"
+      ],
+      "author": "TanmayK_03",
+      "sourceUrl": "https://x.com/TanmayK_03/status/2114915321056485704",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114907812132237618",
+      "title": "Agent 递归工具调用深度封顶 5：挡住吞光上下文的坏循环",
+      "summary": "把递归 tool call 深度硬封在 5，可阻止一条坏提示词在循环里吃光整个 context window。",
+      "body": "Started capping recursive tool calls in agents at depth 5. Stopped one bad prompt from eating the entire context window in a loop.\nHow do you bound agent recursion?",
+      "tags": [
+        "工作流",
+        "技巧",
+        "成本"
+      ],
+      "author": "Nileshblog",
+      "sourceUrl": "https://x.com/Nileshblog/status/2114907812132237618",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114914006196781243",
+      "title": "网上 Agent Skill 先审再装：5 条规矩 + SkillSpector",
+      "summary": "3.1 万 skill 约 26.1% 危险模式、5.2% 高危；先 ls/cat、SkillSpector 扫、干净仓试装、deny 红线、能自写不追爆款。",
+      "body": "别把网上的 Agent Skill 当应用商店一键装。公开扫描约 3.1 万 skill：26.1% 带危险模式，5.2% 更像故意作恶；带脚本的更危险。\n5 条规矩：\n1. 陌生 Skill：先 ls/cat，来源不清不装；只认自写/团队审过/可核验官方。\n2. 装前跑 SkillSpector；Critical/High 或描述与行为不符 → 拒。\n3. 只装进干净可回滚 git 仓；装后立刻看 diff；别在 Downloads 当仓库根开 Agent。\n4. 权限红线写进 deny（.env/secrets、乱 push、rm -rf），不写进「相信它会听话」。\n5. 默认少装；重复流程自写成短 Skill（无远程脚本、依赖钉死、权限最小）。\n立场：赞成用 Skill 固化流程；反对市场随手装。装前扫、扫不过拒、红线进 deny。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "授权边界",
+        "skills"
+      ],
+      "author": "sisiliu517",
+      "sourceUrl": "https://x.com/sisiliu517/status/2114914006196781243",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114913633348231268",
+      "title": "写审双 Agent 要封顶：三轮后重评、只审新 diff、别反复旧问题",
+      "summary": "Claude Code 团队曾一夜 50+ 轮仍无进展；规则：三轮后重评方案、后续只审新改动、已提问题不反复。写清完成条件与卡住找人。",
+      "body": "两个 AI，一个写代码，一个审代码，听起来可以自己闭环了。\nClaude Code 团队却遇到过：一个代码变更，一晚上来回审、来回改，超过 50 轮，最后还是人叫停。\n后来他们加了规则：三轮后重新评估方案；后续审查聚焦新改动；已经提过的问题别反复提。\n做 Agent 工作流：一直有输出，不代表一直有进展。除了告诉 AI 怎么开始，还得写清楚什么算完成、卡住多久该找人。否则自动化的，可能只是无休止的返工。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "验收"
+      ],
+      "author": "Tanp9jo",
+      "sourceUrl": "https://x.com/Tanp9jo/status/2114913633348231268",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114906342297112854",
+      "title": "CLAUDE.md 分层三律：根文件只放不变量，配方下沉到 skills",
+      "summary": "根 CLAUDE.md 只放不变量（分支/提交/验证/不可逆壁垒）；子目录按域边界放；多工具从单一源同步到 AGENTS.md/CLAUDE.md。",
+      "body": "50–100 line ceiling is an attention-budget invariant; bloat causes soft instruction-drop.\n3 architectural rules for hierarchical instruction layout:\n1. Root CLAUDE.md holds invariants, never workflow recipes — only non-negotiable floors: git branch rules, commit standards, test verification commands, irreversible operation barriers. Formatting prefs and workflow narratives → slash-commands or specialized skills.\n2. Hierarchical folder scoping — child CLAUDE.md only at true capability/domain boundaries (e.g. /vault/private-notes, /backend/db/migrations). Agent inherits child rules only when working directory/tools touch that subtree.\n3. Instruction sync symmetry (.codex/AGENTS.md ↔ CLAUDE.md) — compile both from a single source of truth via sync script. Keep negative constraints as 1-line imperatives (\"never X, use Y\") to avoid retrieval dilution.",
+      "tags": [
+        "工作流",
+        "技巧",
+        "CLAUDE.md"
+      ],
+      "author": "Kizuno18",
+      "sourceUrl": "https://x.com/Kizuno18/status/2114906342297112854",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114891615047180456",
+      "title": "AGENTS.md 一行硬规则：未经询问勿改 PR diff 外文件",
+      "summary": "「never edit files outside the current PR diff without asking」把顺手重构砍掉约 70%——真正改行为的是硬边界，不是整理感。",
+      "body": "Which one-line rule in your AGENTS.md or CLAUDE.md actually changed agent behavior — not just made the file feel organized?\nMine: never edit files outside the current PR diff without asking. Cut drive-by refactors by maybe 70%.",
+      "tags": [
+        "技巧",
+        "工作流",
+        "授权边界"
+      ],
+      "author": "0xevankwon",
+      "sourceUrl": "https://x.com/0xevankwon/status/2114891615047180456",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114918141986042195",
+      "title": "Agent 交接写「遗嘱」：目标/决策原因/改动文件/地雷/下一步",
+      "summary": "交接像遗嘱不是家史：Goal、decisions+WHY、files touched、known landmines、next steps；agents.md 管家规，细节进索引文档。",
+      "body": "A will, not a family memoir.\nGoal, decisions (and WHY), files touched, known landmines, and next steps.\nagents.md sets the house rules; indexed Bible docs hold the family secrets.\nThe next agent inherits the estate, not 30 years of unresolved family drama.",
+      "tags": [
+        "工作流",
+        "技巧",
+        "协作"
+      ],
+      "author": "Romka2x",
+      "sourceUrl": "https://x.com/Romka2x/status/2114918141986042195",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114918838345318591",
+      "title": "一人 AI 公司目录：CLAUDE.md + agents/ + skills/ + learn.md",
+      "summary": "桌面建「AI会社」文件夹：CLAUDE.md 公司规则、agents/ 一人一牌、skills/ 工作步骤、learn.md 沉淀修正——避免每次从零指示。",
+      "body": "作り方：\n① デスクトップに「AI会社」フォルダ\n② 中に CLAUDE.md（会社のルール）\n③ agents/ に社員の名札を1人1枚\n④ skills/ に仕事の手順\n⑤ 直した所は learn.md にためる\nこれで毎回ゼロから指示しなくていい。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "skills"
+      ],
+      "author": "7irqy",
+      "sourceUrl": "https://x.com/7irqy/status/2114918838345318591",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114903917028852176",
       "title": "Codex CLI /presets：10 槽常用提示词一键调出",
       "summary": "0.164 把常用提示词与模型设置存进 0–9 槽；Ctrl+X p 打开，运行时不冲掉输入框半成品。",
