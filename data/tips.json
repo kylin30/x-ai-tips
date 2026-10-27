@@ -2,6 +2,160 @@
   "version": 1,
   "tips": [
     {
+      "id": "2114903917028852176",
+      "title": "Codex CLI /presets：10 槽常用提示词一键调出",
+      "summary": "0.164 把常用提示词与模型设置存进 0–9 槽；Ctrl+X p 打开，运行时不冲掉输入框半成品。",
+      "body": "Codex CLI 0.164 新增 /presets：\n1. 输入 /presets，或 Ctrl+X 再按 p，打开菜单\n2. 按 n：把输入框当前文字存成 preset\n3. 按 s：从当前模型/推理强度/速度设置新建\n4. 按 0–9 运行对应槽；e 编辑，d 删除\n运行 preset 时输入框里写了一半的内容不会被冲掉；存于配置 tui.presets。\n同版 /model 可带参（如 /model --reasoning high）只改当前会话；/permissions :read-only 可切只读。",
+      "tags": [
+        "技巧",
+        "工作流",
+        "工具"
+      ],
+      "author": "wei_wang",
+      "sourceUrl": "https://x.com/wei_wang/status/2114903917028852176",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114903721977000115",
+      "title": "10 条可丢给 Codex/Claude Code 的 UI 质感提示词",
+      "summary": "分隔符、文案、Radix 色、光学对齐、0.5px 线、少动画、字号层级等十条，逐条喂给前端 Agent。",
+      "body": "直接丢给 Codex / Claude Code：\n1. 不用中点「·」做分隔符，已有的删掉\n2. 不加冗余的解释性描述\n3. 检查文案：贴合目标人群，不啰嗦、不乱造词\n4. 颜色统一换成 Radix UI Colors，并按其规范用\n5. 优化对齐，尽量光学对齐；嵌套用同心圆角\n6. 线条和边框用 0.5px\n7. 少加动画；非加不可用 ease-out，250ms 起步\n8. 字号最多 3–4 种，最小 12px；层级靠字重、颜色和间距\n9. 减少需要用户判断的交互，重排信息优先级\n10. 别乱用圆角和阴影，尤其卡片左侧彩色竖线",
+      "tags": [
+        "提示词",
+        "技巧",
+        "工具"
+      ],
+      "author": "hr_yueBing",
+      "sourceUrl": "https://x.com/hr_yueBing/status/2114903721977000115",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114903663470694704",
+      "title": "AGENTS.md 一句：别堆副标签，让布局说话",
+      "summary": "系统提示加 Avoid unnecessary secondary labels…，Claude Code/Codex 写前端立刻清爽一档。",
+      "body": "在 AGENTS.md 或系统提示词加一句：\n「Avoid unnecessary secondary labels and descriptions. Let the layout do the explaining.」\n意思：别堆多余副标签和说明文字，让布局自己解释。Claude Code、Codex 写前端可直接复制。",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "hr_yueBing",
+      "sourceUrl": "https://x.com/hr_yueBing/status/2114903663470694704",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114903386399117366",
+      "title": "「更深不是更大」：逼 AI 做深而非写长",
+      "summary": "任务后贴四问（顶尖多做什么/原始素材/方法工具/外部验证），再让模型改写你的题目。",
+      "body": "别再让它「多写点、加细节」。连同任务发：\n「我想要的是一个更深入的版本，而不是一个更大的版本。在重写题目之前：\n1. 说明该领域顶尖专家会做哪些我没要求的事\n2. 列出他们会从哪些最原始的素材入手\n3. 列出他们会用的具体方法和工具\n4. 除了你我之外，还有什么能证明结果正确\n然后按上述要求修改我的题目。」\n写方案、做调研、改代码都能用。",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "hr_yueBing",
+      "sourceUrl": "https://x.com/hr_yueBing/status/2114903386399117366",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114902365610639613",
+      "title": "Claude「突然变笨」先关自动切模型",
+      "summary": "安全策略可能默默切到更弱模型；Claude Code Config→MODEL & OUTPUT 关掉自动切档，拦了就硬停。",
+      "body": "有的任务会被安全策略拦，Claude 可能默默切到更弱模型继续聊——你还以为同一档。\nClaude Code：Config → MODEL & OUTPUT，把自动切模型关掉。拦了就硬停，别让它装没事继续写。降智查不清时，先关掉「偷偷换档」。",
+      "tags": [
+        "技巧",
+        "工具"
+      ],
+      "author": "tehuiocom",
+      "sourceUrl": "https://x.com/tehuiocom/status/2114902365610639613",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114901932674269310",
+      "title": "长文一次改成小红书/即刻/X 三版",
+      "summary": "先定平台写法约束，再粘贴长文；要求只用原文内容并列出删掉的要点。",
+      "body": "平台约束：\n- 小红书：标题直给，正文短段，结尾留问题\n- 即刻：口语随手想法，不要标题\n- X：第一句说读者能拿到什么，一段一两句\n\n可复制提示词：\n下面是我写好的一篇长文。请改成 3 个平台的版本：1. 小红书：一个直给的标题＋正文，分短段，300 字以内，结尾留一个问题；2. 即刻：150 字以内，像随手发的想法，不要标题；3. X：140 字以内，第一句说读者能拿到什么。要求：只用文里有的内容，不加新数字、新经历；每版后面列出删掉了原文哪几个要点。\n【粘贴长文】",
+      "tags": [
+        "提示词",
+        "工作流",
+        "模板"
+      ],
+      "author": "Jeffrey33fu",
+      "sourceUrl": "https://x.com/Jeffrey33fu/status/2114901932674269310",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114900211344474338",
+      "title": "Cursor Agent SDK：定义/评测/部署写进仓库",
+      "summary": "提示词 Markdown + 工具 TypeScript；用 agent-sdk eval 锁行为，CI 可出 JUnit；别只靠聊天框 Agent。",
+      "body": "Cursor 开放 Bugbot/Security Review 同款 harness 为 Agent SDK。\n三件事写进仓库：\n1. 定义 — bot/ 里可 diff 的说明和工具\n2. 评测 — agent-sdk eval 用固定输入打真 Agent，断言调了/没调哪些工具与回复形态；CI 可出 JUnit\n3. 部署 — Cursor 托管或自托管；deploy 不带未提交改动\n对比：Automations=仪表盘配提示；Grok Bot=应用内配；Agent SDK=代码化可版本控制。\n包：@grok/agent-sdk（原 @cursor/bdk），Node≥22.13；npm i -g @grok/agent-sdk → init → validate → eval。建议先做一个最小 PR 审查 bot + smoke eval。",
+      "tags": [
+        "工作流",
+        "工具",
+        "技巧"
+      ],
+      "author": "zhou_xiaoma",
+      "sourceUrl": "https://x.com/zhou_xiaoma/status/2114900211344474338",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114900187684725138",
+      "title": "Ask bigger：别只求更快，试着把任务做「大」",
+      "summary": "Ethan Mollick：任务逐步加码直到失败才知上限；深度用顶级做法/原始数据，广度换多视角审。",
+      "body": "别只让 AI 做得更快，试试做得更「大」。把任务一点点加码，直到它失败，才知道上限。\n加码方向：\n• 深度：「按顶级分析师的做法，直接用原始数据和真实方法来做」\n• 广度：「再分别从心理学家、记者的视角各审一遍」\nAsk bigger. 很多时候不是模型不行，是问得太小。",
+      "tags": [
+        "技巧",
+        "提示词"
+      ],
+      "author": "2025Null",
+      "sourceUrl": "https://x.com/2025Null/status/2114900187684725138",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114900106440790392",
+      "title": "动手前让 AI 用 3 句话复述目标与限制",
+      "summary": "答非所问常因理解偏差；提示词末加「有疑问先问我」，多花 10 秒省一轮返工。",
+      "body": "让 AI 干活前，先让它复述需求。很多「答非所问」不是模型笨，是理解错了你没发现。\n提示词最后加一句：「动手前，用 3 句话复述我的目标和限制，有疑问先问我。」",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "zrqgood9068",
+      "sourceUrl": "https://x.com/zrqgood9068/status/2114900106440790392",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114891083939500085",
+      "title": "Ask me 3 questions before you start",
+      "summary": "先让 AI 向你提问再作答；求职信等场景草稿会少很多套话。",
+      "body": "Beginner tip: before asking for the answer, ask the AI to ask YOU 3 questions first.\nExample: \"I want to write a cover letter. Ask me 3 questions before you start.\"\nThe draft you get back is way less generic.",
+      "tags": [
+        "提示词",
+        "技巧"
+      ],
+      "author": "WhatAIToolHQ",
+      "sourceUrl": "https://x.com/WhatAIToolHQ/status/2114891083939500085",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114874952759607744",
       "title": "Muse短视频：爆款结构比「一句话提示」强太多",
       "summary": "同主题对比：一句话 vs 前3秒钩子+中段快切+结尾行动；提示词写清竖屏/时长/镜头≤2秒，附4组可抄关键词。",
