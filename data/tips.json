@@ -3227,6 +3227,186 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115126384456540290",
+      "title": "文档改记史：用 AGENTS.md 挡住陈旧上下文漂移",
+      "summary": "AI 写的文档易过期却仍被当真理。除 AGENTS.md/README 外文档一律标为历史；AGENTS.md 声明文档只记当时决策，禁止当现行代码真相。",
+      "body": "长时间 vibe-code 会越来越绕：agent 做错、你纠偏、提示词越写越长。根因常是陈旧上下文（stale context）。\n1. AI 能写大量没人读的文档；但 agent 会把仓库里的文档当真相，甚至压过你的即时提示。\n2. 代码演进快、文档不跟，漂移一开始看不见，后来小请求变成无关大改。\n3. 做法：除 AGENTS.md 与 README.md 外，其余文档一律视为历史记录（记录当时想法/决策，而非现行实现）。\n4. 在 AGENTS.md 写明这一点，让 agent 写文档时只固化「过去决策」，不宣称「代码现在怎样」。\n5. README 保持给客户与新人看的现行说明；偶尔允许评审时加澄清性注释，但避免能造成大漂移的「活文档」。\n落地：清一轮「伪活文档」；在 AGENTS.md 加「docs are historical」条款；把维护成本当约束——只留真正愿意维护的现行文档。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "上下文",
+        "复盘",
+        "技巧"
+      ],
+      "author": "dhruvdang",
+      "sourceUrl": "https://x.com/dhruvdang/status/2115126384456540290",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115124481714790574",
+      "title": "一次装好：.ai/ 会话交接与 token 友好记忆系统",
+      "summary": "用一次性 prompt 在仓库建 AGENTS.md + .ai/{PROJECT,HANDOFF,DECISIONS,TASKS}.md；每会话开局读、任务后刷新 HANDOFF；禁堆聊天史，HANDOFF 控 800 词内。",
+      "body": "跨 Codex/Claude 共享上下文的可复制方案（一次性安装后自维持）：\n1. 更新 AGENTS.md 写入永久会话连续性规则；必要时用小 CLAUDE.md 仅作指针指向同一套记忆。\n2. 建共享目录 .ai/：PROJECT.md（稳定架构/模块/约定/构建）、HANDOFF.md（当前目标/近改/决策/验证/阻塞/下一步）、DECISIONS.md（长寿命技术决策）、TASKS.md（在办与待办）。\n3. 永久指令：开局先读 AGENTS.md 与相关 .ai/；有意义任务完成后自动刷新 HANDOFF/TASKS；结束会话前若状态变了再更新；支持 compaction 钩子则在压缩前刷新；压缩后或新会话先重载 HANDOFF。\n4. PROJECT/DECISIONS 仅在稳定架构或重要决策变化时改；禁止追加无尽对话史，用简洁事实替换陈旧细节；HANDOFF <800 词；记精确下一步、路径、已跑测试与未解阻塞；未真跑测试不得宣称通过。\n5. 轻量脚本抓分支/最新 commit/变更文件名，不存完整 diff/密钥/冗长日志。\n6. 有生命周期钩子则安全自动刷新；无钩子则靠持久指令（best-effort）。优化：只读相关记忆与源码，避免全仓扫描与仅为记忆再开子 agent。\n落地：把该 prompt 跑一次 dry-run，确认新会话能加载 HANDOFF；报告哪些自动化真正生效、哪些依赖 agent 自觉。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "交接",
+        "缓存成本",
+        "技巧"
+      ],
+      "author": "natarajan_muthu",
+      "sourceUrl": "https://x.com/natarajan_muthu/status/2115124481714790574",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115125986283127134",
+      "title": "Claude Code 计费真相：token × 重发次数；附 /context 审计提示",
+      "summary": "一次 5k git log 在第 10 轮会被再付约 90 次。用 /context 看占用、裁 skills、CLAUDE.md 压到约 200 行、无关任务 /clear；附可粘贴只读审计提示词。",
+      "body": "Claude Code 不是「发了多少 token 就付多少」，而是「每次调用都会把历史再寄一遍」：\n1. 第 10 轮的一份 5k git log，后面约再付 90 次 → 约 450k tokens。成本公式近似：某输出代价 ≈ 体积 × 剩余调用次数。\n2. 先跑 /context：按实际已加载桶排序（deferred 的 MCP/系统工具未调用不算已花）。作者启动会话示例：34.3k/1M；技能描述 17.6k（52 个）很可观。\n3. Skills：描述常驻、正文按需；冗余技能仍累加描述体积 → 定期 prune。\n4. CLAUDE.md 保持约 <200 行；任务专属说明挪进 skills。\n5. 对话桶会涨：无关任务之间 /clear；尽早 /compact。/usage 看费用（含 cache），/context 看空间。\n6. 可粘贴只读审计提示：排 top5 节省项（含行数过大的 CLAUDE.md、未用技能、失败静默 hook、会话里反复重发的大输出），先给表再等你 OK 再改。\n落地：会话开局 /context；把审计提示当周检；大工具输出后考虑立刻 /clear 或摘要。",
+      "tags": [
+        "工作流",
+        "缓存成本",
+        "CLAUDE.md",
+        "Skills",
+        "技巧"
+      ],
+      "author": "sufyanbuild",
+      "sourceUrl": "https://x.com/sufyanbuild/status/2115125986283127134",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115122562917437567",
+      "title": "Amp 用法精要：只给目标、开放现场、交付要证据",
+      "summary": "只描述成功长什么样；让 agent 看得见跑产品/日志/部署；用最强模型；交付必须端到端证据；AGENTS.md 规则要盲测；批量异步委派，人只审高爆心文件。",
+      "body": "对 Amp 联合创始人 Thorsten Ball 长文的工作流提炼：\n1. 只给目标不给步骤：描述「成功长什么样」，路线让 agent 找。\n2. 先补权限与入口：能跑起产品、查生产日志、跟踪部署；agent 看得见现场再谈提示词。\n3. 模型别省：便宜模型反复重试总账更贵；让 agent 自造工具（如一次 20 变体对比页；调试先给 4 种解释再逐一验证）。\n4. 交付必须交证据：端到端演示/视频/前后测量。「嘴上说做完」最弱。连写进 AGENTS.md 的规则也要盲测——写了≠真照做。\n5. 派活：批量异步，一任务一独立对话、远程隔离，结果绑提交即决策记录；人工只盯核心文件与 DB migration，看行为与架构；给人看的文字仍自己写。\n落地：把自己从「监工」改成「验收人」——目标说清、证据收齐、高风险处亲自把关。",
+      "tags": [
+        "工作流",
+        "验收",
+        "AGENTS.md",
+        "协作",
+        "技巧"
+      ],
+      "author": "ZJM330",
+      "sourceUrl": "https://x.com/ZJM330/status/2115122562917437567",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115120671835787592",
+      "title": "Cursor Agent 当代码审：CODEOWNERS + 读写工具拆分 + 越权 eval",
+      "summary": "Agent 目录化后改提示词≈改权限。instructions/tools/channels 设 CODEOWNERS；只读与写操作分文件；eval 测「不该调的工具有没有调」。",
+      "body": "Cursor Agent SDK 把 Agent 做成目录（instructions.md、tools/、skills/、mcp-connections/、channels/、evals）。工作流含义：\n1. 改 Agent = 改代码，应按改代码那样审；Markdown 指令照样会被执行（对照 Downloads 恶意 AGENTS.md）。\n2. 做法：instructions.md、tools/、channels/ 设 CODEOWNERS，改动必须有人审，等同改生产配置。\n3. 只读动作与写操作（发评论、改代码、合并）分成不同 tool 文件，写操作单独加确认。\n4. eval 除测「答得对不对」，再测「不该调的工具有没有调」（如外部 PR 评论后会不会动别的仓库）。\n落地：把 agent 配置进仓库可 diff；提示词/工具变更走 PR；渠道（谁能唤醒）与写工具同级门禁。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "门禁",
+        "Cursor",
+        "技巧"
+      ],
+      "author": "0xwolverines",
+      "sourceUrl": "https://x.com/0xwolverines/status/2115120671835787592",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115130148357894215",
+      "title": "同一错犯两次：修法写进 AGENTS.md 并同 PR 合入",
+      "summary": "Agent 重复踩坑时，不要只在聊天里纠偏；把修法写进仓库 AGENTS.md，与修复同 PR，下一 pull 全员 agent 立刻继承。",
+      "body": "可复制的复盘→规则闭环：\n1. 当 agent 对同一问题连续做错两次，说明聊天纠偏不够。\n2. 把正确做法写进仓库的 AGENTS.md（或对应规则段），并与代码修复放在同一个 PR。\n3. 合并后每位工程师的 agent 下次 pull 即加载，避免「只在你会话里修好」。\n落地：PR 模板加一项「是否更新 AGENTS.md/规则」；重复失败自动触发规则补丁而非更长提示词。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "复盘",
+        "协作",
+        "技巧"
+      ],
+      "author": "Tcheav_",
+      "sourceUrl": "https://x.com/Tcheav_/status/2115130148357894215",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115124113853329692",
+      "title": "别再提示了：重复坏模式应收进 linter/代码门禁",
+      "summary": "Agent 无会话记忆，同一松散模式靠重提示无效。让 agent 写 linter/类型/测试把规则固化；定性策略用子 agent 政策环，慎用可被刷分的量化指标。",
+      "body": "Sentry 工程师 Greg（「Stop Prompting」）要点，面向工作流门禁：\n1. 人纠一次常能记住；agent 下一会话还会犯 → 规则必须活在提示词外：测试、严格类型、linter。\n2. 现在让 agent 自己写自定义 linter 成本很低，几乎任何反复出现的坏模式都值得固化。\n3. 案例：OpenAPI 漂移用三条硬规则（类型化响应、extend_schema、声明与 schema 一致）；技能文档幻觉则对代码块做 schema 类型检查，并堵住「去反引号/改散文/贴 URL」等绕过。\n4. 用现有工具（ESLint/Oxlint/Clippy/ast-grep）或让 agent 起草规则。\n5. 不可 lint 的定性项：用政策列表跑子 agent 环，全部「站岗」通过后再人审。\n6. 警惕把定性问题换成可刷分指标（圈复杂度、覆盖率）——agent 会优化数字本身。\n落地：把「第三次还在重提示」的模式列入本周 linter 待办；AGENTS.md 只指到检查，不复述长篇说教。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "复盘",
+        "工具调用",
+        "技巧"
+      ],
+      "author": "CoreyGallon",
+      "sourceUrl": "https://x.com/CoreyGallon/status/2115124113853329692",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115104857363234866",
+      "title": "Exit 0 不算做完：用制品存在性包住定时 Agent",
+      "summary": "包装定时/无人值守 agent：跑前硬检查、跑后验制品存在与体积、任务记录时间戳移动；exit 0+仅口头放弃仍判失败；无机械约束模型会发明假锁。",
+      "body": "无人值守 agent/定时任务的验收工作流（作者家实验室 46 个定时任务经验）：\n1. 绿≠在干活：从未启动的 timer 不会失败，push-on-failure 告警全瞎；要问「上次成功是何时、应多久一次」。\n2. 包装层：跑前硬检查 → 执行 → 验制品（存在、够大、任务记录 updated 字段移动）→ 结果通知。模型在 transcript 里放弃但 exit 0，仍判失败。\n3. 401 立刻告警且不重试（OAuth 单点）。\n4. 若约束非机械，模型会发明假约束（如把自己父进程当「已有锁」傻等）——给真的 flock。\n5. 截断列表写「showing N of M」；视觉/部署类不能只信状态码，要渲染人眼看。\n落地：对每个 cron/agent 写「成功证据」列；可用作者提供的只读审计提示盘点所有调度器与伪成功判据。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "可靠性",
+        "技巧"
+      ],
+      "author": "cgranier",
+      "sourceUrl": "https://x.com/cgranier/status/2115104857363234866",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115130707831845009",
+      "title": "CLAUDE.md 用指针行：需要时才加载长文档",
+      "summary": "Agent 会像扫 ToS 一样略读长 CLAUDE.md。用指针行（如「动迁移前先读 docs/db.md」）让细节按需加载，缩小常驻上下文。",
+      "body": "规则组织小技巧：\n1. 把整本手册塞进 CLAUDE.md，agent 往往略读，关键约束反而稀释。\n2. 改成指针行：例如「read docs/db.md before touching migrations」——只在相关任务时再加载。\n3. 与「任务专属说明进 skills」同一思路：常驻索引短，细节按需。\n落地：审计 CLAUDE.md，把仅适用于特定任务的段落改成指针或 skill；常驻段只留全局约束与目录地图。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "缓存成本",
+        "Skills",
+        "技巧"
+      ],
+      "author": "gabrielbuilds_",
+      "sourceUrl": "https://x.com/gabrielbuilds_/status/2115130707831845009",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115130692048970188",
+      "title": "臃肿 AGENTS.md：一半该变成从不进上下文的 CI",
+      "summary": "规则文件膨胀时，先问能否改成 CI/静态检查。能确定性验证的别占 agent 上下文；上下文只留判断与例外。",
+      "body": "规则组织/成本边界：\n1. 臃肿 AGENTS.md 看起来需要「再派一个审查 agent」，其实许多行本应是 CI 检查。\n2. 类型、lint、禁止新依赖、必须跑测试等确定性约束 → 放进流水线/钩子，不进每轮 prompt。\n3. 上下文只保留需要判断的规范与例外说明。\n落地：对 AGENTS.md 逐条标「CI 可证 / 需模型判断」；可证的迁出并在规则里改为一句「由 CI 强制」。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "门禁",
+        "缓存成本",
+        "技巧"
+      ],
+      "author": "ferlogs",
+      "sourceUrl": "https://x.com/ferlogs/status/2115130692048970188",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
     }
   ]
 }
