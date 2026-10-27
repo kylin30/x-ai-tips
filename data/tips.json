@@ -1824,6 +1824,176 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115011456366223819",
+      "title": "Claude Code 三习惯：/init 写短、大任务前关 MCP、Plan 落盘",
+      "summary": "每仓：/init 生成 CLAUDE.md 后删一半（短优于全）；大任务前 /context 再 /mcp 关掉本仓不用的服务；Shift+Tab 进 plan，把计划写进 PLAN.md 改完再跑。",
+      "body": "3 Claude Code CLI habits I use on every repo:\n1. /init first. It writes a CLAUDE.md with your build and test commands. Then delete half of it, short beats complete.\n2. /context before a big task. Then /mcp and switch off the servers this repo doesn't need.\n3. Shift+Tab into plan mode, ask for the plan in PLAN.md, edit it, then let it run.\nBoring setup, fewer surprises.\n\n落地：初始化后立刻瘦身 CLAUDE.md；大任务前用 /context 看占用并关掉闲置 MCP；计划先落到 PLAN.md 再动手。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "协作",
+        "技巧"
+      ],
+      "author": "gabrielbuilds_",
+      "sourceUrl": "https://x.com/gabrielbuilds_/status/2115011456366223819",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115006912001405345",
+      "title": "AGENTS.md 一条门禁：先 HTML 原型过审，再写原生 UI",
+      "summary": "动屏幕前强制：先出单文件 HTML 原型（空/加载/正常/错误态），等人批后再写原生码；审 diff 对照规格。避免盲写移动端 UI 烧 token 返工。",
+      "body": "1 rule in my agents.md cut my mobile UI rework to almost zero.\n\nI used to let coding agents jump straight into Swift / React Native screens.\ni'd burn 50k tokens fixing padding, broken states, and ugly layouts after the fact.\n\nnow every agent has to obey one rule before touching a screen.\n\ncopy-paste this into your AGENTS.md (or CLAUDE.md):\n\n\"Before implementing any new screen or changing an existing view:\n1. Generate a single-file HTML mockup of the proposed layout first\n2. Show all states (empty, loading, active, error) in the HTML preview\n3. Stop and wait for human approval before writing any native mobile code\"\n\nmy whole feature loop for AthleteRep now takes 4 steps:\n- agent 1 builds the HTML mockup in 20 seconds\n- i tweak the UX in the browser before a single line of mobile code exists\n- agent 1 implements the approved screen\n- agent 2 reviews the diff against the spec & tests edge cases\n\nnever let an agent build mobile UI blind.\n\n落地：把「原型→人审→实现→对照规格审 diff」写进 AGENTS.md；这是流程门禁，不是具体 UI 模板。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "验收",
+        "AGENTS.md"
+      ],
+      "author": "justSoloDev",
+      "sourceUrl": "https://x.com/justSoloDev/status/2115006912001405345",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115010068844257652",
+      "title": "别只靠 CLAUDE.md：diff 上限 + CI 文件白名单 + 先计划",
+      "summary": "长会话里提示词规则会被忘掉。真正扛住的是：每任务限制 diff 大小、CI 对票外文件改动直接失败、写码前先交计划；CLAUDE.md 只记录政策，不当唯一执行手段。",
+      "body": "A CLAUDE.md helps, but rules in a prompt are suggestions the model can drop deep into a long session. What actually held up for us: cap the diff size per task, fail CI on edits outside the files the ticket names, and ask for a plan before any code. Then the file documents the policy instead of being the only thing enforcing it.\n\n落地：提示词写意图；门禁用机械手段——diff 上限、路径白名单 CI、先计划后编码。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "CLAUDE.md",
+        "验收"
+      ],
+      "author": "mohammadvazin",
+      "sourceUrl": "https://x.com/mohammadvazin/status/2115010068844257652",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115006640206307531",
+      "title": "边界别写在 system prompt：allowlist + 目录 jail + diff 审",
+      "summary": "靠一行提示词圈住 agent 等于没圈住。意图可写在 prompt；真正边界在 harness：工具白名单、工作目录 jail、出沙箱前 diff 审查。缺指令应只损质量，不损安全。",
+      "body": "If one line in a system prompt is what keeps an agent in scope, the scope was never really enforced. Prompts set intent, but the boundary belongs in the harness: a tool allowlist, a working-directory jail, and a diff review before anything leaves the sandbox. Then a missing instruction costs quality, not safety.\n\n落地：授权边界放 harness（工具允许列表、目录 jail、出沙箱 diff 审）；prompt 只管意图。",
+      "tags": [
+        "工作流",
+        "授权",
+        "工具调用",
+        "技巧"
+      ],
+      "author": "mohammadvazin",
+      "sourceUrl": "https://x.com/mohammadvazin/status/2115006640206307531",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115006085832814617",
+      "title": "CLAUDE.local.md 会挡住 AGENTS.md：用 /memory 自检",
+      "summary": "Claude Code 默认有 CLAUDE.md/.claude/CLAUDE.md/CLAUDE.local.md 任一就不读 AGENTS.md；个人备忘加个 local 也会挡。可用配置读两者、CLAUDE.md 写 @AGENTS.md、或 symlink；用 /memory 确认是否加载。",
+      "body": "CodexとClaude Codeを同じフォルダで使っている人へ。\n\nAGENTS.mdとCLAUDE.mdを両方置くと、Claude Codeは標準の設定ではAGENTS.mdを読まないそうです。\nClaude Codeは、v2.1.277からAGENTS.mdを直接読めるようになっています。\nただし読むのは、作業フォルダかその上の階層に、CLAUDE.md・.claude/CLAUDE.md・CLAUDE.local.mdのどれもない時だけです。\nハマりやすいのはCLAUDE.local.mdです。自分用のメモのつもりで1つ足しただけでも、AGENTS.mdは読まれなくなるとのこと。\n一方で、~/.claude/CLAUDE.md（全プロジェクト共通の個人設定）は、この判定に数えられません。\n両方読ませる方法：\n・/config の Project instructions を claude-md-and-agents-md にする\n・CLAUDE.md に「@AGENTS.md」と1行書いてインポートする\n読み込まれたかどうかは、/memory を開いて、AGENTS.mdのパスが一覧にあるかで確かめられます。\nClaude専用の指示が要らないなら、CLAUDE.mdをAGENTS.mdへのシンボリックリンクにする方法も載っています。\n指示ファイル同士の矛盾は、/doctor prompt-audit（v2.1.283以降）で点検できるそうです。\n指示ファイルをいくら整えても、読まれていなければ効きません。\n\n落地：查清「有 CLAUDE* 就跳过 AGENTS.md」；local 备忘也会挡；用 /memory 验证加载；要双读就改配置或 @ 导入。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "YamanekoInfo",
+      "sourceUrl": "https://x.com/YamanekoInfo/status/2115006085832814617",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115008162566988007",
+      "title": "更有野心的提示：要更深版本，不是更大版本（Felix 四问）",
+      "summary": "重写任务前先答四问：顶尖人会多做啥、从哪些原始素材起步、用何方法工具、除你我外用什么证明结果正确；再据此重写提示，要求更深而非更大。",
+      "body": "Claude工程主管Felix Rieseberg撰文讲解如何更有野心（more ambitious）地使用AI。最终版提示词总结：\n\n「我想要这个任务的更深入版本，而非更大版本。在重写它之前：\n（1）说出此领域顶尖专业人士会做而我未要求的事情；\n（2）指出他们会从哪些最原始素材开始，而不是那些已经为我消化处理过的内容；\n（3）列举他们将使用的具体方法和工具；\n（4）说明除了你或我，还有什么能证明结果是正确的。然后根据这些重写我的提示，以精确要求这些内容。」\n\n落地：协作升级用「更深」四问重写 brief，并要求可独立验证的证据，而不是堆更多交付物。",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收",
+        "技巧"
+      ],
+      "author": "syunnng2",
+      "sourceUrl": "https://x.com/syunnng2/status/2115008162566988007",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115009799968502192",
+      "title": "Agent 改 40 文件省下的时间挪到了验收：先定可独立回退",
+      "summary": "写 20 分钟、审 2 小时——省下的时间被挪到看懂/跑通/想回滚点。产能上限是你愿承担多少没看懂的代码。第一条规则应是「每个改动可独立回退」，小步提交。",
+      "body": "一个 agent 一次改 40 个文件，写它用了 20 分钟，你 review 花了两个小时。\n\n省下来的那一小时不是白给的。它被挪到了验收那一端：看懂、跑通、想清楚回滚点——这三件事它一件都没接走。\n\n所以产能从来不是瓶颈。你今天能开三个 PR，是因为你不再逐行读，你开始盖章。\n交付速度的上限，是你愿意承担多少没看懂的代码。\n\n补一句：三个动作里最贵的是「想清楚回滚点」，因为它不能事后补，只能事前做。\n我现在给 agent 的第一条规则不是「写得好一点」，是「每个改动都要能独立回退」。验收成本降不下来，很大一部分是它一次动了太多东西，你连退都不敢退。\nAnthropic best practices 也是这个顺序：先读、再改、小步提交。\n\n落地：规则写「可独立回退 + 小步」；把验收三件（看懂/跑通/回滚点）当产能上限，而不是只追生成速度。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "复盘"
+      ],
+      "author": "yzpq6668",
+      "sourceUrl": "https://x.com/yzpq6668/status/2115009799968502192",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115009341879464168",
+      "title": "Skill 不触发：先怪描述再怪结构（七步排查）",
+      "summary": "不触发多半是描述没覆盖用户真实说法。顺序：verifier 查结构→补触发短语多说法测→查目录/SKILL.md/YAML→描述太像则写清边界→同名遮蔽就改名→插件清缓存重启→执行查权限与路径。",
+      "body": "技能不觸發，第一個該懷疑的不是 Claude，是你寫的那行描述。\n\n排查顺序：\n1. agent skills verifier 先查结构（目录/文件名/YAML）\n2. 不触发：补使用者真正会讲的触发短语，多种说法测试\n3. 不加载：查目录、是否 SKILL.md、YAML；用 claude --debug\n4. 用错技能：描述太像→改得更具体、区分适用情境\n5. 高优先同名遮蔽：直接改名，别硬碰优先级\n6. 插件不出现：清缓存→重启→再重装\n7. 执行失败：依赖、chmod +x、路径用正斜杠\n\n稳定触发靠描述覆盖真实说法，不是靠运气换句式试到通。\n\n落地：先结构后描述后加载后区分后遮蔽；内容常是无辜的。",
+      "tags": [
+        "工作流",
+        "skills",
+        "技巧",
+        "复盘"
+      ],
+      "author": "swordBluesy",
+      "sourceUrl": "https://x.com/swordBluesy/status/2115009341879464168",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114992889696510418",
+      "title": "别靠思考痕迹验收：用测试、eval 和 diff",
+      "summary": "模型隐藏详细思考不等于毁掉人审。你不读外包脑子，你查交付。若无法用测试/eval/diff 验证输出，读推理轨迹本来也救不了你。",
+      "body": "claude and chatgpt have stopped showing detailed thinking traces. people say that kills human-in-the-loop.\n\nwe think the traces were a comfort blanket.\n\nyou don't read a contractor's thoughts. you check the work.\n\nif you can't verify the output with tests, evals and a diff, reading the model's reasoning was never saving you.\n\nhonest question: when did a trace last change your decision?\n\n落地：人在环的验收落在可跑验证与 diff，而不是阅读思考过程。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "monstarxco",
+      "sourceUrl": "https://x.com/monstarxco/status/2114992889696510418",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114983680967897402",
+      "title": "无约束循环 $4.20/PR vs 作用域子代理+缓存 $0.18/PR",
+      "summary": "审计 42 仓：无结构循环平均 $4.20/PR、14 分钟；作用域子代理 + prompt caching 降至 $0.18/PR、3.2 分钟。算力渗漏会吃掉软件毛利——按 PR 设预算上限。",
+      "body": "$4.20 per pull request or $0.18 per pull request?\n\nUnconstrained agent loops burn tokens on repetitive codebase searches.\n\nWe audited 42 production repos:\n- Unstructured loops: $4.20/PR with 14 min average runtime\n- Scoped subagents + prompt caching: $0.18/PR with 3.2 min runtime\n\nAI productivity means nothing if compute bleed consumes your software margins.\n\n落地：缩小检索作用域 + 稳定前缀吃缓存；按 PR 设 token/时间预算，别开无限卡。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "技巧"
+      ],
+      "author": "Saasnext_db",
+      "sourceUrl": "https://x.com/Saasnext_db/status/2114983680967897402",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
