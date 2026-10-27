@@ -2,6 +2,184 @@
   "version": 1,
   "tips": [
     {
+      "id": "2115116467230298492",
+      "title": "Claude Code 定期体检：/doctor、/skill-doctor、/memory",
+      "summary": "规则越加越多会过期互撞。每隔几周跑 /doctor（含 prompt-audit）、/skill-doctor、/memory 清理 CLAUDE.md 与闲置 skills；删掉一条指令若结果不变，说明它本就不该存在。",
+      "body": "日常用 Claude Code 时，每次不爽就加规则，几个月后一半会过期或互相打架。作者建议每隔几周固定跑三招：\n1. /doctor：检查整套配置；再跑 /doctor prompt-audit，审一遍 Claude 会加载的所有指令文件。\n2. /skill-doctor：列出从未用过的 skills，以及它们占了多少空间。\n3. /memory：打开 CLAUDE.md 与记忆设置，做清理。\n验收测试：删掉一条指令后若结果不变，说明它本来就不需要。\n落地：把「规则体检」写进周节奏；新规则入库前先问「删了会怎样」。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "Skills",
+        "复盘",
+        "技巧"
+      ],
+      "author": "global_techgirl",
+      "sourceUrl": "https://x.com/global_techgirl/status/2115116467230298492",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115097179001938219",
+      "title": "手机指挥 Agent 小队：Boss + 双审闸 + 书面记忆",
+      "summary": "Lead Agent 当 Boss 只问四类事；计划与代码经双审（可跨模型）+ 裁决者；会话记忆落盘；危险操作用 hook exit 2 硬拦；/startup 先证明 hook 活着再开工。",
+      "body": "一套可复制的单会话 Agent 团队（MIT）：\n1. Boss 当项目经理：你定目标/范围/规则；只有改目标或范围、花钱、不可逆、改规则才问你；其余按规则自决。琐事自己做，重活交给六个专职 helper（计划/构建/审查/裁决/修复/交接）。\n2. 交接用表单：helper 缺项或收到「提示」可拒单；回报必须有 verdict、blocker、完整输出路径——无文件的 pass 不算。\n3. 双审闸：改动冻在同一 commit；两位互不可见的 reviewer（优选 Codex+Claude）用同一固定 prompt；必须跑测试命令，且要构造破坏性输入；裁决者在新上下文裁定 apply/defer/dead；计划一干净轮、代码连续两干净轮才 merge。\n4. Hook 硬规则：force-push、递归删根/家目录、删表、写受保护文件等，hook 必须以 exit 2 拦截（exit 1 只是警告仍会执行）。/startup 用无害 echo 测 hook，打印出来就不开工。\n5. 书面记忆：裁定入 append-only 日志；看板与会话日志可被新会话仅凭文件+git 接上；/save 在上下文将满前重写看板。\n6. 每条对你的主张标 measured/derived/unproven；agent 报告在 Boss 复核前都算 unproven。\n落地：拷 CLAUDE.md+.claude/+ops/，填项目四行与 guard 列表，在仓库根开 Claude Code 跑 /startup。",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收",
+        "授权边界",
+        "Hooks",
+        "技巧"
+      ],
+      "author": "Compilethings",
+      "sourceUrl": "https://x.com/Compilethings/status/2115097179001938219",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115114388822864080",
+      "title": "AGENTS.md 加「已做决定」段：会话结束让 agent 追加",
+      "summary": "在 AGENTS.md 开「decisions already made」；每会话结束让 agent 追加，明日开局直接继承昨日选择，减少重复拍板。手机 Claude App 也适用。",
+      "body": "小而硬的规则组织技巧：\n- 在 AGENTS.md 增加一节「decisions already made / 已做决定」。\n- 会话结束时明确让 agent 把本轮拍板追加进去（日期+决定+理由）。\n- 下一会话开局先读这一节，避免同一问题反复争论。\n落地：与看板/status.md 分工——看板写进行中，决定段写已定案且不应再问；手机远程盯场时尤其省心。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "记忆",
+        "协作",
+        "技巧"
+      ],
+      "author": "Tiny_upgrade",
+      "sourceUrl": "https://x.com/Tiny_upgrade/status/2115114388822864080",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2114995771380560324",
+      "title": "Downloads 里的明文能指挥 Agent：这是范围问题",
+      "summary": "别只当提示词注入：核心是 agent 默认可读什么、哪些动作仍需人点。先盘清默认读范围，再谈规则与过滤。",
+      "body": "常见吓人报告：Downloads 里一个纯文本就能带偏 Codex/Claude。作者点明：这不是「提示工程」问题，而是范围问题——agent 默认可读什么，以及哪些操作仍需要人点确认。\n落地问题：今天你的 agent 默认读范围是什么？仓库根、家目录，还是 Downloads？\n配套习惯：工作目录钉在仓库；指令文件先 skim；写文件/装包/外网保留人批。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "AliMalekli",
+      "sourceUrl": "https://x.com/AliMalekli/status/2114995771380560324",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115107580288909456",
+      "title": "CLAUDE.md 会向上找：别只防 Downloads",
+      "summary": "Claude Code 会沿上级目录找 CLAUDE.md，家目录随手 cd 也有风险。固定工作目录启动，启动前 ls 扫陌生规则文件。",
+      "body": "补充攻击面：Claude Code 会顺着上级目录查找 CLAUDE.md，所以风险不止 Downloads——家目录下任意随手 cd 进去的路径都可能加载到陌生规则。\n习惯：\n1. 只在固定工作目录启动 agent。\n2. 启动前先 ls，看有没有陌生 CLAUDE.md / AGENTS.md。\n落地：与「别在 Downloads 启动」同一检查单，把「向上遍历」写进授权边界说明。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "0xwolverines",
+      "sourceUrl": "https://x.com/0xwolverines/status/2115107580288909456",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115105700217262517",
+      "title": "提示词当需求文档：先写清输入输出与边界",
+      "summary": "一句「你看着办」返工更多。动手前写清输入是什么、输出长什么样、边界怎么处理；提示词越含糊，模型猜得越离谱。",
+      "body": "Cursor 指令常见坑：只写一句话让它自己发挥，返工比手写还累。改法：\n1. 输入是什么（数据/文件/约束）。\n2. 输出要长什么样（格式、验收标准）。\n3. 边界情况怎么处理。\n写清后再动手，一次通过率明显更高。\n落地：提示词不是话术，是迷你需求文档；模糊处模型会自信乱猜。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作",
+        "技巧"
+      ],
+      "author": "bludr5",
+      "sourceUrl": "https://x.com/bludr5/status/2115105700217262517",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115105026100392150",
+      "title": "省额度五招：分流模型、新上下文、一 bug 一会话",
+      "summary": "图文问答丢 ChatGPT；Codex 只管写码与本地文件；长任务/循环结束就开新上下文；一 bug 单独会话；生图额度用尽再换免费池。",
+      "body": "省额度邪修清单：\n① 图片、提示词、普通问答交给 ChatGPT。\n② Codex 只用来写代码、处理本地文件。\n③ 长任务或循环结束就开新上下文。\n④ 每次修一个 bug 尽量单独开会话。\n⑤ 生图额度没了，再试 Grok、Gemini、微软等免费额度。\n落地：把「贵模型只做本地改仓」写进习惯；上下文膨胀比模型单价更伤账单。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "技巧"
+      ],
+      "author": "jojo76156103",
+      "sourceUrl": "https://x.com/jojo76156103/status/2115105026100392150",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115102154172371225",
+      "title": "Claude Code 团队审码：机器读代码，人盯高风险",
+      "summary": "PR 量翻倍回滚降 40%+：开 PR 前自测+新上下文审 diff；每 PR AI 审+安全审；风险分级人工批准；合入队列与开关；事故进评测集每日回放。",
+      "body": "Anthropic Claude Code 团队审查演进要点（约 90% 代码由 Claude 写）：\n1. 目的重写：不问「有没有人读过」，问「这次改动可能出什么问题、哪种检查最适合」。\n2. 开 PR 前：跑测/构建/对照设计；新上下文子代理审 diff；内部 skill 找 bug、简化、端到端；源头修 CLAUDE.md / REVIEW.md / lint。\n3. 每 PR：Claude 审 diff（发现先经其他 agent 投票验证）；风格/清理类过滤掉；未关闭发现不可合；安全审独立挡合并。\n4. 常规 CI：lint/类型/测/构建；PR 模板问怎么测、怎么撤销。\n5. 人工按风险分级：分类器定档；敏感与 CI workflow 必有人；agent 批准不算人；指挥 agent 的人视同作者；批准绑定具体 commit。\n6. 合入队列重跑、功能开关、灰度；坏合并靠值班与快速回滚。\n7. 改进环：事故→评测用例每日跑；按评论被如何处理衡量噪声。\n落地：把「读代码」自动化，把人的注意力留给高风险与不可逆；护栏看回滚率而非只压审查时长。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作",
+        "评测",
+        "技巧"
+      ],
+      "author": "lujunneng",
+      "sourceUrl": "https://x.com/lujunneng/status/2115102154172371225",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115089591824744957",
+      "title": "Agent 有用靠 harness，敢改靠 eval harness",
+      "summary": "每次改模型/工具/提示都可能修好一个又悄悄弄坏另一个。Eval harness 在每次变更后重跑固定题集并对比，坏了再发前拦住。",
+      "body": "Agent = Model + Harness；评测也要有 harness。\n痛点：五个题证明修好了 bug，上线 20 题×3 只过 33/60——窄题集只覆盖已知洞。\nEval harness：固定题集、按用户方式调你的应用、每题多跑几次、新旧对比，退化变红就停发。\n角色分工：工程把它当提示/模型的测试套件；QA/PM 用它定义「什么叫变好」。\n落地：每修一个真实失败就入库成回归题；改 CLAUDE.md/skills/提示后先跑 harness 再合入。",
+      "tags": [
+        "工作流",
+        "评测",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "tonycueva",
+      "sourceUrl": "https://x.com/tonycueva/status/2115089591824744957",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115095560982290467",
+      "title": "先审计评分器：分数好看可能是 grader 在放水",
+      "summary": "公开 benchmark 206 题评分器有严重问题，重放后 27.9% 裁决翻转且多数是「误给通过」。信分数前先审计自己的 grader。",
+      "body": "Parsewave 审计 AutomationBench 公开题：206 题评分器有严重问题；对保存的提交用新旧检查重放，344/1235（27.9%）裁决改变，且约 2/3 是旧 grader 给了通过、修后应失败——这是最危险方向（放水不响警报）。\n审计套路：\n1. 对抗式提交（该挂却过 / 该过却挂）。\n2. 人审可疑题，修检查。\n3. 用同一批保存运行重放，看裁决是否翻转。\n落地：团队 sprint 写的 eval 更软；改 agent 前先审计 grader；看板变绿不等于系统变好。",
+      "tags": [
+        "工作流",
+        "评测",
+        "门禁",
+        "验收",
+        "技巧"
+      ],
+      "author": "sachinmour",
+      "sourceUrl": "https://x.com/sachinmour/status/2115095560982290467",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
       "id": "2115036437536178594",
       "title": "编程 Agent 安全检查单：别在 Downloads 启动",
       "summary": "三条写进习惯：默认别在 Downloads/桌面临时目录启动；启动前扫陌生 AGENTS.md/CLAUDE.md；发现异常配置就轮换 token，别只删文件。浏览器可写下载夹，Agent 会把 Markdown 当指令。",
