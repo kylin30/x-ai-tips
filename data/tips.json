@@ -1332,6 +1332,158 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114962744906780896",
+      "title": "过期 AGENTS.md 是运行时假权威：先改规范再开会话",
+      "summary": "代码改三版、目录重排后规范仍停在上季度，Agent 会听文件不听现实；规则是运行时宪法。答不上「上次改它何时」就先改规范。一份规范多 harness 共用。",
+      "body": "我付 $200 用 Codex Pro，最坑的不是额度重置。\n\n是仓库里那份半年没动的 AGENTS.md。\n\n代码已经改了三版，目录重排过，依赖换过轮。规范文件还停在上个季度：旧路径、旧禁令、旧「永远先跑这套脚本」。Agent 一开工，先读文件，再看现实。文件说 A，代码说 B——它多半听文件。\n\n不是模型傻。是你把话语权写进了仓库，却忘了维护。\n\n我见过更离谱的：人改完业务逻辑，AGENTS.md 还在要求「禁止动某某模块」。结果 agent 绕了三圈，最后交一份礼貌又错误的补丁。你骂它幻觉，它其实在执行你半年前的幻觉。\n\n规则文件不是说明书，是运行时宪法。过期一天，就多一天假权威。\n\n所以别再先喷模型。打开 AGENTS.md，问自己一句：上次改它，是什么时候？\n\n如果答不上来，别开新 agent 会话。先改规范，再谈智能。\n\n续帖：Claude Code 已经能直接读 AGENTS.md。还在给 Claude / Codex / 别的工具各维护一份「几乎一样」的规则，那不是严谨，是给自己加税。一份规范，多套 harness 共用。过期的文件，比烂代码更会毁项目。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "AGENTS.md",
+        "门禁"
+      ],
+      "author": "yzpq6668",
+      "sourceUrl": "https://x.com/yzpq6668/status/2114962744906780896",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114963113191907462",
+      "title": "Codex 规则覆盖：AGENTS.override.md 会静默替换同目录 AGENTS.md",
+      "summary": "Codex 从根到当前目录逐层读 AGENTS.md；同目录有 AGENTS.override.md 则跳过 AGENTS.md；更深目录后写覆盖。全局 ~/.codex/ 同理，合计默认 32KiB。",
+      "body": "One file can quietly replace your Codex rules.\n\nCodex reads AGENTS.md from the repo root down to your folder, one file per folder.\n\nIf AGENTS.override.md sits in the same folder, AGENTS.md there is skipped.\n\nDeeper files land later, so they win.\n\nDo you split rules per folder?\n\nSource (Codex docs, Custom instructions with AGENTS.md):\nSame rule globally: ~/.codex/AGENTS.override.md beats ~/.codex/AGENTS.md. Combined files stop at 32 KiB by default (project_doc_max_bytes). Empty files are skipped.\n\n落地提醒：查仓里是否误放了 override；按目录拆规则时先弄清「谁覆盖谁」。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "AGENTS.md",
+        "Codex"
+      ],
+      "author": "Cozy2054934",
+      "sourceUrl": "https://x.com/Cozy2054934/status/2114963113191907462",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114964891702632707",
+      "title": "Claude Code 反馈弹窗别手快按 y：按了会话与源码会上传",
+      "summary": "按 y 会把对话、子 agent 记录与本地原始日志上传 Anthropic（只抹 API key 格式，源码原样，最长存 6 个月）。公司/客户项目按 d 或设 CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1。",
+      "body": "Claude Code 弹这个 别手快按 y\n按了 整段对话 子 agent 记录 本地原始日志 全部传给 Anthropic\n只抹掉 API key 这类格式 源码和文件内容原样上传 最长存 6 个月\n官方说不拿去训练 但代码确实离开你电脑了\n写公司代码 接客户项目的 直接按 d 永久不问\n或者环境变量加一行 CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "Claude"
+      ],
+      "author": "voidJan",
+      "sourceUrl": "https://x.com/voidJan/status/2114964891702632707",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114963988517703965",
+      "title": "Cursor Agent SDK 起步：先审 PR，别一上来全自动修 bug",
+      "summary": "审 PR 只留评论风险最低；把常念叨的三五条写进 instructions.md；用 replay 重放真实坑 PR 验收。跑顺两周再放开自动开修复 PR。",
+      "body": "下午再补一刀：一人公司拿 Cursor Agent SDK 做第一个项目，该从哪下手？\n\n我的建议是先做「审 PR」，别一上来就做「全自动修 bug」：\n① 风险最低：审 PR 只留评论、不改代码，出错了顶多多一条废话评论。\n② 规矩最好写：把你平时 review 总念叨的三五条（比如别把密钥写进代码、改接口要补测试）写进 instructions.md，就是第一版。\n③ 最好验收：用 replay 把过去坑过你的那几个真实 PR 重放进去，看它能不能抓出来。抓不出来就改规矩，再跑一遍。\n\n跑顺两周、误报能接受了，再放开让它自动开修复 PR。顺序反过来，最常见的结果是它半夜给你开一堆 PR，第二天光看就看饱了。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作",
+        "Cursor"
+      ],
+      "author": "HunZhijie",
+      "sourceUrl": "https://x.com/HunZhijie/status/2114963988517703965",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114962719816180123",
+      "title": "Lauren Tan 六条：多开窗口前先让 Agent 自证改动能用",
+      "summary": "自启应用读报错、功能地图、技能要考试、硬约束进架构/CI、一 PR 一完整变更、资源条件算进规模。验证环境与评测比堆并行窗口更回本。",
+      "body": "给 Agent 多开几个窗口之前，先让它证明改动真的能用。\n\n这段 54 分钟的 Lauren Tan 分享，可以按这 6 个知识点看：\n\n① 08:35｜让 Agent 自己验证\n能启动应用、操作界面、读取报错和性能记录。否则每一轮都等你截图、复制错误，并行任务再多也会堵在人这里。\n\n② 10:08｜给应用画一张“功能地图”\n写清功能在哪、怎么到达、有哪些快捷键和定位方式。会点击不等于知道该检查哪里。\n\n③ 16:26｜技能也要考试\n从实际失败中提炼技能，再用明确评分标准、隔离任务和不同模型检查效果。改了技能文件，不代表质量就提高了。\n\n④ 33:05｜把反复提醒变成硬约束\n目录依赖、进程边界、代码组织，能用架构和 CI 拦住的错误，就别只靠提示词提醒。\n\n⑤ 36:18｜一个 PR 围绕一个完整变更\n方便理解、定位问题和回滚。她没有规定统一行数上限；重点是变更边界清楚，而非把 PR 数量做大。\n\n⑥ 47:14｜把资源条件算进去\n她明确提到自己有充足 token，不建议人人照搬规模。先在本地看懂 Agent 怎么做、怎么验，再扩大到云端和团队。\n\n这套方法的投入，是验证环境、技能评测和代码约束。能否回本，要看长期省下多少人力、减少多少返工，不能只数合并了多少 PR。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作",
+        "技巧"
+      ],
+      "author": "ziziran2",
+      "sourceUrl": "https://x.com/ziziran2/status/2114962719816180123",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114964117979337181",
+      "title": "SpaceX 工程师课：多数人用 Grok Bot 的方式与设计相反",
+      "summary": "常驻代理≠无限 context；Auto-review 常比人逐条批准更稳；重要进展才找你；私讯可打断；示范一次写成 skill/routine。适合当 agent 架构蓝图。",
+      "body": "SpaceX 負責開發的工程師最近在 Stanford 講了 45 分鐘，把它怎樣做到講得很清楚。我看完的感覺是，多數人用 Grok Bot 的方式，跟它的設計剛好相反。\n\n一、這堂課講甚麼\n講者 Lee 現在在 SpaceX 做相關開發，之前在 Cursor。\n\n他把開發者用 AI 分成四個時代：\n1. 從 ChatGPT 複製貼上程式碼\n2. 在終端機裏讓模型改檔案、跑指令\n3. 同時跑多個代理，但人要逐條批准\n4. 現在的常駐代理\n\n常駐代理有自己的雲端 Linux 電腦，平時休眠，收到訊息、郵件或會議邀請才醒來工作。團隊想讓它連續做幾週，甚至幾個月。\n\n二、常見誤解\n1. 逐條批准最安全\n人看幾百條指令總會疲勞。盲測結果是，由另一個模型做 Auto-review，大部分時候審得比人好。\n\n2. 很久沒回訊息就是卡住了\n它本來就被設計成像同事，有重要進展才找你。一般任務大概一天回報一次。\n\n3. 它的 context 是無限的\n沒有這回事。主代理把重工作交給子代理，子代理做完只帶結果回來，你才感覺不到上限。\n\n三、片中教了、多數人不知道的用法\n1. 做到一半可以改口：先叫它查一個討論串，再補一句週四再做，它知道兩句講的是同一件事。\n2. 急事直接私訊：私訊優先級最高，會打斷它在群組、Slack 或背景 routine 的工作。\n3. 示範一次就夠：你做一遍給它看，它會寫成 skill、記憶或 routine，之後自己重複。\n4. 派它代你開會：在 SpaceX，越來越多人讓 Bot 出席會議、做筆記再回報。\n5. 想知道它上週做了甚麼，直接問：它一直在寫工作日誌，被問到會自己去翻。\n\n四、為甚麼值得看原片\n這是 Stanford CS146S 的正式課程，內容偏工程。Temporal、Firecracker 虛擬機、prompt cache 怎樣省錢，每個設計 Lee 都交代了原因。想自己做 agent 的人，可以直接拿來當架構藍圖。\n\n片尾他提到團隊的原則是「殺掉產品」：假設今天的模型是最差的，六個月後介面可能要整個重做。",
+      "tags": [
+        "工作流",
+        "协作",
+        "技巧",
+        "Grok"
+      ],
+      "author": "gua_xyz",
+      "sourceUrl": "https://x.com/gua_xyz/status/2114964117979337181",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114964936229257345",
+      "title": "Anthropic 现场：按需 skills 的单 agent 常胜过专家子代理群",
+      "summary": "部署里按需加载 skills 的单 agent 往往更好更便宜（有客户约 2x）；子代理群易复制组织图、堆 Frankenprompt、交接像传话。巨大并行任务子代理仍有用。",
+      "body": "We thought the future of AI was a swarm of agents working as a team.\nAnthropic looked at real company deployments and said: cancel the meeting.\n\nTheir finding: one agent that loads \"skills\" only when needed often beat a squad of specialist sub-agents. Better answers, often cheaper. One customer saw ~2x faster runs.\n\nThe diagnosis: every team ships its own agent, so the AI becomes a copy of the org chart (Conway's law).\nThen every team adds a line to the main instructions → the \"Frankenprompt\": rules that fight each other, no consistent voice.\nAnd each handoff between agents is a telephone game—a bit of meaning lost at every step.\n\nNot a funeral for teams: Anthropic says sub-agents still win for huge or parallel jobs. And in its own test, merging one broke a working process.\n\nTakeaway: fewer meetings, one owner, a good notebook (skills) before spawning a bureaucracy of bots.",
+      "tags": [
+        "工作流",
+        "技巧",
+        "skills",
+        "成本"
+      ],
+      "author": "silviogulizia",
+      "sourceUrl": "https://x.com/silviogulizia/status/2114964936229257345",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114910356170522999",
+      "title": "官方 skill：claude-md-management 审计并回写会话所学",
+      "summary": "/plugin install claude-md-management@claude-plugins-official；会话后 /revise-claude-md 捕获有用学习；可接 hook 或纳入周维护，避免 CLAUDE.md 腐烂。",
+      "body": "Another official Anthropic skill I 100% recommend adding to your Claude Code stack\n\nclaude-md-management helps keep your CLAUDE.md files up to date by auditing their quality and capturing useful learnings from your sessions\n\nInstall it:\n/plugin install claude-md-management@claude-plugins-official\n\nRun /revise-claude-md to capture what Claude learned during your session\n\nYou can also integrate it with a hook for persistent project memory or make it part of your weekly maintenance routine\n\nGitHub:\nhttps://github.com/anthropics/claude-plugins-official/blob/main/plugins/claude-md-management/skills/claude-md-improver/SKILL.md",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "skills",
+        "复盘"
+      ],
+      "author": "dani_avila7",
+      "sourceUrl": "https://x.com/dani_avila7/status/2114910356170522999",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114951189502767172",
+      "title": "把「查闲置算力再占资源」写进 AGENTS.md",
+      "summary": "要求 agent 先查空闲 CPU/RAM/GPU 再预约所需量：逼出并行利用，也在资源占满时排队，让编排多 agent 更稳。",
+      "body": "Idle compute is a wasted resource. That is the rule I have put in my AGENTS.md file, and you should too.\n\nAll of my agents are required to check:\n🔸 How many CPU cores are free?\n🔸 How much RAM is free?\n🔸 How many GPUs are free?\n\nThen reserve the amount they need for their work. This helps with 2 different problems.\n\nFirst, it forces agents to utilise available resources. No more single threaded applications on a 112 core CPU. No more idle GPUs when they could be doing valuable work.\n\nSecond, it helps to manage contention. Agents see when a resource is fully occupied, and add their task + resource reservations to the queue.\n\nThis has made parallelising work using an orchestrator agent way more efficient.",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "协作",
+        "技巧"
+      ],
+      "author": "Morrowmake",
+      "sourceUrl": "https://x.com/Morrowmake/status/2114951189502767172",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
