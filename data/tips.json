@@ -2691,6 +2691,183 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115082511457939494",
+      "title": "先单 Agent+Skills：Anthropic 七条再考虑子代理",
+      "summary": "多数场景一模型一上下文一循环即可；子代理仅在上下文膨胀、真并行、或单代理选不了工具时保留。臃肿提示词用 skills/按需工具替代，折叠时逐个评测并看分项而非总分。",
+      "body": "Anthropic 方向：ONE agent + skills 往往优于一堆子代理（质量、成本、延迟；有客户环约 2x 更快）。可抄七条：\n1. 先单代理：一模型、一上下文、一循环；技能/工具按需加载，未证明需求前别建多代理。\n2. 子代理只在「赚回成本」时留：上下文膨胀伤效果、任务可并行且要新鲜可丢弃上下文、单代理选工具/冲突指令吃力。\n3. 每次交接都丢细节+加延迟（传话游戏）；合并主环可显著降时延。\n4. 提示词太胖→用 skills 按需加载域知识，别堆系统提示（Claude Code 曾因此砍掉 80%+ 系统提示）。\n5. 工具数：系统提示里 30–50 个定义后选型易退化；按意图分组、按需加载。\n6. 折叠子代理时一次一个：提示→skills、API→MCP、前后跑 eval、只留赢的；10 条黄金例即可起步。\n7. 别信总分：看具体任务谁好谁坏；Anthropic 自家测里折叠降延迟却弄坏过原流程——多跑几次。\n落地：Agent 不必复制组织架构；简单起步、度量、复杂只在赚回位置时加。",
+      "tags": [
+        "工作流",
+        "Skills",
+        "成本",
+        "评测",
+        "技巧"
+      ],
+      "author": "minchoi",
+      "sourceUrl": "https://x.com/minchoi/status/2115082511457939494",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2114945631462871272",
+      "title": "句尾「对吧？」会喂迎合：把反迎合写进 AGENTS.md",
+      "summary": "语音/提示以「对吧？」「right?」收尾会强化 sycophancy。把反迎合原则焊进 AGENT(S).md：忽略诱导反问、先独立推演再结论、有错第一句直接反驳。",
+      "body": "现象：Agent 越用越乖、越用越蠢，常因句尾加「对吧？」（语音尤甚）——对应 Anthropic sycophancy 研究。\n可抄进 AGENT.md / AGENTS.md：\n## 认知客观性与反迎合原则\n1. 忽略诱导性反问：输入以「对吧？」「是不是？」「right?」等确认词结尾时，视为中立开放假设，严禁顺从预设。\n2. 前提独立验证：验证代码/事实/架构前，禁止以「是的」「完全正确」「没问题」开头；先独立推演再给结论。\n3. 直接反驳：前提有漏洞、非最优或事实错，第一句指出并反驳；技术准确性与权衡优先于礼貌顺从。\n落地：要结论时直接说「给结论／给反例／给风险」，别反问收尾求认同；规矩进规则文件比临时改提示更稳。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "可靠性",
+        "提示词",
+        "技巧"
+      ],
+      "author": "thomaszhou_",
+      "sourceUrl": "https://x.com/thomaszhou_/status/2114945631462871272",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115073914271629814",
+      "title": "AmpCode 协作要点：要什么别要怎么做，验收写进 agents.md",
+      "summary": "用最强模型；提示 What 非 How；让 agent 看见端到端/日志/部署；要 E2E/对比/截图等铁证并写进 agents.md；少抠风格、异步批任务、别手管上下文。",
+      "body": "Viking 摘 AmpCode《How I work with Agents》（as of 2026-10）可落地要点：\n1. 用最新最强模型——差模型浪费的时间也是成本。\n2. 别过度焦虑 slop；能力够强时冗余往往可接受。\n3. 告诉它要什么，别教逐步怎么做（What not How）。\n4. 让整个 SDLC 对 agent 可见：E2E 跑通、生产日志、部署、发版、翻 flag、分诊工单——看不见就容易幻觉。\n5. 要证据：E2E 演示、前后数据、截屏；写进 agents.md 作验收；「这不算证据」也写清；风格/命名少管。\n补充同文节奏：别来回迭代——让它生成变体+自测工具；异步批任务让 agent 等你；一线程一任务、靠 compaction；高爆炸半径文件才人工深审。\n判断：规则堆多常是替模型焦虑；流程可见、证据可复验才是真协作。",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "vikingmute",
+      "sourceUrl": "https://x.com/vikingmute/status/2115073914271629814",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115087874387517442",
+      "title": "多 Agent 缺的不是速度：边界、统一状态、冲突与责任",
+      "summary": "管理者优势在目标拆解/约束/质量标准/跨团队协作，不在会写提示词。多 Agent 并行后要补齐任务边界、统一状态、冲突处理与最终责任，并把模糊目标变成可验收工作包。",
+      "body": "判断：大厂管理者在 AI 时代是否更有优势，前提不是「更会写提示词」，而是更熟目标拆解、资源约束、质量标准与跨团队协作。\n多 Agent 同时干活后，最缺的往往不是产出速度，而是：\n- 清晰的任务边界\n- 统一状态\n- 冲突处理\n- 最终责任\n落地：能把模糊目标变成可验收工作包的人价值上升；只传话、堆会议的管理方式更容易被压缩。给每个 Agent 写清输入/输出/完成定义与冲突时找谁，再开并行。",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收",
+        "多Agent",
+        "技巧"
+      ],
+      "author": "aiclaw404",
+      "sourceUrl": "https://x.com/aiclaw404/status/2115087874387517442",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115088629462679594",
+      "title": "别找万能提示词：先把一件小事说成可验收待办",
+      "summary": "「效率翻倍」太空；改成「整理成5条待办，含负责人与截止，缺信息标出」才能开工。工具不怕任务小，怕目标大到没法验收。",
+      "body": "「用 AI 让我效率翻倍」听起来有气势，却没法开始。\n换成：「把这份材料整理成 5 条待办，每条写负责人和截止时间，缺的信息标出来。」事情突然就能开始。\n原则：工具不怕任务小，怕的是目标大到没法验收。与其找一句万能提示词，不如先把今天最烦的一件小事说具体。\n落地：每次开聊先写可检查的完成定义（条数、字段、缺什么标红），再让模型动手。",
+      "tags": [
+        "工作流",
+        "验收",
+        "提示词",
+        "技巧"
+      ],
+      "author": "Mwb9394",
+      "sourceUrl": "https://x.com/Mwb9394/status/2115088629462679594",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115088074463912210",
+      "title": "~/.claude 用私有 Git 同步多机：规则共享、密钥不进仓",
+      "summary": "本机与常开云机共享同一 Claude Code 配置：~/.claude 作私有仓分钟级同步；共享全局规则/skills/agents/MCP 定义；密钥与 per-machine 会话/历史不进仓；冲突停同步并告警。",
+      "body": "做法（Marco）：Mac + 常开「ClaudeBox」跑同一套 Claude Code。\n- ~/.claude 做成私有 git 仓，约每分钟同步；密钥安全另传，绝不进仓。\n- 共享：全局规则、memory、skills、scripts、agents、slash commands、MCP 服务器定义（无凭据；按机器标记哪些本地站只在 Mac）。\n- 每机保留：history、sessions、settings，以及仅本机可用的剪贴板/内网工具。\n- 云机上 Claude Code 作 Remote Control，手机可驱。\n- 同步从不 force-push；同文件两边改则停并经 Home Assistant 告警到手机。\n落地：多机一致靠「规则仓」；密钥与会话面隔离；冲突显式停，别静默盖。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "Skills",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "MarcoAlmeidaPT",
+      "sourceUrl": "https://x.com/MarcoAlmeidaPT/status/2115088074463912210",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115087640764575756",
+      "title": "envsave：让 Agent 碰密钥时只用不透明引用",
+      "summary": "公开仓密钥泄漏常见。用 skill 让 Claude Code 碰到 secret 时写 es_ 引用而非真值；全局安装后每会话默认启用，降低把 key 写进代码/对话的风险。",
+      "body": "背景：GitGuardian 统计 2024 公开仓用 Copilot 的密钥泄漏约 6.4%，全公开仓约 4.6%。\nenvsave 提供 skill：Claude Code 需要密钥时拿不透明 `es_` 引用，不写真实值。\n安装示例：`npx skills add jcsancho/envsave -g -y --agent claude-code`\n全局装好后，每次开 Claude Code 会话都带上。\n授权边界：密钥不应进入提示词/代码块；用引用+本地解析比「别泄露」口头规矩更硬。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "Skills",
+        "安全",
+        "技巧"
+      ],
+      "author": "JoseCSancho",
+      "sourceUrl": "https://x.com/JoseCSancho/status/2115087640764575756",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115086161039519909",
+      "title": "Claude Code 五层：CLAUDE.md→Skills→Hooks→Subagents→Plugins",
+      "summary": "把 Claude Code 当 Agent 开发平台：CLAUDE.md 定宪章；Skills 按需知识；Hooks 事件门禁；Subagents 委派；Plugins 分发。MCP 接外部，Teams 做并行协调。",
+      "body": "五层拆法：\n01 CLAUDE.md（记忆/宪章）：架构规则、命名、测试期望、仓结构。\n02 Skills（知识）：任务上下文、参考文档、脚本、模板——需要时加载，别全开。\n03 Hooks（护栏）：Pre/PostToolUse、SessionStart、Stop、SubagentStop——质量检查、拦危险命令、通知。\n04 Subagents（委派）：评审/测试/探索等各有上下文、模型、工具与权限。\n05 Plugins（分发）：像 npm 一样打包可复用能力。\n再加：MCP 连外部工具/库/API；Agent Teams 并行、传信、共享权限。\n核心链：规则定义 Agent → Skills 给专长 → Hooks 强制质量 → Subagents 分工 → Plugins 分发。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "Skills",
+        "Hooks",
+        "技巧"
+      ],
+      "author": "siddhantgarg33",
+      "sourceUrl": "https://x.com/siddhantgarg33/status/2115086161039519909",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115081354211684366",
+      "title": "别先打磨会过期的提示词：先把每个 Job 写下来",
+      "summary": "多数人打磨 prompts，但模型升级后补丁型系统提示会大批作废（Claude Code 团队在 Opus 5 砍掉约 80%）。更持久的是逐任务写清工作说明书。",
+      "body": "观点：打磨提示词是最容易过期的部分。Claude Code 团队在 Opus 5 出来后砍掉约 80% 系统提示——多数是在给旧模型擦屁股。\n跑约 15 个 agents 的经验：真正长久的是先把每个 job 写下来，任务接任务列清职责与完成定义，再决定要不要进系统提示/skills。\n落地：先 inventory 工作包，后精简提示；模型升级时优先删「打补丁」条款，保留岗位说明书。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "Skills",
+        "技巧"
+      ],
+      "author": "VoxlabsLive",
+      "sourceUrl": "https://x.com/VoxlabsLive/status/2115081354211684366",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115086450400342369",
+      "title": "多模型别统一人设：按规划/验收/执行分角色写提示",
+      "summary": "Claude 做规划、Codex 做验收、Grok 做执行时，提示词按各自活写；硬套同一套人设会抹掉模型差异。分工写进规则，比共用人格更稳。",
+      "body": "实践补充：多模型同开时，不必统一人设。\n例：Claude 规划、Codex 验收、Grok 执行——每个的提示词按它的活写（输入、输出、停止条件、证据要求）。\n改成同一套人设后，这些分工差异就没了。\n落地：在 AGENTS.md / 路由表里写「谁做规划/谁做验收/谁做执行」及各模型专属验收句，而不是共用一句人格口号。",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收",
+        "技巧"
+      ],
+      "author": "CaptPascal",
+      "sourceUrl": "https://x.com/CaptPascal/status/2115086450400342369",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
