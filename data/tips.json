@@ -2,6 +2,179 @@
   "version": 1,
   "tips": [
     {
+      "id": "2115036437536178594",
+      "title": "编程 Agent 安全检查单：别在 Downloads 启动",
+      "summary": "三条写进习惯：默认别在 Downloads/桌面临时目录启动；启动前扫陌生 AGENTS.md/CLAUDE.md；发现异常配置就轮换 token，别只删文件。浏览器可写下载夹，Agent 会把 Markdown 当指令。",
+      "body": "用编程Agent，建议把这三条写进检查单：\n\n1. 默认别在 Downloads 或桌面临时目录启动\n2. 启动前扫一眼有没有陌生 AGENTS.md、CLAUDE.md\n3. 发现异常配置就轮换相关token，别只删文件\n\n浏览器能写进下载夹，Agent会把Markdown当指令执行。两件事叠在一起，就是新攻击面。\n\n落地：授权边界——工作目录限定仓库根；指令文件先人工 skim；MCP/npm 等安装写入必须人批。",
+      "tags": [
+        "工作流",
+        "安全",
+        "授权边界",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "KrisWen77s",
+      "sourceUrl": "https://x.com/KrisWen77s/status/2115036437536178594",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115040255560818746",
+      "title": "主力仓靠 eval+replay，不靠加厚 CLAUDE.md",
+      "summary": "单文件 CLAUDE.md 能压幻觉，但进主力仓库仍要靠 eval 验收加 replay 回放；先把规则写死，再拿自己仓库的 diff 跑一遍，比换模型管用。",
+      "body": "scope 这条是 agent 最难守的边界。单文件 CLAUDE.md 能压幻觉，但真进主力仓库仍要靠 eval 验收加 replay 回放验证；否则 Karpathy 说的那句「写 1000 行本来 100 行就够」的代价，会在 revert 里原样体现。先把规则写死，再拿自己仓库的 diff 跑一遍，比换模型管用。\n\n落地：规则文件是必要非充分；验收门禁（eval）+ 回放（replay）才是主力仓门槛。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "qiannefert",
+      "sourceUrl": "https://x.com/qiannefert/status/2115040255560818746",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115040137700954368",
+      "title": "CLAUDE.md 保鲜测试：本周才真的句子别写",
+      "summary": "短 CLAUDE.md 的一条检验：若某行「只在本周为真」，就不该进文件——会过期，而 agent 仍会信任它。",
+      "body": "Agree on a short CLAUDE.md. A good test: if a line will only be true this week, it doesn't belong there. It goes stale and the agent still trusts it.\n\n落地：规则文件只放长期真的约定；临时约束放会话提示或任务卡，避免过期指令被长期信任。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "规则组织",
+        "技巧"
+      ],
+      "author": "uncompacteddev",
+      "sourceUrl": "https://x.com/uncompacteddev/status/2115040137700954368",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115037313780830717",
+      "title": "AGENTS.md 做减法：约束一多模型会打架",
+      "summary": "别盲目往 AGENTS.md 堆规则；约束过多会逻辑冲突。搭 Agent 先学会删冗余限制，往往比打补丁更管用。",
+      "body": "别盲目往 AGENTS.md 堆规则了，约束一多模型自己就会逻辑打架。搭 Agent 得学会做减法，删掉冗余限制往往比疯狂打补丁管用。\n\n落地：规则膨胀时先审计冲突与重叠，再考虑加新条；少而硬的规则优于长而软的清单。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "规则组织",
+        "技巧"
+      ],
+      "author": "bookingX0",
+      "sourceUrl": "https://x.com/bookingX0/status/2115037313780830717",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115039806321574055",
+      "title": "CLAUDE.md 用 HTML 注释给人留笔记：零上下文成本",
+      "summary": "块级 HTML 注释 <!-- ... --> 加载前会被剥掉，可给人写说明且不占上下文；注意 @import 仍会整文件加载。",
+      "body": "Your CLAUDE.md can hold notes Claude never reads.\n\nBlock-level HTML comments <!-- like this --> are stripped before it loads, so they cost zero context.\n\nCatch: imports don't save context. A file pulled in with @ loads along with it.\n\nDo you leave notes for humans in yours?\n\n落地：给人看的元注释用 HTML 注释；真正给模型的规则保持短；慎用 @ 导入大文件。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "缓存成本",
+        "技巧"
+      ],
+      "author": "Cozy2054934",
+      "sourceUrl": "https://x.com/Cozy2054934/status/2115039806321574055",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115039924080755193",
+      "title": "别急着加 subagent：能改成 skill 就先评测",
+      "summary": "仅当任务可并行、需全新上下文、或主 Agent 挑不对工具时才拆 subagent；其余把提示词改成 skill 放进主流程，跑评测再留下。",
+      "body": "给团队搭 Agent 体系，大家第一反应常常是再加一个 subagent对吧\n\n我的经验是：只有任务能并行、需要全新上下文，或者一个 Agent 实在挑不对工具时，才值得拆出去。\n\n其他情况就把它的提示词改成 skill，放到主流程里，跑一遍评测，效果好就留下\n\n落地：流程拆分用「并行/新上下文/工具路由」三条件；默认先 skill + eval，再考虑多 agent。",
+      "tags": [
+        "工作流",
+        "流程拆分",
+        "skills",
+        "评测",
+        "技巧"
+      ],
+      "author": "pu_lu30560",
+      "sourceUrl": "https://x.com/pu_lu30560/status/2115039924080755193",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115038498449141772",
+      "title": "上下文压缩会丢掉规则：别假设禁令还在",
+      "summary": "Agent 并非第 42 轮变笨，而是触顶后被摘要压缩；摘要保故事丢规则，「别动 webhook」「别升那个包」可能消失。关键禁令需写进持久规则或每轮重申。",
+      "body": "Your coding agent doesn't get dumber at turn 42.\nIt gets summarized.\n\nHit the context limit and it compacts.\nThe whole session shrinks to a short summary.\nThe summary keeps the story. It drops the rules.\n\n\"Never touch the webhook check.\"\n\"Don't upgrade that package.\"\nGone. Then...\n\n落地：硬约束放 CLAUDE.md/AGENTS.md 或任务卡硬门禁；长会话中关键禁令在压缩后要主动重注。",
+      "tags": [
+        "工作流",
+        "可靠性",
+        "上下文",
+        "技巧"
+      ],
+      "author": "its_LtDan",
+      "sourceUrl": "https://x.com/its_LtDan/status/2115038498449141772",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115022904610205967",
+      "title": "最好的提示词是失败测试；测试文件只读",
+      "summary": "散文说想要什么，测试说何时算完成。先写测试再提需求，并声明测试文件只读，能打断「看起来做完其实没完」的循环。",
+      "body": "The best prompt for a coding agent is a failing test.\n\nProse tells it what you want. A test tells it when it's actually done. That one switch kills most of the 'looks finished, isn't' loops.\n\nTwo rules:\n- write the test before the ask\n- tell it the test file is read-only\n\n落地：验收标准可执行化；用只读测试当门禁，防止 agent「改测试凑绿」。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "ZeeshhDecodes",
+      "sourceUrl": "https://x.com/ZeeshhDecodes/status/2115022904610205967",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115025082150236434",
+      "title": "别信口头 Done：Stop Hook 强制跑测/类型检查",
+      "summary": "AI 说 Done≠真跑过。Claude Code Stop Hook 可在收工时强制跑测试/类型检查：失败继续改，通过才停——把验收嵌进停止门禁。",
+      "body": "AI 说「Done，测试过了」≠真跑过。Claude Code 的 Stop Hook 能在它想收工时强制跑测试/类型检查：失败就继续改，通过才停。适合独立开发、AI 工具站日常写代码。\n\n落地：把「可执行验收」挂在停止钩子上，口头完成不算完成。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "Claude",
+        "技巧"
+      ],
+      "author": "ai_simonhu",
+      "sourceUrl": "https://x.com/ai_simonhu/status/2115025082150236434",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115037884470141085",
+      "title": "降价不等于降账单：先限步数再缓存 system prompt",
+      "summary": "Agent 账单多花在重试、重发长上下文和工具循环；单价只是一项。庆祝降价前先 cap 每任务步数并缓存 system prompt。",
+      "body": "Cheaper tokens rarely mean a cheaper agent bill. Agents burn most of their spend on retries, re-sent long context, and tool-call loops, so per-token price is only one term in the equation. Cap steps per task and cache the system prompt before you celebrate a price cut.\n\n落地：成本控制优先「步数上限 + 提示词/规则缓存」，再谈模型单价。",
+      "tags": [
+        "工作流",
+        "缓存成本",
+        "技巧"
+      ],
+      "author": "mohammadvazin",
+      "sourceUrl": "https://x.com/mohammadvazin/status/2115037884470141085",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
       "id": "2114992180435779680",
       "title": "Agent 出烂活时：缺的是可验证闭环，不是更长 CLAUDE.md",
       "summary": "模型常不是主因。缺三件事之一：何为 done、能跑测的环境、快速验证。多数团队堆提示跳过验证；把代码库变得「更便宜可检」才是杠杆。",
