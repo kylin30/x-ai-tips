@@ -4148,6 +4148,210 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115206294298857565",
+      "title": "勿在 Downloads 启动编码 Agent：AGENTS.md 可被投毒",
+      "summary": "网页可无点击把恶意 AGENTS.md 丢进 Downloads；Codex 照做会装恶意包。习惯：只在自己创建的项目目录开 agent。",
+      "body": "安全边界（KitchExtremeX）：\n1. 已有案例：Downloads 里被植入 AGENTS.md，指示 Codex 安装恶意 npm 包。\n2. 网页可无点击往 Downloads 落文件。\n3. 硬规则：永远不要从 ~/Downloads 启动编码 agent；只在自己创建/信任的项目根开。\n落地：启动前 ls -a 扫 AGENTS.md/CLAUDE.md；陌生目录当不可信输入。",
+      "tags": [
+        "工作流",
+        "安全",
+        "AGENTS.md",
+        "门禁"
+      ],
+      "author": "KitchExtremeX",
+      "sourceUrl": "https://x.com/KitchExtremeX/status/2115206294298857565",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115205430926549266",
+      "title": "单一 AGENTS.md 为规则源，工具文件只指向它",
+      "summary": "多工具各写一份规则易漂移。仓库根放一份 AGENTS.md，Claude/Cursor 等专属文件只做指针，避免同步地狱。",
+      "body": "规则组织（xodiaai）：\n1. 本能是对的：规则应只有一个真源。\n2. 做法：仓库一根 AGENTS.md；各工具自己的规则文件只指向它。\n3. 好处：改一处全局生效，无 CLAUDE.md / .cursor/rules / AGENTS.md 三处对不上。\n落地：工具文件写「见 /AGENTS.md」+ 极短本地覆盖；定期 diff 确认无副本膨胀。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "规则",
+        "组织"
+      ],
+      "author": "xodiaai",
+      "sourceUrl": "https://x.com/xodiaai/status/2115205430926549266",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115202188939292832",
+      "title": "账单大头是重复上下文：裁系统提示+缓存+按需贴段落",
+      "summary": "每次调用重发不变上下文很贵。缩短系统提示、缓存稳定段，agent 只需一节时别贴整篇文档。",
+      "body": "成本控制（thesam）：\n1. 账单里很大一块是「每次调用重发的上下文」。\n2. 三刀：裁掉臃肿 system prompt；对不变内容开缓存；需要某一节时别贴整文档。\n3. 效果：同任务 token 明显下降，agent 注意力也更集中。\n落地：把常驻说明拆成可引用文件；调用时只带任务相关片段 + 缓存前缀。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "技巧"
+      ],
+      "author": "thesam",
+      "sourceUrl": "https://x.com/thesam/status/2115202188939292832",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115202173470466353",
+      "title": "三层 vault：AGENTS.md 宪法 / handoffs 状态 / runs 草稿",
+      "summary": "共享 AGENTS.md 当只读宪法；日常交接写 /handoffs/；每日草稿进 /runs/ 合并后清掉，防临时笔记变常驻指令。",
+      "body": "上下文分层（realcraigcowan 回应 AlekVectis）：\n1. AGENTS.md = 只读宪法（agent 不可自改）。\n2. /handoffs/ = 活状态：改了什么、已验证什么、下一个 agent 是谁。\n3. /runs/ = 日草稿日志，合并后清空。\n落地：禁止把今日 scratch 写回 AGENTS.md；交接只读 handoffs；合并门禁检查 runs 未泄漏进宪法。",
+      "tags": [
+        "工作流",
+        "协作",
+        "AGENTS.md",
+        "组织"
+      ],
+      "author": "realcraigcowan",
+      "sourceUrl": "https://x.com/realcraigcowan/status/2115202173470466353",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115201898143989895",
+      "title": "加子代理前先查：是不是系统提示太臃肿",
+      "summary": "Addy Osmani 玩法：先怀疑 bloated system prompt；Skills 与 tool search 常能修好，不必再拆上下文给子代理。",
+      "body": "流程拆分（richeholmes 引 Addy Osmani）：\n1. 想加又一个 subagent 前，先问：是不是 system prompt 太臃肿。\n2. Skills + tool search 往往能在不拆上下文的情况下修好。\n3. 盲目加子代理会把同一问题复制多份上下文。\n落地：checklist——量 prompt 长度→抽成 Skills→再评估是否真需子代理。",
+      "tags": [
+        "工作流",
+        "子代理",
+        "Skills",
+        "技巧"
+      ],
+      "author": "richeholmes",
+      "sourceUrl": "https://x.com/richeholmes/status/2115201898143989895",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115200522533949487",
+      "title": "反复粘贴进 CLAUDE.md 的规矩改成 hooks",
+      "summary": "靠模型「记得」不如 hooks 每次必跑。常驻检查放 settings.json hooks，CLAUDE.md 保持短。",
+      "body": "可靠性（petersindex）：\n1. 凡是你反复粘进 CLAUDE.md 的规矩，最终都应变成 hook。\n2. Hooks 每次触发，不依赖 Claude「是否记得」。\n3. CLAUDE.md 变短后，指令冲突与遗忘都少。\n落地：把格式检查/禁止命令/提交前检查迁到 hooks；CLAUDE.md 只留原则与指针。",
+      "tags": [
+        "工作流",
+        "Claude",
+        "hooks",
+        "门禁"
+      ],
+      "author": "petersindex",
+      "sourceUrl": "https://x.com/petersindex/status/2115200522533949487",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115206923633189182",
+      "title": "多 Loop 瓶颈是验收带宽：用 Plan/里程碑前置成本",
+      "summary": "并行任务最终都回人合并验收；Loop 越多 Manager 越堵。Plan 与小里程碑是把验收成本前置——前置多少决定能管几个 Agent。",
+      "body": "协作验收（Alex20060101）：\n1. 多 Loop 真瓶颈不是开任务数，是验收带宽。\n2. 每个并行任务最后都要人对齐、验收、合并。\n3. Plan + 小里程碑 = 把验收成本前置；能前置多少，决定同时能管几个 Agent。\n落地：开工先写可测里程碑；合并前自测清单；超带宽就减并行而非加人肉加班。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作",
+        "门禁"
+      ],
+      "author": "Alex20060101",
+      "sourceUrl": "https://x.com/Alex20060101/status/2115206923633189182",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115205799605891243",
+      "title": "按岗位分 Agent：剪片/发布/验收记忆分文件夹",
+      "summary": "「每个 Agent 各管一摊」落到盘上：按岗位分角色，记忆各自文件夹，避免串上下文。",
+      "body": "组织方式（aijjxtLouis）：\n1. 每个 Agent 各管一摊（剪片 / 发布 / 验收）。\n2. 记忆放各自文件夹，不互相串。\n3. 比一个超级 agent 背全部历史更稳、更好定位。\n落地：目录按角色切；跨角色只读交接文件，不共享可变记忆。",
+      "tags": [
+        "工作流",
+        "组织",
+        "协作",
+        "Agent"
+      ],
+      "author": "aijjxtLouis",
+      "sourceUrl": "https://x.com/aijjxtLouis/status/2115205799605891243",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115205086645526840",
+      "title": "开工前写 pass/fail：按验收标准而非按产出付费",
+      "summary": "买方写不出通过/失败测试，任务就不该交给 agent。清晰规格能消掉大半纠纷。",
+      "body": "验收门禁（dogetrumps）：\n1. 按验收标准付钱/收工，不按「产出了多少字/行」。\n2. 买方开工前写不出 pass/fail，任务还没准备好交给 agent。\n3. 清晰规格在纠纷发生前就解决大多数问题。\n落地：任务卡强制 Acceptance Criteria 字段；无 AC 不允许启动 agent。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "协作"
+      ],
+      "author": "dogetrumps",
+      "sourceUrl": "https://x.com/dogetrumps/status/2115205086645526840",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115188792831418602",
+      "title": ".cursor/rules：短护栏 alwaysApply + 栈规则按 globs",
+      "summary": "核心护栏 alwaysApply:true 且保持短；栈相关规则用 globs 仅在碰 SQL 等文件时加载，输出更好、浪费上下文更少。",
+      "body": "规则加载（Vibecoderkits）：\n1. 放到 .cursor/rules/ 下的 .mdc，带 frontmatter。\n2. alwaysApply: true → 核心护栏（务必短）。\n3. globs → 栈规则（如只碰 SQL 才加载 Supabase 规则）。\n效果：Scoped rules = 更好输出 + 更少浪费上下文。",
+      "tags": [
+        "工作流",
+        "Cursor",
+        "规则",
+        "成本"
+      ],
+      "author": "Vibecoderkits",
+      "sourceUrl": "https://x.com/Vibecoderkits/status/2115188792831418602",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115202784731771170",
+      "title": "路径发现≠授权：Downloads 里 AGENTS.md 当任务数据",
+      "summary": "在不可信目录发现配置文件不等于可当项目规则。安装与改配置仍需单独审批。",
+      "body": "授权边界（QuantaCortex）：\n1. Path discovery is not authority。\n2. Downloads 里的 AGENTS.md 应保持为任务数据，除非工作区根已被信任。\n3. 即便信任，配置编辑与安装仍需单独批准。\n落地：不可信 cwd → 指令文件只读展示给人确认；禁止静默升权。",
+      "tags": [
+        "工作流",
+        "安全",
+        "授权",
+        "AGENTS.md"
+      ],
+      "author": "QuantaCortex",
+      "sourceUrl": "https://x.com/QuantaCortex/status/2115202784731771170",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115193626703897076",
+      "title": "Skill 价值看换 Agent 后首次通过率，不看文档数量",
+      "summary": "培养 Agent 的指标不是优化了多少 AGENTS.md，而是更瘦上下文的新 Agent 接手时首次通过率与返工是否变好。",
+      "body": "复盘指标（siwaaiai）：\n1. 同意把知识库/Skill 算「培养 Agent」指标，但别按文档数量打分。\n2. 可检验：同一任务换一个上下文更少的 Agent，首次通过率与返工次数有没有变好。\n3. 没变好 → 文档只是写给经理自己看的。\n落地：每周抽同类任务做「瘦上下文接手」A/B；记录引用 Skill 比例与返工。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "Skills",
+        "验收"
+      ],
+      "author": "siwaaiai",
+      "sourceUrl": "https://x.com/siwaaiai/status/2115193626703897076",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
     }
   ]
 }
