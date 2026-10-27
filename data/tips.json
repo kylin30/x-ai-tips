@@ -18,22 +18,6 @@
       "collectedAt": "2026-10-27"
     },
     {
-      "id": "2114903721977000115",
-      "title": "10 条可丢给 Codex/Claude Code 的 UI 质感提示词",
-      "summary": "分隔符、文案、Radix 色、光学对齐、0.5px 线、少动画、字号层级等十条，逐条喂给前端 Agent。",
-      "body": "直接丢给 Codex / Claude Code：\n1. 不用中点「·」做分隔符，已有的删掉\n2. 不加冗余的解释性描述\n3. 检查文案：贴合目标人群，不啰嗦、不乱造词\n4. 颜色统一换成 Radix UI Colors，并按其规范用\n5. 优化对齐，尽量光学对齐；嵌套用同心圆角\n6. 线条和边框用 0.5px\n7. 少加动画；非加不可用 ease-out，250ms 起步\n8. 字号最多 3–4 种，最小 12px；层级靠字重、颜色和间距\n9. 减少需要用户判断的交互，重排信息优先级\n10. 别乱用圆角和阴影，尤其卡片左侧彩色竖线",
-      "tags": [
-        "提示词",
-        "技巧",
-        "工具"
-      ],
-      "author": "hr_yueBing",
-      "sourceUrl": "https://x.com/hr_yueBing/status/2114903721977000115",
-      "lang": "zh",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
       "id": "2114903663470694704",
       "title": "AGENTS.md 一句：别堆副标签，让布局说话",
       "summary": "系统提示加 Avoid unnecessary secondary labels…，Claude Code/Codex 写前端立刻清爽一档。",
@@ -74,22 +58,6 @@
       ],
       "author": "tehuiocom",
       "sourceUrl": "https://x.com/tehuiocom/status/2114902365610639613",
-      "lang": "zh",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
-      "id": "2114901932674269310",
-      "title": "长文一次改成小红书/即刻/X 三版",
-      "summary": "先定平台写法约束，再粘贴长文；要求只用原文内容并列出删掉的要点。",
-      "body": "平台约束：\n- 小红书：标题直给，正文短段，结尾留问题\n- 即刻：口语随手想法，不要标题\n- X：第一句说读者能拿到什么，一段一两句\n\n可复制提示词：\n下面是我写好的一篇长文。请改成 3 个平台的版本：1. 小红书：一个直给的标题＋正文，分短段，300 字以内，结尾留一个问题；2. 即刻：150 字以内，像随手发的想法，不要标题；3. X：140 字以内，第一句说读者能拿到什么。要求：只用文里有的内容，不加新数字、新经历；每版后面列出删掉了原文哪几个要点。\n【粘贴长文】",
-      "tags": [
-        "提示词",
-        "工作流",
-        "模板"
-      ],
-      "author": "Jeffrey33fu",
-      "sourceUrl": "https://x.com/Jeffrey33fu/status/2114901932674269310",
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
@@ -152,23 +120,6 @@
       "author": "WhatAIToolHQ",
       "sourceUrl": "https://x.com/WhatAIToolHQ/status/2114891083939500085",
       "lang": "en",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
-      "id": "2114874952759607744",
-      "title": "Muse短视频：爆款结构比「一句话提示」强太多",
-      "summary": "同主题对比：一句话 vs 前3秒钩子+中段快切+结尾行动；提示词写清竖屏/时长/镜头≤2秒，附4组可抄关键词。",
-      "body": "主题例：加班到9点的上班族，用AI后6点准时下班。\n弱提示：「一个上班族用AI工具提高效率，准时下班」→ 无钩子无故事，1秒划走。\n强结构：前3秒钩子 + 中段快切 + 结尾行动；竖屏约10秒；每镜头不超过2秒。\n4组关键词：\n①钩子型：「前3秒 + 痛点 + 反问」（例：每天加班到9点的人，后来都怎么样了）\n②数字反差型：「9点→6点」「一周工作→一天做完」\n③步骤型：「清单打勾 + 时钟回拨」\n④结尾行动型：「今天6点下班」",
-      "tags": [
-        "提示词",
-        "技巧",
-        "视频",
-        "生成"
-      ],
-      "author": "LiTeng45198",
-      "sourceUrl": "https://x.com/LiTeng45198/status/2114874952759607744",
-      "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
     },
@@ -242,23 +193,6 @@
       "collectedAt": "2026-10-27"
     },
     {
-      "id": "2114874524739264742",
-      "title": "给长辈的防诈骗固定提示词：只答三件事",
-      "summary": "可疑要钱/验证码/点链接消息先截图给AI；固定提示词只问动作、风险、该找谁核实，并禁止说「安全」。",
-      "body": "存进手机备忘录，收到要钱、要验证码、让点链接的消息时，截图后粘贴这段：\n「只回答三件事：对方要我做什么动作；有没有涉及转账、验证码、下载或点链接；该找谁核实（用我自己存的号码，别用消息里给的）。不要说「安全」两个字。」\n坑：它说看着正常也别转，打通电话才算数。",
-      "tags": [
-        "提示词",
-        "技巧",
-        "安全",
-        "ChatGPT"
-      ],
-      "author": "ujupewove67",
-      "sourceUrl": "https://x.com/ujupewove67/status/2114874524739264742",
-      "lang": "zh",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
       "id": "2114874210413904281",
       "title": "个人背景文档：先给AI 8类事实再问建议",
       "summary": "AI总给通用建议，多半是不知道你是谁。用可复制采访提示词建8项背景文档，再附文档提问，建议会贴合现状。",
@@ -327,23 +261,6 @@
       "collectedAt": "2026-10-27"
     },
     {
-      "id": "2114824625926349125",
-      "title": "上线前让Claude扮演最挑剔买家：挑刺写进落地页",
-      "summary": "给产品/价格/成本/竞品后，让Claude停止「帮忙」、扮演最怀疑的买家；把反对意见写进首页、FAQ与钩子。",
-      "body": "流程：贴 product、price、landed cost、竞品 listing → 要求 stop being helpful，扮演最挑剔买家。\n追问：为什么不买？第二周为什么退款？付完为什么会觉得自己傻？半价竞品多做了什么？\n落地：反对意见→落地页首屏；退款理由→FAQ/物流文案；「感觉被坑」答案→钩子文案。",
-      "tags": [
-        "工作流",
-        "提示词",
-        "Claude",
-        "电商"
-      ],
-      "author": "n1ck_ecom",
-      "sourceUrl": "https://x.com/n1ck_ecom/status/2114824625926349125",
-      "lang": "en",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
       "id": "2114787736163078406",
       "title": "给Agent加 debug_message 工具：卡住就写旁路日志",
       "summary": "加 debug_message 工具，指令执行不了/条件不满足/输入缺失/提示冲突时写入独立带标签文件，再用 Codex/Claude 自动扫。",
@@ -357,23 +274,6 @@
       "author": "lukepark_fn12",
       "sourceUrl": "https://x.com/lukepark_fn12/status/2114787736163078406",
       "lang": "en",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
-      "id": "2114823412422000864",
-      "title": "小红书轮播图 Skill：先分镜表再渲染，20 模板可复用",
-      "summary": "Ian 的 ian-xhs-carousel：文章→3:4 轮播图；先确认分镜再渲染，20 模板+深浅色；适合产品/AI 类图文。",
-      "body": "流程：贴文章 → 先出分镜表（页数/模板/标题）→ 确认后再排版渲染；单页可换模板。\n输出：每页 PNG、总览图、HTML 源。\n安装：克隆到 Claude skills，装 Playwright+Pillow；命令 /ian-xhs-carousel 或「做成小红书」。\n建议：分镜多花时间；图上字少；约五页；截图高清、Logo 用 SVG。\n仓库：https://github.com/helloianneo/ian-xhs-carousel",
-      "tags": [
-        "工具",
-        "工作流",
-        "Claude",
-        "小红书"
-      ],
-      "author": "MirrortekUK",
-      "sourceUrl": "https://x.com/MirrortekUK/status/2114823412422000864",
-      "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
     },
@@ -407,22 +307,6 @@
       "author": "ai_hacks_jp",
       "sourceUrl": "https://x.com/ai_hacks_jp/status/2114842263071428954",
       "lang": "other",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
-      "id": "2114822163567910915",
-      "title": "作业辅导 Prompt：只给家长一步提示，答案留给孩子",
-      "summary": "把题与孩子作答贴给 AI，先判 INPUT/CONCEPT/OVERLOAD 三卡点之一；每次只给家长一句可照说的提示，禁止代答。",
-      "body": "思路：家长贴题目+孩子写的内容 → AI 判三卡点：\n- 没读对题：指读、圈关键词，家长闭嘴\n- 概念没学会：放下本题，用实物补概念再回来\n- 脑子装不下：已知与中间结果写草稿纸\n规则：每次只给家长一句提示；最后一步必须孩子自己算；绝不把答案交给家长转述。\n可复制工程书见原帖（HOMEWORK-COACH v1.0）。",
-      "tags": [
-        "提示词",
-        "模板",
-        "教育"
-      ],
-      "author": "ai_chuhai",
-      "sourceUrl": "https://x.com/ai_chuhai/status/2114822163567910915",
-      "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
     },
@@ -532,21 +416,6 @@
       ],
       "author": "zack6116",
       "sourceUrl": "https://x.com/zack6116/status/2114825762339774801",
-      "lang": "zh",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
-      "id": "2114827528338874381",
-      "title": "AI 视频提示词分三层：主体 / 镜头 / 环境",
-      "summary": "别把视频提示揉成一句话；拆成主体动作、镜头运动、环境变化，时长选 5 秒更稳，负向提示挡废片。",
-      "body": "分三层写视频提示词：\n1) 主体在做什么\n2) 镜头怎么动\n3) 环境有什么变化\n\n例：别写「一个女孩在海边奔跑」；写「女孩沿海岸线慢跑，镜头平行跟随，海浪拍礁石，黄昏光线」。\n工具常用即梦/可灵；时长选 5 秒比 10 秒稳。\n负向提示词加：变形、闪烁、多余手指。",
-      "tags": [
-        "提示词",
-        "技巧"
-      ],
-      "author": "lh17601",
-      "sourceUrl": "https://x.com/lh17601/status/2114827528338874381",
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
@@ -908,23 +777,6 @@
       "collectedAt": "2026-10-27"
     },
     {
-      "id": "2112515068999225354",
-      "title": "Harvard AI 家教系统提示词：改成可粘贴的 ChatGPT/Claude 教学提示词",
-      "summary": "哈佛公开 AI tutor 的 system prompt；作者改成可复制提示词（需自行核原文链接）。",
-      "body": "Harvard published the system prompt behind this AI tutor; turned into copy-paste prompt for any subject.",
-      "tags": [
-        "提示词",
-        "模板",
-        "ChatGPT",
-        "Claude"
-      ],
-      "author": "CrazyShyyt",
-      "sourceUrl": "https://x.com/CrazyShyyt/status/2112515068999225354",
-      "lang": "en",
-      "quality": "备用",
-      "collectedAt": "2026-10-27"
-    },
-    {
       "id": "2112468763404853330",
       "title": "模型变聪明后：少限制、多自由，翻译/回答质量反而升",
       "summary": "提示词工程仍在，但依赖下降；删减翻译 prompt/skills 限制后质量提升。",
@@ -971,22 +823,6 @@
       "collectedAt": "2026-10-27"
     },
     {
-      "id": "2114887129914560987",
-      "title": "Claude 桌面端当 IT：7 条可复制修机提示词",
-      "summary": "授权 Claude 桌面访问电脑后，用健康检查/启动项/存储/臃肿软件/入侵检测/备份/月度巡检七提示词排查卡顿。",
-      "body": "前置：打开 Claude 桌面客户端并授予电脑访问权限。\n1 健康检查：Tell me what's slowing this computer down. List everything using more than 5% of the processor or memory right now, what each one is in plain English, and anything you can't identify. Don't close or delete anything yet.\n2 启动清单：Show me everything that starts when I turn this computer on. Mark which ones I actually need and which ones just slow the boot. Turn off only the ones I tick.\n3 存储情况：Find what's eating my storage: the 20 biggest files and folders, old downloads, duplicate photos, and installers I've already used. Show me the list with sizes. Delete nothing until I say yes.\n4 清理臃肿软件：List every app I haven't opened in six months and what it does. Tell me which are safe to remove and which came with the computer and should stay. I'll pick.\n5 入侵检测：Look for anything that shouldn't be here: processes you don't recognise, browser extensions I didn't choose, anything connecting to the internet in the background. Explain each one and tell me if it's known to be harmful. Don't remove anything on your own.\n6 文件备份：Check whether this computer is backed up, where, and when the last backup ran. If it isn't, tell me the simplest way to set one up with what I already have.\n7 按月清理：On the first of every month, run the health check, the storage list and the intruder check, and send me a short report with anything that changed. Set this up as a scheduled task.",
-      "tags": [
-        "提示词",
-        "Claude",
-        "技巧"
-      ],
-      "author": "AioiA2000",
-      "sourceUrl": "https://x.com/AioiA2000/status/2114887129914560987",
-      "lang": "zh",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
       "id": "2114888414080467233",
       "title": "CC Switch：Claude Code/Codex/Gemini CLI 配置一处管",
       "summary": "服务商一键切、MCP/Skills 同步、聊天记录检索、用量与失败自动切备选。",
@@ -1014,21 +850,6 @@
       ],
       "author": "SebastienLefeuk",
       "sourceUrl": "https://x.com/SebastienLefeuk/status/2114886703022305663",
-      "lang": "zh",
-      "quality": "值得一看",
-      "collectedAt": "2026-10-27"
-    },
-    {
-      "id": "2114887686230089829",
-      "title": "口语陪练三原则：一情景、一纠错、一替换跟读",
-      "summary": "不必下新 App；用现成聊天机器人 + 少量提示词，再加错题本复练。",
-      "body": "练法三条：1）一个情景，别贪多；2）一次纠错，只改一个错；3）一句替换说法，马上跟读。再加错题本：反复错的表达记下来，下周专门练。",
-      "tags": [
-        "提示词",
-        "技巧"
-      ],
-      "author": "0xopencitizen",
-      "sourceUrl": "https://x.com/0xopencitizen/status/2114887686230089829",
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
