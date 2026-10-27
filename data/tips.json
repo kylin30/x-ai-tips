@@ -2336,6 +2336,182 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115057298704081251",
+      "title": "Cursor Agent SDK 两坑：eval 会真写 + 上层 AGENTS.md",
+      "summary": "Evals 跑的是真工具，写操作必须判断 session.purpose===eval 再跳过；SDK 不写 AGENTS.md 但仍可能读上层目录指令。价值在「改提示词过 PR+跑 eval」。",
+      "body": "Cursor Agent SDK（10/20 GA）把 Agent 做成项目文件夹：bot/instructions.md、bot/tools/、evals/、agent-sdk deploy。\n\n两个常被转述漏掉的坑：\n1) 官方写明「Evals run real tools, so guard any writes first」。审 PR 的 Agent 若有批准/合并/发 Slack，跑 eval 可能真执行。写操作里判断 ctx.session.purpose === \"eval\" 就跳过。\n2) SDK 不会把 instructions 写成工作区 AGENTS.md，但本地会话仍可能读到上层目录 AGENTS.md。工作目录放哪，比提示词写得多漂亮更要紧。\n\n落地：写操作先加 eval 保护再跑第一条 eval；提示词改动进 PR+CI eval，给「规则被悄悄改一行」装报警器。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "授权边界",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "willhk1r",
+      "sourceUrl": "https://x.com/willhk1r/status/2115057298704081251",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115053688796450836",
+      "title": "让 Claude 缓存真省钱：工具+系统提示词固定在前",
+      "summary": "Cloudflare 评审从 $2.43 降到 $0.77，43% 旧账单是 cache writes。固定前缀：tools+system 永不中途改 → 仓库/用户细节 → 共享段末断点 → 少调用；写 1.25x、读 0.1x、5 分钟空闲失效。",
+      "body": "cloudflare took its AI code reviewer from $2.43 a review to $0.77. 43% of the old bill was cache writes — money spent on context the model had already seen.\n\nhow to set up any claude agent so the cache actually pays:\n1. tools + system prompt first, never edited mid-run\n2. repo or user specifics after that\n3. a cache breakpoint at the end of the shared part\n4. one prefix shared by every reviewer agent\n5. fewer calls per session\n\nwrites cost 1.25x input; reads cost 0.1x; an entry dies after 5 idle minutes.\n\n落地：共享前缀稳定、可变上下文后置、会话内少打断缓存，比「写更短 prompt」更能砍成本。",
+      "tags": [
+        "工作流",
+        "缓存",
+        "成本",
+        "技巧"
+      ],
+      "author": "RohanBhanotAI",
+      "sourceUrl": "https://x.com/RohanBhanotAI/status/2115053688796450836",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115055855033073708",
+      "title": "让 AI 操作已登录浏览器：授权四条+防注入",
+      "summary": "已登录浏览器=像你一样操作（发信/改设置/付款）。单独 Chrome 配置、只授标签页、发送付款删除人确认、用完断远程调试；页面内容不当可信输入。",
+      "body": "让 AI 操作一个已登录的浏览器之前，先接受：它拿到的不只是网页读取权，而是“像你一样操作”的能力。发邮件、改设置、提交表单、甚至付款，都可能在权限范围里。\n\n比较稳妥的四条：\n1. 单独建一个 Chrome 配置文件，不登录银行、医疗和政务账号；\n2. 能只授权标签页，就不要默认交出整个浏览器；\n3. 发送、付款、删除等动作保留人工确认；\n4. 用完关闭远程调试或断开连接。\n\n另：提示词注入——网页/邮件/文档里藏着的指令可能诱导 Agent。不要把页面内容天然当成可信输入，也不要在自动化任务里暴露与任务无关的秘密。\n\n落地：浏览器自动化=授权边界问题；配置隔离 + 写动作门禁 + 不可信输入标签。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "sekurimrs",
+      "sourceUrl": "https://x.com/sekurimrs/status/2115055855033073708",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115047005680492608",
+      "title": "读是搜索问题，写是信任问题：三道门+MCP只读标签",
+      "summary": "Admin/User/Confirmation 三道门；MCP「只读」标签由作者自报，写工具被标只读会跳过确认。先只开读、写分 create/update/delete 灰度、少开工具。",
+      "body": "Read Is a Search Problem. Write Is a Trust Problem.\n\nWhen an AI agent can only read, a mistake gives a bad answer. When it can write, a mistake gives a bad email, wrong ticket, or changed record.\n\nThree gates: Admin (which actions on), User (personal OAuth approve), Confirmation (draft before write).\n\nThe miss: MCP tools can self-label \"I only read data\" and skip confirmation. Whoever built the server writes that label — a write tool labeled read-only quietly removes the safety net. Treat those labels like code; review and track changes.\n\nRollout: start read-only everywhere → list write actions as create/update/delete → enable create/update for one team, leave delete off → check activity logs → keep tools few.\n\n落地：读写分风险规划；三道门全开；MCP 只读标签当代码审；少而准的动作菜单。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "MCP",
+        "门禁",
+        "技巧"
+      ],
+      "author": "SarangMahatwo",
+      "sourceUrl": "https://x.com/SarangMahatwo/status/2115047005680492608",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115043953531588793",
+      "title": "别堆多 Agent：单循环按需加载上下文与工具",
+      "summary": "Anthropic 企业观察：单 Agent 按需加载在质量/成本/速度上几乎全面碾压多 Agent；组织镜像式子 Agent 易成冲突规则缝合怪。砍 80% 系统提示、留少工具。",
+      "body": "过去一年大家都在拼命堆多智能体架构，恨不得一个业务流程塞进十几个子 Agent 互相调度。Anthropic 应用团队跑了大量企业客户后发现，单 Agent 按需加载上下文和工具的设计，在回答质量、成本和响应速度上几乎全面碾压多 Agent 集群。\n\n不仅运行速度直接快了一倍，还能甩掉子系统相互打架。很多团队把系统做成公司组织架构翻版，每个部门塞一个子 Agent，最后搞出上百条规则互相冲突的缝合怪 Prompt。\n\nAnthropic 自己做新版代码工具时，把系统提示词砍掉 80% 以上，只留四五个轻量工具，规划和自我检查交由模型单循环搞定。\n\n落地：模型变强后优先简化架构；少工具、清边界、短失败路径，再谈编排层。",
+      "tags": [
+        "工作流",
+        "协作",
+        "成本",
+        "技巧"
+      ],
+      "author": "xiaobaicai03",
+      "sourceUrl": "https://x.com/xiaobaicai03/status/2115043953531588793",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115052120684818714",
+      "title": "装第三方 Skill=开 shell：方便与授权是同一件事",
+      "summary": "SkillSpector 扫 prompt injection/泄密/供应链/恶意模式。能读仓跑命令的 skill 本质是你授权的代码；装十个≈给十个陌生作者开 shell。",
+      "body": "NVIDIA 把 SkillSpector 放上 GitHub：「Security scanner for AI agent skills」，管四件事：prompt injection、data exfiltration、supply-chain risks、malicious patterns。\n\n账本上其实是：skill 生态长到需要杀毒软件了。半年前比谁的 skill 写得巧，现在比谁的 skill 没后门。\n\n一个能读你仓库、能跑命令的 skill，本质就是一段你亲手授权的代码。装十个，等于给十个陌生作者开了 shell。\n\n落地：第三方 skill 按「授权变更」审；签名/权限/供应链补齐后再扩装；方便和授权从来是同一件事。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "skills",
+        "安全",
+        "技巧"
+      ],
+      "author": "yzpq6668",
+      "sourceUrl": "https://x.com/yzpq6668/status/2115052120684818714",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115054701289111876",
+      "title": "提示词≠规范：红线写在哪份文档里？",
+      "summary": "提示词管「怎么说话」，规范管「什么算对、绝对不能做、做错怎么认错」。只靠提示词的 Agent 上线第一天就会被问穿规范空白。",
+      "body": "给 Agent 写提示词和写规范，是两件不同的事。提示词告诉它“怎么说话”，规范告诉它“什么算做对、什么绝对不能做、做错了怎么认错”。只靠提示词的 Agent，上线第一天就会被真实用户问出规范里没写的东西。\n\n落地：把验收标准与红线从聊天语气里拆出，落到可版本化的规范文档（或 AGENTS.md/策略页），并明确「认错/升级」路径。",
+      "tags": [
+        "工作流",
+        "验收",
+        "规则组织",
+        "技巧"
+      ],
+      "author": "LandTheIdeas",
+      "sourceUrl": "https://x.com/LandTheIdeas/status/2115054701289111876",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115056041800978529",
+      "title": "动手前先让 Agent 列出加载了哪些指令文件",
+      "summary": "开跑前问：AGENTS.md / CLAUDE.md / rules / 家目录规则各加载了什么。作者发现八月残留的测试命令还在生效。",
+      "body": "Try this tonight. Before your coding agent touches anything ask it to list every instruction file it loaded. AGENTS.md CLAUDE.md the rules folder the one in your home dir. Mine listed one I forgot existed with a test command from August. That explained a lot.\n\n落地：把「列出已加载指令文件」写进启动检查单；家目录与上层目录规则同样要可见，避免幽灵配置。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "Tanguyvbc",
+      "sourceUrl": "https://x.com/Tanguyvbc/status/2115056041800978529",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115055004281434351",
+      "title": "省 token：只读子代理+短摘要+稳定仓库地图",
+      "summary": "子代理只做只读探索并回短摘要而非全文；主代理靠稳定 repo map 少重复读仓；缓存在「同一 system+仓库上下文跨任务复用」时最管用。",
+      "body": "What actually helped for me: subagents only for read-only exploration, returning a short summary instead of full files, plus a stable repo map so the main agent stops re-reading the codebase. Caching helps most when the same system prompt and repo context are reused across tasks.\n\n落地：探索与写入拆分；子代理输出限摘要；维护一份稳定仓库地图；共享前缀可缓存时再谈子代理开销。",
+      "tags": [
+        "工作流",
+        "缓存",
+        "成本",
+        "协作",
+        "技巧"
+      ],
+      "author": "huangdada1986",
+      "sourceUrl": "https://x.com/huangdada1986/status/2115055004281434351",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115051477907788234",
+      "title": "CLAUDE.md 纳入 PR：代码改了规则也得同步",
+      "summary": "最怕代码迭代多版而 CLAUDE.md 停在初版。把规则更新纳入 PR 检查，否则 Agent 认真遵守的可能是过时规则。",
+      "body": "对，最怕代码已经迭代了好几版，CLAUDE.md 还停留在最初的状态。最好把规则更新纳入 PR 检查，代码改了，相关文档也得同步改。不然 Agent 认真遵守的可能是一套早就过时的规则。\n\n落地：规则文件与模块变更同 PR；CI/评审门禁检查「触及 X 路径是否更新对应 CLAUDE.md/AGENTS.md 片段」。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "门禁",
+        "规则组织",
+        "技巧"
+      ],
+      "author": "TiagerBao",
+      "sourceUrl": "https://x.com/TiagerBao/status/2115051477907788234",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
