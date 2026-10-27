@@ -3407,6 +3407,182 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115146054408761682",
+      "title": "先 /usage 再本地审计：找出烧掉额度的 3 个习惯",
+      "summary": "先跑 /usage 按 skills/subagents/MCP 拆分；再用廉价本地脚本审计近 7 天日志，只读摘要、改动须你说 yes；修复：任务间 /clear、少开 subagent、压缩常驻上下文。",
+      "body": "成本/缓存向复盘门禁（Claude Code，亦附 Codex 变体）：\n1. 先跑 /usage 并按 w：按 skills、subagents、plugins、MCP 拆近 7 天用量（读本地历史，几乎不费额度）。作者样例 7833 次调用：会话第 2 小时后占约 66%（每轮约 1.5× 早期成本，因重发对话）、固定前缀（系统提示/工具/skills/CLAUDE.md）约 21% 且每个 subagent 再付一份、subagents 合计约 34%。\n2. 指向同一组修复：任务之间 /clear、少开 subagent、削减 always-on 上下文。\n3. 粘贴审计提示到全新 Claude Code 会话（非网页聊天）：只写一个标准库 Python 脚本、最多修崩溃 2 次、只读脚本摘要；脚本存 ~/claude-usage-audit/，终端重跑免费。审计本身约一周用量的 0.2%（轻量套餐约 ≤1%）。\n4. 日志要点：主会话 ~/.claude/projects/<project>/<session>.jsonl；subagents 在子目录；只读 assistant/user 行；按 reply id 去重取最高 output_tokens；排除本审计会话；只打印聚合，禁打出消息/路径/密钥。\n5. 度量用价格权重估成本（cache read 远低于 raw count）；桶要加总校验；大工具结果只按 preview 估体积。\n6. 对 top3 习惯各给份额+证据+一条修复（CLAUDE.md 行/设置/hook/习惯）；CLAUDE.md 每行每轮都付费，最多加 5 行且总长 <200。你说 yes 后只改本会话加载的项目指令，绝不改全局 ~/.claude/CLAUDE.md。\n7. Codex：先 /usage；日志在 ~/.codex/sessions 与 archived_sessions；规则写入 AGENTS.md。\n落地：每周 /usage；把审计脚本当周检；优先砍长会话与常驻技能描述。",
+      "tags": [
+        "工作流",
+        "缓存成本",
+        "Claude",
+        "复盘",
+        "技巧"
+      ],
+      "author": "LimestoneHQ",
+      "sourceUrl": "https://x.com/LimestoneHQ/status/2115146054408761682",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115145994728038890",
+      "title": "五条「看似能拦」的 Claude 权限规则其实拦不住",
+      "summary": "Write(docs/**) 无效要用 Edit；deny git push / curl 可被 git -C、绝对路径与 sh -c 绕过；.claudeignore 无效；allow 不能从 deny 开例外；Python 自开文件只能靠沙箱。",
+      "body": "工具调用与授权边界（Claude Code permissions）：\n1. Write(docs/**) 几乎匹配不到 → 用 Edit(docs/**)。\n2. deny Bash(git push *) 拦不住 git -C . push。\n3. deny Bash(curl *) 拦不住 /usr/bin/curl 与 sh -c 'curl ...'。\n4. .claudeignore 文件无效 → 改成 Read 的 deny 规则。\n5. allow 不能从 deny 里抠出例外。\n6. 以上都拦不住「Python 脚本自己打开文件」→ 需要开 sandbox。\n落地：把关键拒绝写成更贴实际调用形态的规则，并用容器/沙箱兜底不可枚举的绕过。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "Claude",
+        "门禁",
+        "技巧"
+      ],
+      "author": "RohanBhanotAI",
+      "sourceUrl": "https://x.com/RohanBhanotAI/status/2115145994728038890",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115129333161615859",
+      "title": "Skip 权限救不了注入：用得起的容器才是底线",
+      "summary": "EVEN_MORE_DANGEROUSLY_SKIP_PERMISSIONS 可让 rm -rf ~ 不问就跑；skip 挡不住提示注入；deny 也会漏（如 git -C）。在可丢弃容器里跑 agent。",
+      "body": "授权边界/可靠性：\n1. Claude Code 有环境变量 EVEN_MORE_DANGEROUSLY_SKIP_PERMISSIONS，可让破坏性命令不经询问执行。\n2. 官方文档：skip 模式从未能阻止 prompt injection。\n3. deny 规则也会漏：例如 git -C . push 可绕过针对 git push 的规则。\n4. 实践底线：在「丢了也无所谓」的容器里跑 coding agent。\n落地：生产机/家目录永不开 skip；敏感 deny 用更贴调用形态的规则 + 容器隔离双保险。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "Claude",
+        "门禁",
+        "技巧"
+      ],
+      "author": "realMagog",
+      "sourceUrl": "https://x.com/realMagog/status/2115129333161615859",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115126411283333186",
+      "title": "Skill 三道门 + 开头 --- 写错就永不触发",
+      "summary": "重复步骤应收成 SKILL.md；成文件前过三门：7 天贴过两次、内含规则、结果可验收。描述+触发词截断 1536 字；首行不是 --- 则永不触发。",
+      "body": "Skills 组织与触发可靠性：\n1. 同一套 8 步反复粘贴 → 应收成「文件夹 + SKILL.md」：可重复流程，仅当描述匹配任务时加载。\n2. Skill 管方法；subagent 才带独立上下文/工具/权限。\n3. 成文件前三道门：7 天内贴过同样步骤 ≥2 次；里面有一条规则；结束状态可验收。第三道最常被忽略，却能杀掉多数候选。\n4. 列表陷阱：描述与触发短语合计截断约 1536 字符；无法识别的 frontmatter 字段被静默忽略；只有开头第一行是 --- 才读 frontmatter——上面多一行注释仍会加载正文，但永不触发。\n5. 描述按「该开火的时刻」写；正文按「不能再问你的读者」写。\n落地：把常贴流程过三道门；新建 skill 后立刻测触发；把 frontmatter 首行纪律写进 AGENTS.md。",
+      "tags": [
+        "工作流",
+        "skills",
+        "Claude",
+        "技巧"
+      ],
+      "author": "MilosPerdic",
+      "sourceUrl": "https://x.com/MilosPerdic/status/2115126411283333186",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115108252270895541",
+      "title": "聊天里说「别 push」不是硬规则：压缩一掉就失效",
+      "summary": "Claude Code auto mode 会听会话里的限制，但不是持久规则；compaction 丢掉那句后限制消失。硬拦截请用 deny rule。",
+      "body": "授权边界：\n1. Auto mode 会听聊天：说 don't push，分类器可挡住默认本会允许的 push。\n2. 但这不是存下来的规则——若 compaction 丢掉那条消息，限制随之消失。\n3. 需要硬停止 → 写 deny rule，而不是依赖会话语气。\n落地：临时偏好可说在聊天；跨会话/跨压缩必须落盘成 deny/ hook。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "Claude",
+        "门禁",
+        "技巧"
+      ],
+      "author": "Cozy2054934",
+      "sourceUrl": "https://x.com/Cozy2054934/status/2115108252270895541",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115057765395603582",
+      "title": "Lane 并行：END 行 CLOSED/PARTIAL，Blocked 比假 Done 更可信",
+      "summary": "按产品切片给 agent 车道而非任务；队列契约强制 END 行；migration 号段隔离；假 done 代价远高于 blocked；合并只走单协调器。",
+      "body": "多 agent 协作与验收（一人并行 Claude/Codex/Cursor）：\n1. 不要只派「任务」——任务易重叠；改派 lane（产品切片）：一主责、一队列、一套规则。别人的区域只留纸条继续走。\n2. 队列文件是契约：每块工作状态 todo/running/done/blocked；结束必须写 END：CLOSED 或 PARTIAL+剩余项——禁止「mostly done」。一条 END 行让你不用读 16 份 transcript。\n3. 每 lane 预留 migration 号段；合并≠应用到库；协调器单条 snapshot→preflight→apply→verify，失败即停；agent 永不碰线上库。\n4. 依赖随工单走：从 main 开分支 cherry-pick 未合依赖并在 PR 顶标注 carries #N。\n5. 机器容量封顶（例：8 lanes + 内存门）；引擎限流时写 back-off，换下一引擎。\n6. Blocked 是合法答案（145 blocked 反而是最可信部分）：不能安全完成就停并写原因；禁止弱化/跳过/删测试。假 done 要花一天找，blocked 读一分钟。\n7. Agent 只开 PR 不合并；只读评审 → 单 merge driver 一次合一个 → 批后全量测试；失败则暂停告警。\n8. 同一错误出现两次：加规则或检查，而不是第三次口头纠正。\n落地：先开两个不共享文件的 lane + END 行 + 单一合并点；不撞车再加第三条。",
+      "tags": [
+        "工作流",
+        "协作验收",
+        "多Agent",
+        "门禁",
+        "技巧"
+      ],
+      "author": "_JacobArcher",
+      "sourceUrl": "https://x.com/_JacobArcher/status/2115057765395603582",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115144310677033240",
+      "title": "第二大脑：三文件夹 + CLAUDE.md 地图，而不是 Notion 插件",
+      "summary": "用 notes/people/projects 与 MEMORY/LEARNINGS/decisions；CLAUDE.md 当地图并 @ 导入仅两份核心；一题一文件；回答须点名用过的文件。",
+      "body": "规则/记忆组织（Claude Code 友好）：\n1. 第二大脑不必是 Obsidian/Notion：三文件夹 .md + 一份启动必读地图即可。\n2. 树：CLAUDE.md（地图）→ MEMORY.md（稳定事实）→ decisions.md（决策与原因）→ LEARNINGS.md（不再重复的错）→ notes/ people/ projects/。\n3. 三条铁律：一文件一主题；文件名即内容（tax-policy.md 而非 note-12.md）；一律小写连字符。\n4. 进阶：在 CLAUDE.md 用 @ 路径只导入 MEMORY.md 与 decisions.md；其余按需打开。\n5. 回答时点名用过的文件；文件里没有就说没有，禁止瞎猜。\n落地：用一次性 prompt 先展示树再写入；把「点名来源」写进地图。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "记忆",
+        "技巧"
+      ],
+      "author": "Kravnel",
+      "sourceUrl": "https://x.com/Kravnel/status/2115144310677033240",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115141322436685853",
+      "title": "项目笔记六段：产品/栈/命令/已决规则/禁区/保持短而新",
+      "summary": "每会话从零猜会悄悄推翻旧决策。CLAUDE.md/AGENTS.md 写清产品两行、栈与目录、可跑命令、已决规则、禁碰区；同错两次就加一行。",
+      "body": "规则组织/可靠性：\n1. 工具每会话对项目一无所知，会猜——有些猜测会悄悄推翻你已做的决策。\n2. 仓库里放短项目笔记：Claude Code 读 CLAUDE.md；Cursor 有 project rules 也读 AGENTS.md。建议六段：\n   - 产品是什么（两行：给谁、主动作）\n   - 栈与目录位置（框架/库/鉴权/支付/托管；API 与组件目录）\n   - 真正能跑的命令（装/本地跑/测试/lint）\n   - 已决规则（用现有 Button；金额用分；永不改已跑 migration）\n   - 禁碰区（鉴权、计费、别人负责的模块）\n   - 保持一页、当天更新；同错纠正两次就加一行\n3. 验收：新开会话让它复述项目；栈或规则说错 → 笔记缺了。\n落地：先写六段骨架；把「错两次→加规则」变成习惯。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "theshaheermalik",
+      "sourceUrl": "https://x.com/theshaheermalik/status/2115141322436685853",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115138998448672822",
+      "title": "Guide 会说、Sensor 会拦：别再只堆 AGENTS.md 规则",
+      "summary": "2853 仓研究：上下文文件 90.6%，hooks 仅 0.9–3.2%（约 29:1）。把 lint/类型/测试放进编辑环作阻塞检查，从一条开始。",
+      "body": "门禁/复盘（Harness Engineering）：\n1. Agent = Model + Harness。你控不住模型，但控得住工具、规则与检查。\n2. AGENTS.md/CLAUDE.md 是 guide（断言该怎么做），不能保证每次编辑都遵守。\n3. 证据：2853 个仓库里上下文文件出现率 90.6%；hooks 仅 0.9–3.2%；Claude Code 仓里上下文文件相对 hooks 约 29:1。\n4. Sensor 观察实际做了什么：把快速检查（lint、类型、测试）放进编辑环，尽早拦错。\n5. 先加一条阻塞检查，而不是再写一页说明。\n落地：挑一条最常翻车的规则改成 hook/CI；数一数仓库里 guide vs sensor 比例。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "AGENTS.md",
+        "复盘",
+        "技巧"
+      ],
+      "author": "Praveen_G07",
+      "sourceUrl": "https://x.com/Praveen_G07/status/2115138998448672822",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115072009256480787",
+      "title": "Legion Engineering：持久 agent 组织要所有权与无更新不发言",
+      "summary": "多 bot 难点不是数量，而是所有权、共享状态、交接、权限与失败恢复。实践：无更新不发言、共享账本单写者、合并汇报、后果动作要人批；用返工/成本/介入次数衡量。",
+      "body": "多 agent 协作组织：\n1. 相对 Prompt/Harness Engineering，提出 Legion Engineering：设计与运营「持久的 agent 组织」，不是简单多开几个 bot。\n2. 难点是所有权、共享状态、交接、汇报、权限、人工审批与失败恢复——没有这些规则，一群 agent 只是群聊。\n3. 跑约 20 个 bot 后的坑：通知洪水、无意义互聊、协调失败。有效做法：无更新不发言；共享账本单一写者；合并汇报；有后果的动作要人批。\n4. 工程化要测结果：接受率、返工、token 成本、人工介入、恢复时间——看组织是否以更少摩擦产出更多价值，而不是 agent 数量。\n落地：先写清所有权与审批边界；禁无意义状态刷屏；用一张共享账本代替口头同步。",
+      "tags": [
+        "工作流",
+        "多Agent",
+        "协作验收",
+        "技巧"
+      ],
+      "author": "riesling_29",
+      "sourceUrl": "https://x.com/riesling_29/status/2115072009256480787",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
     }
   ]
 }
