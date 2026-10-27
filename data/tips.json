@@ -2512,6 +2512,185 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115065982054199686",
+      "title": "别在 Downloads 开 Agent：AGENTS.md/CLAUDE.md 可被投放劫持",
+      "summary": "网页可静默把 AGENTS.md/CLAUDE.md 丢进 Downloads；在该目录启动 Agent 会当项目规则执行。只在主动 clone 的仓库开会话；注意父目录与 ~/CLAUDE.md 也会被加载。",
+      "body": "Claude Code / Codex 用户：别在 Downloads 文件夹里打开 Agent。\n\n网页可以安静地把 AGENTS.md 或 CLAUDE.md 下到 Downloads。你在该目录启动 Agent，它会把文件当项目规则执行——可能要求安装恶意 npm 包。Forever Security 测试里成功率很高。\n\n落地补充（同帖讨论）：\n1. 只在你主动 clone/创建的仓库里开会话，勿从 ~/ 或 Downloads 起。\n2. Claude Code 会加载工作目录及所有上级的 CLAUDE.md，种植的 ~/CLAUDE.md 会污染扫描会话；可用 find 自查或在家目录外建干净空目录。\n3. Downloads 根可 .gitignore AGENTS.md/CLAUDE.md，降低误拾取；仍以「工作目录可信」为主。\n\n授权边界：规则文件=指令面；工作目录选择比「提示词写得多漂亮」更先。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "安全",
+        "技巧"
+      ],
+      "author": "Voxyz_ai",
+      "sourceUrl": "https://x.com/Voxyz_ai/status/2115065982054199686",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115059592355069981",
+      "title": "多 Agent 规则文件打架：AGENTS.md 为源，CLAUDE.md 软链",
+      "summary": "各工具规则文件名不统一；Claude Code 一旦有 CLAUDE.md 就会忽略 AGENTS.md。最简修法：AGENTS.md 唯一真相源，CLAUDE.md 做成指向它的 symlink。",
+      "body": "每个 coding agent 都想要自己的规则文件，名字还对不上。有人把映射列全后最扎眼的一点：Claude Code 只要存在 CLAUDE.md，就会忽略你的 AGENTS.md。\n\n最简修法：一份 AGENTS.md 当 source of truth，CLAUDE.md 做成软链指向它。改一处，各 Agent 读同一套规则。\n\n落地：统一规则入口，避免「改了 AGENTS.md、Claude 仍跑旧 CLAUDE.md」的双源漂移。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "规则组织",
+        "技巧"
+      ],
+      "author": "DanNinetySeven",
+      "sourceUrl": "https://x.com/DanNinetySeven/status/2115059592355069981",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115059867904024864",
+      "title": "仓库 Agent 就绪：解释两次就写入 + 三提示词门禁",
+      "summary": "Agent 每会话冷启动、无记忆。规则：同一件事解释两次就写进 AGENTS.md。三提示：审计写短 AGENTS.md（≤1500 token）→ 缺口表 → 「完成前」验证环（只改规则不改产品码）。",
+      "body": "让代码库对 Agent 就绪是真活，多数仓库还没到。Agent 每次冷启动、没有上次记忆；新人有一个月上手，Agent 只有一次读取。\n\n作者规则：同一件事向 Agent 解释两次，就写进 AGENTS.md/CLAUDE.md，下次会话直接带着走。\n\n三提示词流水线：\n1) 审计仓库，写一份 ≤~1500 token 的 AGENTS.md（产品意图等固定章节）。\n2) 只输出缺口表（Gap|Evidence|Impact|Fix），Evidence 必须是真实路径。\n3) 验证环：只更新 AGENTS.md、不改产品代码；缺文件就停；加「## Before you finish」：跑最窄测试、对照规则自检。\n\n落地：规则文件=可版本化记忆；验收段写进 AGENTS.md，比堆一次性聊天提示更稳。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "门禁",
+        "验收",
+        "规则组织",
+        "技巧"
+      ],
+      "author": "Sushilk91",
+      "sourceUrl": "https://x.com/Sushilk91/status/2115059867904024864",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115066273776214497",
+      "title": "生产 Claude Code：Sonnet 构建 / Haiku 探索 / Opus 审阅",
+      "summary": "分模型流水线：Sonnet 写、Haiku 探、Opus 审。硬决策用 Opus 级推理，整体约 1/10 成本、约 5x 速度；默认 claude --model sonnet。",
+      "body": "生产环境跑 Claude Code 的一种分模型法：\n\nSonnet 5.5 builds · Haiku 5.5 explores · Opus 5.5 reviews。\n\n硬调用仍拿到 Opus 级推理，整体约 1/10 成本、约 5x 速度。入口命令示例：claude --model sonnet，再按任务路由探索/审阅模型。\n\n落地：按阶段选模型，而不是全程 Opus；探索与审阅拆角色，成本与质量一起管。",
+      "tags": [
+        "工作流",
+        "成本",
+        "协作",
+        "技巧"
+      ],
+      "author": "damkina7",
+      "sourceUrl": "https://x.com/damkina7/status/2115066273776214497",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115065993630470627",
+      "title": "关 auto-compact：长会话末用 wrap 收尾省成本",
+      "summary": "关掉 autoCompactEnabled，每会话以 wrap 结束。一次自动 compact 曾耗约 14.5 分钟且难控成本；主动收尾把「下一步/踩坑」留给下会话。",
+      "body": "Claude Code 用了几个月后的改法：关掉 auto-compact（\"autoCompactEnabled\": false），现在每个会话以 wrap 收尾。\n\n起初是为了成本：一次长会话末尾的 auto-compact 曾跑约 14.5 分钟，且难预知花了什么。改成主动 wrap 后，把下一步与「Agent 哪里做错」写清，下会话不重复踩坑。\n\n落地：自动压缩≠免费；可控的会话交接笔记往往比静默 compact 更省、更可复用。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "复盘",
+        "技巧"
+      ],
+      "author": "ayushjjw",
+      "sourceUrl": "https://x.com/ayushjjw/status/2115065993630470627",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115066949453660586",
+      "title": "提示词散落面板无版本：用 Agent SDK 项目文件夹管住",
+      "summary": "改一句提示词后乱调工具却说不清哪次改的——因提示词在后台面板、无版本无测试。Cursor Agent SDK：instructions.md 常驻、tools/ 旁挂，提示词进 Git+可跑 eval。",
+      "body": "你的 agent 上周还好好的，改了一句提示词，这周就开始乱调工具，而你说不清是哪次改动弄的。最常见坑：提示词散落在各种后台面板里，没有版本，也没有测试。\n\nCursor Agent SDK 把这件事摆上台面：按官方文档，一个 agent 就是一个项目文件夹——instructions.md 是常驻提示词，tools/ 放工具定义，并可配合 evals 与部署。\n\n上手：npx @cursor/agent-sdk init ./my-bot，再 agent-sdk dev。注意部署用的是已推送的 Git 版本，未提交改动不会上线。\n\n落地：提示词当代码——进仓库、可 diff、可测；面板里的「随手改一行」要有报警器。",
+      "tags": [
+        "工作流",
+        "规则组织",
+        "验收",
+        "Cursor",
+        "技巧"
+      ],
+      "author": "KbKbvxu",
+      "sourceUrl": "https://x.com/KbKbvxu/status/2115066949453660586",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115071189613981824",
+      "title": "装 Claude Skill 前先扫：Skillspector 查注入与外泄",
+      "summary": "新 skill 安装前先过 Skillspector：扫描 prompt injection、数据外泄等风险，再让它靠近本机。规则/技能文件=可执行指令面。",
+      "body": "在安装那个闪亮的新 Claude skill 之前，先看看里面有什么。\n\nSkillspector（含 NVIDIA/SkillSpector 一类工具）在技能靠近你的机器前，扫描 agent skills 里的 prompt injection、数据外泄等模式；输入可以是仓库、URL、ZIP、目录或文件。\n\n落地：第三方 skill = 不可信代码；安装前门禁扫描，和审 AGENTS.md 同源。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "skills",
+        "安全",
+        "技巧"
+      ],
+      "author": "Yance16z",
+      "sourceUrl": "https://x.com/Yance16z/status/2115071189613981824",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115067050477388127",
+      "title": "让 Claude 把重复活沉淀成可复用 Agent Skills",
+      "summary": "别反复解释同一流程：用「workflow engineer」提示词让 Claude 找出重复任务、做成可测 skill 库，越用越省交代。",
+      "body": "多数人用 Claude 的问题：同样的事反复解释。有人分享提示词，让 Claude Code 把自己的重复工作建成可复用 Agent Skills，并随纠正改进工作流。\n\n提示词角色大意：你是资深 Claude Code 工作流工程师；使命是找出我重复的任务，各做成经过测试的 skill，使我不用向 Claude 解释两遍。\n\n落地：提示词一次性消费 → skill 库复利；优先自动化「重打最多的那条指令」。",
+      "tags": [
+        "工作流",
+        "skills",
+        "流程拆分",
+        "技巧"
+      ],
+      "author": "He1s_Sammy",
+      "sourceUrl": "https://x.com/He1s_Sammy/status/2115067050477388127",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115060443341594954",
+      "title": "Claude 工具箱：规则与参考材料放进 Projects/Skills",
+      "summary": "把标题生成、文案、改写等做成 Projects，演示 Skills。关键不是囤用完即弃的提示词，而是任务规则+参考材料进项目，换输入继续用。",
+      "body": "把每次都要重新解释的活，攒成自己的 Claude 工具箱。操作合集把标题生成、促销文案、改写分别做成 Projects，并演示落地页、小应用和 Skills。\n\n照着抄的关键：把任务规则和参考材料放进项目，后续换输入继续用。每天少重讲一遍背景，比囤一堆用完就忘的提示词实在。\n\n落地：Projects/Skills = 持久工作流容器；规则与样例同仓，比聊天窗粘贴更稳。",
+      "tags": [
+        "工作流",
+        "skills",
+        "规则组织",
+        "技巧"
+      ],
+      "author": "F5Adon",
+      "sourceUrl": "https://x.com/F5Adon/status/2115060443341594954",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
+    },
+    {
+      "id": "2115068132620472442",
+      "title": "别只看 90%：Agent 作者/审阅一夜循环 50 次的警示",
+      "summary": "Anthropic 披露自家 CLI 项目一夜 Agent 作者写→审阅标→再写，循环超 50 次。自动互审可空转；需要独立验收门禁与人工停损。",
+      "body": "大家都会截图那个 90%。更该警惕的是 50。\n\nAnthropic 承认：自家 CLI 项目里，一个 PR 一夜循环超过五十次——Agent 作者写，Agent 审阅标问题，作者再改，审阅再标……\n\n落地：Agent 互审≠完成；给循环设上限、独立测试/冻结 harness、或人工确认再合入，避免「看起来很忙」的空转。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "验收",
+        "协作",
+        "技巧"
+      ],
+      "author": "fluid_ai_",
+      "sourceUrl": "https://x.com/fluid_ai_/status/2115068132620472442",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-27"
     }
   ]
 }
