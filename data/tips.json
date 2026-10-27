@@ -3940,6 +3940,214 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115186642676076924",
+      "title": "薄 AGENTS.md + 技能路由表：一职一 playbook",
+      "summary": "Agent 失败常因巨型说明书或二十个技能抢同一活。薄全局 AGENTS.md + skill-router 解冲突，按任务只加载一份 playbook。",
+      "body": "技能组织（GaurangKaria）：\n1. 两种死法：巨型指令文件模型读不动；或二十个 skills 抢同一任务。\n2. 结构：薄全局 AGENTS.md + skill-router 表 + 按域分的 collections（架构/TDD、对抗评审、PR 生命周期、UI/动效等）。\n3. 路由表才是核心：改名消冲突（如 prototype→ui-variants）；评审环重叠时指定优先 skill。\n4. 原则：给 Agent 几条全局法，然后一职只加载一份 playbook。\n落地：先写路由表再堆 skills；冲突用路由解决，不靠更长 system prompt。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "Skills",
+        "技巧"
+      ],
+      "author": "GaurangKaria",
+      "sourceUrl": "https://x.com/GaurangKaria/status/2115186642676076924",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115189596023906714",
+      "title": "夜间交接页：任意 harness 可读 + 预算与唤醒规则",
+      "summary": "编排器写一页 handoff（站规/钱规/票队列/事件例程/夜志），换 harness 也能续跑；按事件唤醒、工人封顶、附 NOT 清单。",
+      "body": "无人值守交接（jrimmer / Fairfax 夜班）：\n1. 写给「任意后继编排器」的一页 handoff，不绑死某一工具。\n2. 钱规：只在工人 DONE/BLOCKED/BYE 或静默 40 分钟时唤醒；禁轮询；预算耗尽则停唤醒让工人收尾。\n3. 站规：实现只在工人上跑、最多两并行，其余排队。\n4. 事件例程：通过→rebase/改 commit/跑全套/合并；失败→核真实阻塞后重排；三轮无进展则拉本地人收。\n5. 每次无人值守附 scope + NOT 清单；附只追加夜志给人早上看。\n落地：handoff 可移植；预算与 NOT 写进文档；事件唤醒而非定时器。",
+      "tags": [
+        "工作流",
+        "协作",
+        "成本",
+        "门禁",
+        "技巧"
+      ],
+      "author": "jrimmer",
+      "sourceUrl": "https://x.com/jrimmer/status/2115189596023906714",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115189222004892159",
+      "title": "别换模型先换 harness：Stop 钩 + CODE_MAP + 不自评",
+      "summary": "四周 Stop 钩拦下 1213 次「未 commit+push」收工。同模型靠 CODE_MAP/记忆文件/第三方 checker/权限门变成完全不同的 Agent。",
+      "body": "Harness 优先于换模型（Fynvra）：\n1. Stop 钩定义完成：未 commit+push＝未完成（四周拦 1213 次同因）。\n2. 给地图不给手册：多份 CODE_MAP.md；记忆文件 + PROJECT_CONTEXT 让新会话接上。\n3. 禁止自评：独立 checker agents 打分。\n4. 权限门：危险动作（如排计划任务）需人批。\n5. 常见错法：新提示→新模型→更大窗口→仍忘；应改 harness。\n落地：先写完成条件钩与地图文件；换模型之前先硬化门禁与上下文落盘。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "验收",
+        "可靠性",
+        "技巧"
+      ],
+      "author": "Fynvra",
+      "sourceUrl": "https://x.com/Fynvra/status/2115189222004892159",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115188609427108160",
+      "title": "先留 DECISIONS.md：学习沉淀处，别改 harness",
+      "summary": "写 Agent/Skill 时预留 DECISIONS.md，让后续 Agent 解阻；避免它们乱改 harness 或淹没在自己的 traces 里。",
+      "body": "学习落盘（ZKiihne）：\n1. 写 Agent 或 Skill 时，提前留一个学习沉淀处：DECISIONS.md。\n2. 作用：后续 Agent 可读决策解阻，又不必大改 harness。\n3. 防淹没：不让 Agent 用自身 traces 把自己淹死。\n落地：决策/教训写 DECISIONS.md；规格与 harness 变更走评审，不靠会话自改。",
+      "tags": [
+        "工作流",
+        "记忆",
+        "Skills",
+        "技巧"
+      ],
+      "author": "ZKiihne",
+      "sourceUrl": "https://x.com/ZKiihne/status/2115188609427108160",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115190444086743519",
+      "title": "网络代理与 harness 解耦：换工具不丢出站保证",
+      "summary": "把网络代理从 agent harness 拆开；在 Codex/Claude/pi 间切换时，出站网络保证应保持不变。",
+      "body": "授权与工具边界（noperator）：\n1. 将 network proxy 与 agent harness 解耦。\n2. 目标：codex→claude→pi 可切换，出站网络保证不丢。\n3. 含义：安全策略跟「通道」走，不跟「某一 CLI」绑死。\n落地：egress/代理策略独立配置；换 harness 只换执行器，不重写网络门禁。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "noperator",
+      "sourceUrl": "https://x.com/noperator/status/2115190444086743519",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115189537324621842",
+      "title": "权限缺「量」维：scope/时长挡不住狂打 API",
+      "summary": "Scope 管能碰什么、时长管多久，都不管多少次。审批时并设每日/终身调用上限；Agent 不得自提额度。",
+      "body": "授权量纲（AgentAdmitHQ）：\n1. Scope＝能碰什么；Duration＝多久；两者都不说「多少」。\n2. 十次日历读/日 与 一万次/时 在仅有 scope 的系统里风险相同——其实不同。\n3. 过度自主（OWASP LLM06）：循环/被诱导的 Agent 仍在「合法授权」内狂打。\n4. 用户审批时并设量限（如 200 读/日、10 创建/日、连接终身 5000）；超限拒绝并说明，拒绝不计预算。\n5. Agent 不能自提额度；可编辑的限＝建议。\n落地：scope + confirm-each-time + volume ceiling 三层；给 Agent 独立受限令牌，勿复用主人 CLI token。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "成本",
+        "安全",
+        "技巧"
+      ],
+      "author": "AgentAdmitHQ",
+      "sourceUrl": "https://x.com/AgentAdmitHQ/status/2115189537324621842",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115186783688249459",
+      "title": "自称 Agent 前先过四问：决策/工具/限额/可追溯",
+      "summary": "交付 LLM 流水线别急着叫 Agent。四问：会选下一步？用工具？守成本与权限？决策可追溯？否则仍是好自动化。",
+      "body": "命名门禁（victorcabraln）：\n1. 问：它会自己选下一步吗？\n2. 问：会用工具吗？\n3. 问：尊重成本与权限上限吗？\n4. 问：能追溯为何如此决策吗？\n5. 若否：可能仍是好自动化——叫自动化就好，不必硬贴 Agent。\n落地：上线前用四问验收；缺任一维就按「自动化+人工门」设计，勿虚标能力。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "victorcabraln",
+      "sourceUrl": "https://x.com/victorcabraln/status/2115186783688249459",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115186783063621840",
+      "title": "别「全部允许」：CLAUDE.md 五步安全护栏",
+      "summary": "嫌确认烦就全开＝把公司钥匙全交 AI。先定工作区、写入可触范围、删/外发前确认、禁读密钥、每日工作报告。",
+      "body": "授权护栏（ai_toratorakun）：\n1. 定一个工作文件夹；外文件不读写。\n2. 可触范围写进 CLAUDE.md（每次必读）。\n3. 删除/覆盖前展示并确认；邮件/发帖/上传等外发操作执行前停。\n4. 密码、API key、.env 等密钥文件一律不打开。\n5. 结束要「今日改动一览」报告。\n原则：可挽回的活可放权；不可挽回的必须夹人 OK。少确认靠护栏，不靠「全部允许」。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "CLAUDE.md",
+        "安全",
+        "技巧"
+      ],
+      "author": "ai_toratorakun",
+      "sourceUrl": "https://x.com/ai_toratorakun/status/2115186783063621840",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115190177249571129",
+      "title": "凌晨复盘读原文：晋升/跳过/85% 记忆预算",
+      "summary": "夜班 Agent 读 24h 原始会话再决定留什么；跳过与晋升同等重要；记忆满 85% 停止新增并整理。遗忘是功能。",
+      "body": "无人值守复盘（sudoPhoeniX）：\n1. 读原始会话而非摘要；搜索结果当线索再开 transcript。\n2. 晋升进笔记/记忆/skills/playbooks；已知则跳过——跳过比囤积更重要。\n3. 记忆预算：满约 85% 停增、开始 consolidate，细节卸到 vault 并校验原文。\n4. 报告未验证项（如「Tests: not run」）。\n落地：夜班复盘脚本化；设记忆水位；「全留」＝语法好的囤积癖。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "记忆",
+        "技巧"
+      ],
+      "author": "sudoPhoeniX",
+      "sourceUrl": "https://x.com/sudoPhoeniX/status/2115190177249571129",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115184819697013031",
+      "title": "先装三件：上下文 / 工作流 / 成本，同任务 A/B",
+      "summary": "别一次装 15 个 Claude Code 仓库。各取一件管上下文、工作流、成本；同任务装前装后对比，只留赢的。",
+      "body": "工具选型门禁（0xClodex）：\n1. 裸跑 Claude Code 易忘、猜旧 API、烧 token——可用开源补，但勿一次全装。\n2. 起步三件：一件管上下文（新文档/代码检索）、一件管工作流（spec/并行/模板）、一件管成本（路由/用量）。\n3. 同一任务装前装后对比；只保留明显赢的。\n落地：每加一个 repo/skill 必须有前后对照；无收益就卸。",
+      "tags": [
+        "工作流",
+        "成本",
+        "Skills",
+        "技巧"
+      ],
+      "author": "0xClodex",
+      "sourceUrl": "https://x.com/0xClodex/status/2115184819697013031",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115187729013108993",
+      "title": "AGENTS.md + 工作日志：换工具时上下文已在盘上",
+      "summary": "撞限换 Cursor/Codex/Claude 时，靠 AGENTS.md 与会话末写入的 work logs，下一工具直接接手，不必重讲。",
+      "body": "跨工具协作（CleanFix_Dev）：\n1. 仓库级 agents.md / claude.md 常驻上下文。\n2. 另维护 work logs：会话结束由人或 Agent 更新「做了什么/卡在哪」。\n3. 撞限或换工具时，下一会话读盘上日志即可续，不必当新雇重 brief。\n落地：会话结束强制写一行工作日志；换工具检查表＝读 AGENTS.md + 最新 work log。",
+      "tags": [
+        "工作流",
+        "协作",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "CleanFix_Dev",
+      "sourceUrl": "https://x.com/CleanFix_Dev/status/2115187729013108993",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115190695614972129",
+      "title": "交接记票所有权：防夜班 DONE 被二次处理",
+      "summary": "any-harness 交接外，还要记录进行中票由哪个编排器拥有；换班时显式移交，避免晚到 DONE 被新编排器再处理一遍。",
+      "body": "交接防重入（AlekVectis 对 jrimmer）：\n1. handoff「任意 harness」很好，但还缺所有权字段。\n2. 每张 in-flight 票记录当前编排器；换班显式 transfer ownership，或先停旧环再启新环。\n3. 否则夜班迟到的 DONE 可能被新编排器二次合并/派工。\n落地：handoff 模板加 owner 列；接班 checklist：停旧环→确认票归属→再启。",
+      "tags": [
+        "工作流",
+        "协作",
+        "门禁",
+        "技巧"
+      ],
+      "author": "AlekVectis",
+      "sourceUrl": "https://x.com/AlekVectis/status/2115190695614972129",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
     }
   ]
 }
