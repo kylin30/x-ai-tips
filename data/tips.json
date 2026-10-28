@@ -4558,6 +4558,201 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115237905581158548",
+      "title": "少拆 subagent：主 agent + 按需 skills 往往更快更稳",
+      "summary": "Anthropic Applied AI：企业常按组织架构拆一堆 subagent，handoff 丢上下文、更慢更贵；改成单一 loop + skills 按需加载后，有客户约快 2 倍。",
+      "body": "观察（rainwaterJay / Anthropic Applied AI）：\n1. 把 agent 拆成一堆 subagents，常是在复制组织架构。\n2. 每次 handoff 丢上下文 → 延迟↑、成本↑，质量常不如「一个主 agent + skills 按需加载」。\n3. 客户把多代理改成单一 loop 后，运行速度约快 2 倍。\n落地：默认单主 agent；只在真需并行/隔离时再加 subagent；把可复用能力做成 skills 而不是常驻子代理。",
+      "tags": [
+        "工作流",
+        "多代理",
+        "skills",
+        "成本",
+        "技巧"
+      ],
+      "author": "rainwaterJay",
+      "sourceUrl": "https://x.com/rainwaterJay/status/2115237905581158548",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115237807107248608",
+      "title": "额度撞墙时：用会话 token 统计反查 3 个最贵习惯并写回 CLAUDE.md",
+      "summary": "不改文件先审计 ~/.claude/projects 近 7 天 token 计数，找出最贵 3 个习惯并各写一条规则；确认后再写入 CLAUDE.md/AGENTS.md。Codex 同理。",
+      "body": "提示词（willwangdev）：\nDon't change anything without my approval. Write a script that goes through my Claude Code session logs under ~/.claude/projects from the past 7 days. Use the token counts already stored in those logs and don't load the raw files into your context. From the numbers, identify the 3 habits that cost me the most tokens, e.g. reading entire files, pasting long test or build output, spawning subagents, or letting one session run for hours. Estimate what share of my usage each one accounts for, and draft a single rule that would cut it. Once I confirm, add the rules to the instruction file this project actually loads: CLAUDE.md if there is one, otherwise AGENTS.md. Never print secrets.\n要点：只读 token 计数；规则落盘需人工确认；Codex 改路径 ~/.codex/sessions → AGENTS.md。",
+      "tags": [
+        "工作流",
+        "成本",
+        "CLAUDE.md",
+        "AGENTS.md",
+        "提示词",
+        "复盘"
+      ],
+      "author": "willwangdev",
+      "sourceUrl": "https://x.com/willwangdev/status/2115237807107248608",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115234936353689709",
+      "title": "会话卫生：修 2 次无效就 /clear；换任务清场；续聊用 /compact",
+      "summary": "同一修正第 3 次前先 /clear 重开；换任务必清场；要续聊则 /compact 并写明保留点；固定规则放根目录 claude.md。",
+      "body": "会话规则（vinilowprofile）：\n1. 同一修正已失败 2 次 → /clear + 新 prompt，别第 3 次硬怼。\n2. 换任务 → /clear。\n3. 还要续聊 → /compact，并写清要保留什么。\n4. 固定规则 → 根目录 claude.md，摘要后仍在。\n落地：把「修 2 次无效就清场」写进个人规则，避免上下文污染拖垮后续回合。",
+      "tags": [
+        "工作流",
+        "上下文",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "vinilowprofile",
+      "sourceUrl": "https://x.com/vinilowprofile/status/2115234936353689709",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115234988555710649",
+      "title": "CLAUDE.md 变大后：Write 前必须通读全文，防半读覆写",
+      "summary": "Claude Code v2.1.312：过去可能只读大文件开头就覆写；现 Write 会要求先读完全文或原地编辑。大 CLAUDE.md/rules 建议升级。",
+      "body": "可靠性（masayaneg）：\n1. 旧行为：对很大的 CLAUDE.md / rules / @-include，读了开头就可能 Write 覆写。\n2. v2.1.312：Write 会要求 Claude 先读完整文件，或改为原地编辑。\n落地：CLAUDE.md 变长后务必升级；大规则文件优先 edit-in-place，避免半读覆写。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "可靠性",
+        "技巧"
+      ],
+      "author": "masayaneg",
+      "sourceUrl": "https://x.com/masayaneg/status/2115234988555710649",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115234851884335184",
+      "title": "Claude Code 插件不是提示词：以用户权限跑代码，沙箱管不到",
+      "summary": "插件安装等于在本机以用户权限执行代码；权限规则与沙箱只覆盖 Claude 的 tool call，不覆盖插件自身代码。安装前当代码审计。",
+      "body": "授权边界（madaearly）：\n1. 把 Claude Code 插件当「提示词包」装是危险的：它会以你的用户权限在机器上跑代码。\n2. Anthropic 文档：permission rules / sandbox 覆盖的是 Claude 发起的 tool calls，「不是插件自带的代码」。\n落地：插件按依赖审计；默认不装未知来源；skills/plugins 目录视为信任边界。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "madaearly",
+      "sourceUrl": "https://x.com/madaearly/status/2115234851884335184",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115234340674167225",
+      "title": "运营阶梯：Assisted→Automated→Augmented→Autonomous，别跳级",
+      "summary": "14 人里 11 人用多代理 swarm 做 Zapier webhook 就能做的事。按辅助提示→固定自动化→人闸门增强→全自动递进，直接跳到 4 只会堆脆弱开销。",
+      "body": "阶梯（samwoods）：\n1. Assisted（提示词）\n2. Automated（webhooks/固定流程）\n3. Augmented（agent + human gate）\n4. Autonomous\n访谈：11/14 运营商把多代理 swarm 用在 webhook 级任务上。\n落地：先证明 2/3 够用；人闸门写死后再谈 4；别为「看起来像 agent」付编排税。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "多代理",
+        "技巧"
+      ],
+      "author": "samwoods",
+      "sourceUrl": "https://x.com/samwoods/status/2115234340674167225",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115204844629766336",
+      "title": "并行 agent 先问三件事：谁协调、要不要互通、是否碰同一文件",
+      "summary": "Claude Code 五种并行方式；按协调方/互通/同文件冲突选型。先出计划再跑；文件重叠用 worktree 或一人一文件集。",
+      "body": "选型（tidyowl / Anthropic docs）：\n三问：谁协调工作？worker 要不要互相说话？会不会碰同一文件？\n模式速览：subagents（会话内旁路）/ agent view（你调度独立会话）/ agent teams（lead 规划，实验）/ dynamic workflows（脚本握计划）/ projects（持续会话开线程）。\n粘贴模板：\nI need to [task]. Before you start:\n1. Tell me who should coordinate: you with subagents, me with agent view, a team lead, or a workflow script\n2. Whether workers need to talk, and whether any touch the same files\n3. If files overlap: worktrees or one owner per file set\n4. Estimate how many agents and why\nShow the plan first. Nothing runs until I say go.\n注意：teams 默认不自动分 worktree；每个 worker 都是完整会话，token 会倍增。",
+      "tags": [
+        "工作流",
+        "多代理",
+        "协作",
+        "提示词",
+        "技巧"
+      ],
+      "author": "tidyowl",
+      "sourceUrl": "https://x.com/tidyowl/status/2115204844629766336",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115212007289012599",
+      "title": "Stop hook 门禁：测试已红时不许说 done（Kahneman Loop）",
+      "summary": "Stop hook 在本回合检查仍失败或改文件后未再验时，强制再看一眼。规则写在 CLAUDE.md 易被冲掉；钩子把失败重新放回视野，纠错回复可降约 40%。",
+      "body": "门禁（609NFT / Kahneman Loop）：\n1. Claude 常在本回合测试已失败时仍说 done；CLAUDE.md 规则位置太远，容易被冲掉。\n2. Stop hook 读会话 transcript（无额外模型调用）：检查仍失败或改文件后未再验 → 退回再看一次。\n3. 复盘：纠错需求回复约降 40%，代价约 +1% token/时间。\n落地：把「完成定义」做成 harness/hook，而不是只写进长上下文规则；可用本地回放脚本量自己的会话。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "验收",
+        "可靠性",
+        "技巧"
+      ],
+      "author": "609NFT",
+      "sourceUrl": "https://x.com/609NFT/status/2115212007289012599",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115235232865788087",
+      "title": "换号/换工具就失忆：用台账 md 或 handoff 共享上下文",
+      "summary": "额度切换或多工具接力时上下文易丢。最简：台账 md 做索引与总结；也可用 skills handoff 或跨 Session 互通工具。",
+      "body": "协作接力（MtyCodeAI）：\n场景：同工具多号切换，或 Claude Code ↔ Codex 接力，上下文丢失。\n方案：\n1. 建台账 md：索引+总结，每次对话更新。\n2. 若用过 matt 的 skills，用其中的 handoff。\n3. 可用跨 Session 互通记录工具（文中提 Cindy）。\n落地：优先「人可读台账」作真理源；handoff 文件放 agent 写得进、人也看得懂的位置。",
+      "tags": [
+        "工作流",
+        "上下文",
+        "协作",
+        "技巧"
+      ],
+      "author": "MtyCodeAI",
+      "sourceUrl": "https://x.com/MtyCodeAI/status/2115235232865788087",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115237791068291082",
+      "title": "闭环要有判据：可验证、可回滚、验收规则写在 agent 改不到处",
+      "summary": "所谓业务闭环缺三样就不成立：产出可验证、失败可回滚、验收规则放在 agent 改不到的地方。否则只是给自己加了个监工岗。",
+      "body": "验收（KakaluoteW45042）：\n闭环判据：\n1. 产出可验证\n2. 失败可回滚\n3. 验收规则写在 agent 改不到的地方\n三样缺一：闭环的不是业务，是给自己升了个监工岗。\n落地：验收/门禁放 harness、CI、只读配置或人审清单；不要只写在可被 agent 覆写的 md 里。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "KakaluoteW45042",
+      "sourceUrl": "https://x.com/KakaluoteW45042/status/2115237791068291082",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115236026939757018",
+      "title": "动手挪最后：先澄清需求→短设计待批→小任务+当场 review+TDD",
+      "summary": "superpowers 类流程：别一开口就写文件；先聊清需求、短文展示设计并等人点头，再拆成几分钟级任务；未过 review/测试不许往下。",
+      "body": "协作验收（joganicpe / superpowers 思路）：\n1. 问题：一句需求立刻埋头写 → 写到一半发现理解错。\n2. 改法：动手挪到最后——先澄清需求；用可读短段摆设计；等人点头再写计划。\n3. 每个任务小到几分钟，配独立 subagent，写完当场 review，不过关不许往下；TDD 硬要求；调试走固定找根因步骤。\n落地：把「澄清→设计批→小步+门禁」写进默认工作流，无论是否安装某套 skills。",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "joganicpe",
+      "sourceUrl": "https://x.com/joganicpe/status/2115236026939757018",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
     }
   ]
 }
