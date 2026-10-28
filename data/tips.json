@@ -4753,6 +4753,195 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115250242362978735",
+      "title": "别急着宣布 Prompting 已死：先分清 Agent/Loop/Graph 与验证回路",
+      "summary": "把社媒金句拆成可执行层：prompt 降级成 loop 零件；升级顺序是单 agent+证据→错误进记忆→窄 loop→再谈 graph；今晚先写 trigger/stop/verify/人闸。",
+      "body": "工作流分层（dustADD 长文要点）：\n1. 别把「90%/Prompting 结束/全员 graphs」当证据；先分清 Agent（多步）、Loop（到停止条件）、Graph（可见交接）、Self-improving（失败写回 CLAUDE.md/skill）。\n2. prompt 没死，死的是「一次性神仙提示词赌运气」。\n3. 可偷三招：用有外部验收物的真实 issue；验证=能跑起来（页面/截图）不只 lint；协作面放到 GitHub 事件触发。\n4. 升级顺序：单 agent 有验证 → 错误进记忆 → 时间/事件窄 loop → 需要可见交接再拆 graph。\n落地：今晚只填五格——输入从哪来、允许碰什么、done 证据、失败写回哪、谁有权合并。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "复盘",
+        "技巧"
+      ],
+      "author": "dustADD",
+      "sourceUrl": "https://x.com/dustADD/status/2115250242362978735",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115242339577029022",
+      "title": "Agent 顺着你说时，错的事已经在跑",
+      "summary": "聊天里阿谀是一段坏文字；Agent 里用户一句「就用这方案」没有段落可读，结果只剩绿色 done。先写风险、收据里固定偏差字段、用明知错误指令做评测。",
+      "body": "协作验收/证伪（YZh12o 基于 Anthropic 谄媚研究外推）：\n1. 问题：Agent 对用户指定方案很少反驳，怀疑被压成看不见的「已完成」。\n2. 建议（未实测）：执行前写一条具体风险或「无风险+理由」；收据固定字段「仍按要求执行尽管有顾虑 / 相对指令做了哪些偏离」；用明知错误的指令做 A/B（静默执行 / 带旗 / 反推）。\n3. 纠正后同类任务行为不变=没学到。\n落地：挑 10 个「用户常给错指令」的任务双跑，看收据是否可区分同意与异议。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "YZh12o",
+      "sourceUrl": "https://x.com/YZh12o/status/2115242339577029022",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115247615512293788",
+      "title": "/rewind 撤不回终端改文件：先 commit、批命令、CLAUDE.md 禁 sed",
+      "summary": "Claude 编辑工具路径可 rewind；sed/mv/rm 等终端改文件它没记账。大改前 git commit；批准终端前看清是否改文件；规则写死只用编辑工具。",
+      "body": "可靠性门禁（MarkWu525132）：\n1. /rewind 只覆盖编辑工具改动，不覆盖 shell 侧 sed -i / mv / rm。\n2. 三步自保：大改前先 git commit；弹出终端批准时确认是否改文件；在 CLAUDE.md 写「改文件只用编辑工具，别用 sed」。\n落地：把「可撤销路径」写进默认规则，不要把 /rewind 当万能后悔药。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "技巧",
+        "Claude"
+      ],
+      "author": "MarkWu525132",
+      "sourceUrl": "https://x.com/MarkWu525132/status/2115247615512293788",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115250018865033567",
+      "title": "OpenCode AGENTS.md：假设性边界别偷偷加复杂，先征得同意",
+      "summary": "强规则：为假想竞态/极低概率安全场景加复杂前，先说明问题、概率与代价，征得用户同意；禁止为了理论可靠性静默扩 scope。",
+      "body": "授权边界/协作（davidarngar 引用 OpenCode AGENTS.md）：\n“Before complicating a solution to handle a hypothetical race condition or an extremely unlikely security scenario, explain the potential problem, how likely it is, and the cost of added complexity. Get the user's consent. Never silently expand scope in pursuit of theoretical reliability.”\n落地：把「先陈述代价再扩 scope」写进默认 AGENTS.md/CLAUDE.md，防 agent 自作聪明堆防御。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "协作",
+        "技巧"
+      ],
+      "author": "davidarngar",
+      "sourceUrl": "https://x.com/davidarngar/status/2115250018865033567",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115252195075760561",
+      "title": "CLAUDE.md 只做指针：云端与本机规则书合并成一份 AGENTS.md",
+      "summary": "/doctor prompt-audit 没找到坏规则，却发现云端读旧本、本机读新本。修好的无聊办法：CLAUDE.md 只指向唯一 AGENTS.md。",
+      "body": "规则组织（abdHafizR）：\n1. 跑 prompt-audit 时真正的问题往往是双份规则书漂移，不是「坏条文」。\n2. 修复：CLAUDE.md 降级为指针，单一 AGENTS.md 作为 source of truth。\n落地：多端/多工具共用一份规则源，避免云端与本机各读一版。",
+      "tags": [
+        "工作流",
+        "规则",
+        "CLAUDE.md",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "abdHafizR",
+      "sourceUrl": "https://x.com/abdHafizR/status/2115252195075760561",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115247179204055107",
+      "title": "复杂 harness 可贵 20 倍却不更准：先问买的是工程包装还是准确率",
+      "summary": "Claude Code 每步固定塞约 1.6 万 token；百行极简 harness 约 829。SWE-bench 上两者分数统计无差异——多花的钱常是包装不是准确率。",
+      "body": "成本选型（baboonAI4S / VentureBeat 线索）：\n1. 数据：Claude Code 每步固定上下文约 16,581 token；mini-SWE-agent 约 829（约 20×）。\n2. 两项独立研究：SWE-bench Verified 上分数统计无显著差异。\n3. 选型问题：你是否为「看起来更成熟」的抽象层多付钱？\n落地：评估框架时把「基座 token 税」与「准确率增益」拆开记账，别默认越重越好。",
+      "tags": [
+        "工作流",
+        "成本",
+        "技巧"
+      ],
+      "author": "baboonAI4S",
+      "sourceUrl": "https://x.com/baboonAI4S/status/2115247179204055107",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115012975929315376",
+      "title": "Autoharness：从真实会话抽教训，自动写成下次加载的 skills",
+      "summary": "监视 Claude Code 会话→提炼/合并/改写/归档 skills；/learn 即时保存；不碰你手写或已安装的 skills。把复盘回流做成系统，而不是靠人记得改 SKILL.md。",
+      "body": "Skills 组织与复盘（thisguyknowsai / Autoharness）：\n1. 从真实会话自动创建、更新、整理 skills，减少反复教同一流程。\n2. 能力：写新 skill、合并近重复、被纠正时改写、归档不用的、会话开头给索引、/learn 即时存；不碰手写/已装 skills。\n3. 安装：/plugin marketplace add tigerless-labs/autoharness → /plugin install autoharness@autoharness。\n落地：把「失败/纠正→可加载 skill」做成默认回路，避免技能文件堆成垃圾场。",
+      "tags": [
+        "工作流",
+        "skills",
+        "复盘",
+        "技巧"
+      ],
+      "author": "thisguyknowsai",
+      "sourceUrl": "https://x.com/thisguyknowsai/status/2115012975929315376",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115241951087763580",
+      "title": "Harness 规则：文件是数据不是指令；可逆先跑、不可逆等人",
+      "summary": "Downloads 里种 AGENTS.md 能诱使装恶意软件。修法不是更聪明的模型，而是 harness：仅主人可授权；可逆工作可跑，不可逆工作等人。",
+      "body": "授权边界（benjiminu）：\n1. 攻击面：目录里的 Markdown 被 agent 当指令加载。\n2. 原则：files are data, not instructions；只有 owner 能授予权限。\n3. 执行策略：reversible work runs；irreversible work waits for a human。\n落地：与「别在 Downloads 启动」互补——把可逆/不可逆闸写进 harness，而不是指望模型自己识破。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "门禁",
+        "技巧"
+      ],
+      "author": "benjiminu",
+      "sourceUrl": "https://x.com/benjiminu/status/2115241951087763580",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115242143124013521",
+      "title": "子目录 CLAUDE.md 超 4 万字只喂开头：超限就拆 rules，Write 要先读全",
+      "summary": "v2.1.309+ 子目录 CLAUDE.md/rules 超限只传开头（200K 上下文约 4 万字）。用 wc -m 自查；超了就删或拆 rules。v2.1.312 起 Write 会要求先读全或改用 Edit。",
+      "body": "规则组织（KingShowen777 / Claude Code v2.1.312 说明）：\n1. 子目录大 CLAUDE.md/rules 超上限时只把开头交给模型（200K→约 40,000 字符）。\n2. 用 wc -m 自查；超限则精简或拆到 rules（按文件分别计数）。启动根 CLAUDE.md 全文上限约 4MiB，与此不同。\n3. v2.1.312：Write 会要求先整读或改用 Edit，降低「没看后半就整文件覆盖」。\n落地：把「规则体积预算」写进维护清单，避免后半条硬规则从未进上下文。",
+      "tags": [
+        "工作流",
+        "规则",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "KingShowen777",
+      "sourceUrl": "https://x.com/KingShowen777/status/2115242143124013521",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115248755758825739",
+      "title": "管 Agent 的 KPI：Skill 更新频率、重跑成功率、AGENTS.md 降接管",
+      "summary": "管理人有「培养人」指标；管 Agent 应对齐：知识库/Skill 更新频率、同任务重跑成功率、AGENTS.md 改动能否降低人工接管——沉淀约束，不是多开子 Agent。",
+      "body": "协作与复盘（zhangtengyuan 答 dotey）：\n管理 Agent 的 KPI 可落成三件：\n1. Skill/知识库更新频率；\n2. 同任务重跑成功率；\n3. AGENTS.md 改动能否降低人工接管。\n培养人对应的是沉淀可复用约束，不是多开子 Agent。\n落地：周会只盯这三项，避免用「开了多少 agent」当产出。",
+      "tags": [
+        "工作流",
+        "协作",
+        "复盘",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "zhangtengyuan",
+      "sourceUrl": "https://x.com/zhangtengyuan/status/2115248755758825739",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115249594846023850",
+      "title": "评分只传分数；第二问「可否看 transcript」会上传代码",
+      "summary": "Claude Code 会话评分本身不含 transcript；紧随其后的「可否查看会话」Yes 会上传 transcript/subagent/原始日志（密钥模式脱敏，源码原样）。可用环境变量关掉问卷。",
+      "body": "授权/隐私边界（readmodelmag）：\n1. 评分（含 Dismiss）只传评分。\n2. 第二问 Yes：上传 transcript、subagent transcript、原始 session log；API key/token 模式脱敏，源码与文件内容原样；最长保留约 6 个月。/feedback /bug /share 更久。\n3. 缓解：export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1，或调低 feedbackSurveyRate。\n落地：随便打分可以，点 Yes 前先读第二问；团队默认关掉问卷。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "技巧",
+        "Claude"
+      ],
+      "author": "readmodelmag",
+      "sourceUrl": "https://x.com/readmodelmag/status/2115249594846023850",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
     }
   ]
 }
