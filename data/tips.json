@@ -2,6 +2,195 @@
   "version": 1,
   "tips": [
     {
+      "id": "2115282305359225230",
+      "title": "Agent Skill 当依赖审：脚本随权限跑、先扫再装",
+      "summary": "Skill 可附带脚本并以 agent 权限执行。研究扫 3.1 万个 marketplace skill：26.1% 有风险模式、5.2% 疑似恶意。安装前像审依赖一样审 Skill。",
+      "body": "Skills 与授权边界（Zk3r0x，引 Liu et al. / NVIDIA SkillSpector）：\n1. Agent skill 可附带脚本，并以当前 agent 的权限运行。\n2. 两家 marketplace 扫描 31,132 个 skill：26.1% 至少一处风险模式；5.2% 看起来可能恶意；仅 11.5% 捆绑脚本。\n3. 作者将 26.1% 标为「值得复核的模式」，非已确认恶意。\n落地：装第三方 Skill 前读源码与脚本清单，允许列表进 AGENTS.md；不信任的 marketplace 先沙箱。",
+      "tags": [
+        "工作流",
+        "skills",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "Zk3r0x",
+      "sourceUrl": "https://x.com/Zk3r0x/status/2115282305359225230",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115278781380513804",
+      "title": "AGENTS.md 套用 ASD-STE100：一词一义、短句、禁被动",
+      "summary": "把航空受控英语标准套到 AGENTS.md/docstring：零被动语态、一词一义、每句<20词。编码 agent 幻觉明显下降。",
+      "body": "规则组织（arbitrarybytes）：\n1. 将 1980s 航空航天标准 ASD-STE100 用于 #AGENTS.md 与 docstring。\n2. 三条硬约束：零被动语态；1 word = 1 meaning；每句 <20 词。\n3. 作者称编码 agent 可靠性「跳升」。\n落地：重写 AGENTS.md 时先砍被动与同义堆砌；命令式短句优先。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "规则",
+        "技巧"
+      ],
+      "author": "arbitrarybytes",
+      "sourceUrl": "https://x.com/arbitrarybytes/status/2115278781380513804",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115276254555619694",
+      "title": "Downloads 里毒 AGENTS.md：可无感接管 coding agent",
+      "summary": "Forever Security 复现：Downloads 放陷阱 AGENTS.md，agent 会按注入改行为甚至装恶意 MCP。勿在 Downloads 开 Codex/Claude Code；陌生规则文件先读再跑。",
+      "body": "授权边界 / 安全门禁（minhng92）：\n1. 攻击面：Downloads 目录中的 AGENTS.md 可被网页静默写入。\n2. 复现：毒化指令文件可在用户未察觉时重定向 agent 行为；相关报道称 Codex 高比例执行注入。\n3. 影响可进全局 config（如 MCP 服务器），换目录也未必清掉。\n落地：别在 Downloads 启动 coding agent；对陌生 AGENTS.md/CLAUDE.md 先人审；规则变更当依赖 diff 审。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "AGENTS.md",
+        "门禁",
+        "技巧"
+      ],
+      "author": "minhng92",
+      "sourceUrl": "https://x.com/minhng92/status/2115276254555619694",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115281360675836076",
+      "title": "禁词不等于落地：指令不是强制，靠架构收口",
+      "summary": "禁「excited to share」仍写出「thrilled to share」。禁词只换同义，收口靠架构与验收，而不是更长的提示词。",
+      "body": "让 agent 更稳（borkerxyz）：\n1. 现象：明确禁止某短语后，模型用近义绕过。\n2. 结论：instruction ≠ enforcement；修这个缺口更像架构问题，不是再堆 prompt engineering。\n落地：敏感输出用后处理/分类器拦；关键约束写进可测验收与工具层，不单靠系统提示。",
+      "tags": [
+        "工作流",
+        "验收",
+        "技巧"
+      ],
+      "author": "borkerxyz",
+      "sourceUrl": "https://x.com/borkerxyz/status/2115281360675836076",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115281465059451334",
+      "title": "AI 评审两文件：CLAUDE.md 管加载，REVIEW.md 管标准",
+      "summary": "/code-review 只读 CLAUDE.md，不读 REVIEW.md。管理服务≠本地命令。作者用三阶段审批，称 PR×2、revert↓约四成。",
+      "body": "规则组织与门禁（hyu001225）：\n1. 坑：放了 REVIEW.md，本地 /code-review 仍不读——实际只读 CLAUDE.md。\n2. 分清：管理服务上的评审配置与本机 slash 命令是两回事。\n3. 做法：两文件分工（加载入口 vs 评审标准）+ 三阶段审批。\n4. 效果声称：PR 量约翻倍，revert 比例降约四成。\n落地：把「命令实际读哪些文件」写进 CLAUDE.md；评审标准显式 @-import 或内嵌。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "门禁",
+        "验收",
+        "技巧"
+      ],
+      "author": "hyu001225",
+      "sourceUrl": "https://x.com/hyu001225/status/2115281465059451334",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115281078428881145",
+      "title": "Claude Code 避坑：AGENTS.md 可能从没被读过",
+      "summary": "同一 Claude Code，差距常在用法：规则文件未加载、无报错。7 章可照做指南；先确认实际读入了哪些规则。",
+      "body": "规则组织（KobinFlow）：\n1. 同一工具有人嫌笨、有人通宵干活——差的往往是用法。\n2. 典型静默坑：写了 AGENTS.md 却可能从未被读（与 CLAUDE.md 并存时尤甚）。\n3. 提供 7 章可执行避坑指南（文首有 5 分钟版）。\n落地：开干前用 /memory 或等价命令确认规则加载；多工具共用规则时显式 import。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "KobinFlow",
+      "sourceUrl": "https://x.com/KobinFlow/status/2115281078428881145",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115280895922114812",
+      "title": "Claude API 账单：缓存命中率往往比单价更关键",
+      "summary": "别只盯商家倍率。同段上下文走缓存 vs 每次重算差很多；Claude 对请求前缀一致性要求高，前缀抖动会打穿命中率。",
+      "body": "成本与缓存（alleywu270684）：\n1. 中转/API 便宜仍账单高：常因缓存命中率差。\n2. 同上下文：命中缓存 vs 每次重处理，成本差显著。\n3. Claude 缓存对请求内容一致性要求高——系统提示/工具定义中途改、前缀不稳会失效。\n落地：工具定义+系统提示置顶且会话内不改；复盘账单先看 cache hit，再砍倍率。",
+      "tags": [
+        "工作流",
+        "缓存",
+        "成本",
+        "技巧"
+      ],
+      "author": "alleywu270684",
+      "sourceUrl": "https://x.com/alleywu270684/status/2115280895922114812",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115280706951672208",
+      "title": "规范被无视：压完上下文就开新会话 + agents.md 分层索引",
+      "summary": "压缩多次后开新会话（有人把自动压缩卡 300k，开到 1M 更蠢更贵）。agents.md 按任务写清必读文档并做分层索引——新对话通常只读它。",
+      "body": "规则组织与成本（Edison_aware）：\n1. 坑：规范被 Claude Code/Codex 无视，多因上下文压烂或规则未进入入口文件。\n2. 招①：上下文压缩过几次就开新会话；把自动压缩阈值盲目拉到 1M 可能更蠢更费钱。\n3. 招②：agents.md 里按任务分类写清必读文档，再做分层索引（新对话一般只读入口）。\n落地：入口文件短而稳；细节用索引指向；会话发糊就重启并重载索引。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "成本",
+        "技巧"
+      ],
+      "author": "Edison_aware",
+      "sourceUrl": "https://x.com/Edison_aware/status/2115280706951672208",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115268274359599383",
+      "title": "换 coding agent 先迁三文件：AGENTS.md、工具黑白名单、eval 清单",
+      "summary": "换工具时 UI 可后迁。先搬 AGENTS.md、allow/deny 工具列表、eval checklist——这三份决定新 agent 是真交付还是只会聊天。",
+      "body": "协作与验收（loxvenzfd）：\n1. 换 coding agent：先迁移三文件——AGENTS.md、allow/deny 工具列表、eval checklist。\n2. UI/键位可后迁；前三份决定新 agent 能否真正交付。\n落地：做工具迁移 checklist，缺 eval 清单不算迁完。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "验收",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "loxvenzfd",
+      "sourceUrl": "https://x.com/loxvenzfd/status/2115268274359599383",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115262306267398643",
+      "title": "别让 AI 直接开写：spec→plan→build→test→review→ship",
+      "summary": "最贵的是返工。六步：反问写清验收→拆小任务→一次一小块→跑真实测试→另开会话挑刺→留回滚。流程比模型重要。",
+      "body": "流程拆分与验收（JakeXiaoSi）：\n1. 让 AI 写代码最贵的不是 token，是返工。\n2. 六步：①spec：先反问、写清验收；②plan：拆小任务；③build：一次只改一小块；④test：跑真实测试；⑤review：另开会话挑刺；⑥ship：留回滚。\n3. 核心：流程比模型重要。\n落地：开写前强制有验收标准；评审用独立会话，避免实现偏见。",
+      "tags": [
+        "工作流",
+        "流程拆分",
+        "验收",
+        "技巧"
+      ],
+      "author": "JakeXiaoSi",
+      "sourceUrl": "https://x.com/JakeXiaoSi/status/2115262306267398643",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115280679319765162",
+      "title": "四件套顺序翻过来：先 evals，再 coding agent 与 skills",
+      "summary": "没有 evals 就分不清 coding agent 或 skills 文件夹是否真在帮忙，只是「感觉更快」。先验收门，再堆工具。",
+      "body": "验收与门禁（manuseen007）：\n1. 建议保留 coding agent / skills 等四件套，但顺序翻过来：evals 优先。\n2. 没有 evals，无法判断 coding agent 或 skills 文件夹是否真的在帮忙——只有主观「变快了」。\n落地：新技能上线前先写 3–5 条可跑 eval；周复盘用 eval 通过率而不是「感觉」。",
+      "tags": [
+        "工作流",
+        "验收",
+        "skills",
+        "技巧"
+      ],
+      "author": "manuseen007",
+      "sourceUrl": "https://x.com/manuseen007/status/2115280679319765162",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
       "id": "2115158071219765695",
       "title": "Anthropic 五步编码机：先写清 spec 与「完成」定义",
       "summary": "把 Claude 当编码机：1) spec（任务、范围文件、done 标准）；2) context（相关上下文）；再往下拆执行。忌模糊指令——验收门先于开写。",
