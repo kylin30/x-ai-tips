@@ -4942,6 +4942,194 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115267145491939829",
+      "title": "Duet 三层权限：可逆自跑、不可逆请示、大杀伤不暴露工具",
+      "summary": "按「能否撤销」分桶：读/起草自跑；发消息/付款/签字/删除先问；证券交易与跨账户转账即使确认也不开放。门禁挡单次动作不挡整轮任务。",
+      "body": "授权边界（buildwith_yash 归纳 Claude Duet）：\n1. 三层：Does on its own（读、起草、准备）；Asks first（发送、付款、签字、删除）；Won't do even with approval（证券交易、跨账户挪钱、进别人账户）。\n2. 分界不是「重不重要」，而是「能否撤销」——坏草稿一分钟，发出去的邮件/付款/删除拉不回。\n3. 第三层防 prompt injection：大杀伤半径工具干脆不暴露。\n4. 等不到批准时先做完其余，稍后带回请示；门禁只挡一个动作。\n落地：把每个工具标成 可逆/不可逆需确认/不暴露，写进 AGENTS.md。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "门禁",
+        "技巧"
+      ],
+      "author": "buildwith_yash",
+      "sourceUrl": "https://x.com/buildwith_yash/status/2115267145491939829",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115265375223103700",
+      "title": "Claude Agent 缓存五步：工具与系统提示置顶、共享前缀断点",
+      "summary": "钱常烧在重复读上下文。工具+系统提示放最前且中途不改；仓库/用户信息靠后；共享末尾打缓存断点；多 agent 共用前缀；少发调用。写入 1.25×、读取 0.1×、空闲 5 分钟失效。",
+      "body": "成本与缓存（hr_yueBing 转述 Cloudflare 案例）：\n1. 案例：代码审查从 $2.43→$0.77，旧账 43% 是缓存写入。\n2. 五步：①工具定义+系统提示最前、运行中途不改；②仓库/用户具体信息放后；③共享部分末尾打缓存断点；④多审查 agent 共用同一前缀；⑤每会话少发几次调用。\n3. 记住：缓存写入≈输入价 1.25×，读取 0.1×，空闲 5 分钟失效。\n落地：搭 Agent 前对照检查前缀稳定与断点位置。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "技巧"
+      ],
+      "author": "hr_yueBing",
+      "sourceUrl": "https://x.com/hr_yueBing/status/2115265375223103700",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115265391362466242",
+      "title": "长提示词改 Skill：六项模板 + 提示词/Skill/工具/MCP/子Agent",
+      "summary": "先分清五概念再打包：何时启用、查哪些文件、可用工具、顺序、如何验证、何时停下来请示。同类任务自加载，少反复粘贴。",
+      "body": "Skills 组织（hr_yueBing）：\n1. 五概念：提示词=这一次做什么；Skill=这类活怎么做；工具=一个具体动作；MCP=接外部系统；子 Agent=单独负责一件事。\n2. Skill 模板六项：何时启用；检查哪些文件；可用工具；执行顺序；如何验证；何时必须停下来请人确认。\n3. 好处：上下文更干净、流程可复用。\n落地：把反复粘贴的长流程改成 Skill，验收与人闸写进模板。",
+      "tags": [
+        "工作流",
+        "skills",
+        "技巧"
+      ],
+      "author": "hr_yueBing",
+      "sourceUrl": "https://x.com/hr_yueBing/status/2115265391362466242",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115120589459656827",
+      "title": "有 CLAUDE.md 时 Claude Code 不读 AGENTS.md：顶部 @-import",
+      "summary": "只要同目录或上层存在 CLAUDE.md / CLAUDE.local.md（含个人本），AGENTS.md 会被跳过。修复：在 CLAUDE.md 顶部 @-import AGENTS.md，用 /memory 确认加载。",
+      "body": "规则组织（webtkdev）：\n1. Claude Code 仅在「没有 CLAUDE.md 或 CLAUDE.local.md」时才读 AGENTS.md；个人本也会挡住。\n2. Fix：CLAUDE.md 顶部 `@-import AGENTS.md`。\n3. 用 `/memory` 检查实际加载了什么。\n落地：多工具共用 AGENTS.md 时，别假设 Claude 会自动读；显式 import。",
+      "tags": [
+        "工作流",
+        "规则",
+        "CLAUDE.md",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "webtkdev",
+      "sourceUrl": "https://x.com/webtkdev/status/2115120589459656827",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115258799133163982",
+      "title": "Codex 分工：主 agent 盯任务，电脑操作用 Terra 子 agent",
+      "summary": "浏览器/桌面交互委托单一 GPT-6.1 Terra 子 agent（复用同一实例防抢界面）；主 agent 给上下文、协调与验收。可写入 ~/.codex/AGENTS.md。",
+      "body": "流程拆分（LeoGuoLabs）：\n1. 主 agent 专注任务；需电脑/浏览器交互时委托 GPT-6.1 Terra 子 agent（xhigh reasoning）。\n2. 任务内复用同一子 agent，避免多实例抢界面。\n3. 主 agent：提供上下文、协调、验证结果；仍优先专用工具/API。\n4. 全局偏好放 ~/.codex/AGENTS.md，单项目放项目 AGENTS.md。\n落地：把「电脑操作用 Terra、主 agent 验收」写成可复用规则；需会话支持并允许子 agent。",
+      "tags": [
+        "工作流",
+        "流程拆分",
+        "协作",
+        "技巧"
+      ],
+      "author": "LeoGuoLabs",
+      "sourceUrl": "https://x.com/LeoGuoLabs/status/2115258799133163982",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115257075257290902",
+      "title": "周额度省着用：regulator 裁提示 + 站立规则进 skills",
+      "summary": "别让每个 bot 直连 coding agent：先用 regulator 改写/精简提示，减少模糊导致的猜测与循环；站立规则移出聊天记忆，做成可复用 skills。",
+      "body": "成本与组织（loccoai）：\n1. 现象：周额度 2–3 天烧光，多因模糊提示迫使 coding agent 猜测与循环。\n2. 规则①：所有 bot 不直连 coding agent；经一个 regulator bot 改写/修剪提示再开跑。\n3. 规则②：站立规则从 chat memory 挪到 reusable skills。\n落地：额度复盘时先查「谁在直连」与「规则是否进 skill」，再砍功能。",
+      "tags": [
+        "工作流",
+        "成本",
+        "skills",
+        "技巧"
+      ],
+      "author": "loccoai",
+      "sourceUrl": "https://x.com/loccoai/status/2115257075257290902",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115262185366843692",
+      "title": "问长文档：先摘相关原句再回答，找不到就直说",
+      "summary": "合同/论文/报告别直接要结论。加一句：先摘出相关原句并标段落，只基于这些原句答；找不到就说找不到。出处在手，编造一眼可见。",
+      "body": "验收门禁（2025Null）：\n1. 长文档问答默认「Quote first, answer second」。\n2. 指令模板：先从文中摘出与问题相关的原句（标注段落），再只基于这些原句回答；找不到就直说找不到。\n落地：把「先摘原文」写成系统/会话默认规则，降低幻觉成本。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "2025Null",
+      "sourceUrl": "https://x.com/2025Null/status/2115262185366843692",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115262206723895381",
+      "title": "别手改 Skill：看产出→会话末列发现→你点名再写回",
+      "summary": "人工读改 skill 文件低效。看产出好坏；会话结束问「发现了什么、是否该进 skill/workflow」；你点选条目再让 AI 写入。下次跑就按你的取舍执行。",
+      "body": "复盘回流（joserosado）：\n1. 不要手工翻 skill 文本修修补补。\n2. 看 skill 做出的结果：可用就继续；是 slop 就让它修产出。\n3. 会话末问：What did you discover? List in order whether it belongs in our skill/workflow。\n4. 你点名「Apply 1, 3, 9」再写回。\n落地：把「会话末发现清单→人点选回流」做成固定收尾门禁。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "skills",
+        "技巧"
+      ],
+      "author": "joserosado",
+      "sourceUrl": "https://x.com/joserosado/status/2115262206723895381",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115262181079941498",
+      "title": "Agent 只起草：发送按钮留给人",
+      "summary": "文案/缩略图/剪辑可由 agent 起草，但什么都不发直到你确认。把这规则拷到每个 agent：让它 draft，keep the send button。",
+      "body": "授权门禁（50fiftyGrowth）：\n1. 创作者无大团队时，新技能是「批准」不是「亲自改每一刀」。\n2. Agent 可起草 captions/thumbnails/clips；Nothing posts until you confirm。\n3. 拷贝规则：Let it draft. Keep the send button.\n落地：所有对外发送类工具默认 Asks first / 人闸，与 Duet 不可逆层一致。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "门禁",
+        "技巧"
+      ],
+      "author": "50fiftyGrowth",
+      "sourceUrl": "https://x.com/50fiftyGrowth/status/2115262181079941498",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115254666548461781",
+      "title": "一行有效规则：未点名路径就不新建文件",
+      "summary": "AGENTS.md/CLAUDE.md 里真正改行为的一行：never create a new file unless I name the path first。作者称幽灵 helper 约减半。",
+      "body": "规则精简（0xevankwon）：\n1. 问：哪一行规则真正改了行为，而不只是把文件写长？\n2. 作者实践：never create a new file unless I name the path first → phantom helpers 约减半。\n落地：优先写可观测的短硬规则，避免堆软文。",
+      "tags": [
+        "工作流",
+        "规则",
+        "门禁",
+        "技巧"
+      ],
+      "author": "0xevankwon",
+      "sourceUrl": "https://x.com/0xevankwon/status/2115254666548461781",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2115266713508020287",
+      "title": "把人的协作方式译成机器：沙箱/技能/gate/记忆/异步幕僚长",
+      "summary": "LangChain Content Studio 可抄层：每 Slack 线程一沙箱；技能管怎么做、wiki 管背景、gate 代码验收、记忆有 cap；主 agent 是幕僚长，子 agent 异步生命周期工具齐全。",
+      "body": "协作与组织（TatoBuilds 拆 LangChain 博客）：\n1. 环境：每 Slack 线程一个隔离沙箱（文件系统+shell），产物落同一项目文件夹。\n2. 知识四层不混写：技能=怎么做（含何时不用）；wiki=背景只链不重复；gate=可衡量的代码检查；记忆=教过的事（共享+个人，索引限行防爆）。\n3. 流程写进代码强制顺序，评审不过不组装。\n4. 主 agent=幕僚长：start/check/cancel/resume/report/schedule 管子 agent 全生命周期，完成排队触发新一轮。\n落地：搭多 agent 时先画这五层，别只堆模型。",
+      "tags": [
+        "工作流",
+        "协作",
+        "门禁",
+        "skills",
+        "技巧"
+      ],
+      "author": "TatoBuilds",
+      "sourceUrl": "https://x.com/TatoBuilds/status/2115266713508020287",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-28"
     }
   ]
 }
