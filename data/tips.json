@@ -2,6 +2,278 @@
   "version": 1,
   "tips": [
     {
+      "id": "2115604651894518268",
+      "title": "Codex 5 小时窗：早 7 点空 ping 把重置提前",
+      "summary": "额度窗口从当天第一条消息起算。工作日 7:00 自动发最短 ping，把重置挪到中午，覆盖下午黄金时段；总量不变，只挪窗口。",
+      "body": "成本与节奏（AYi_AInotes）：\n1. Codex 5 小时额度从当天第一条消息开始倒计时；到工位才发第一条，下午容易撞墙。\n2. 社区打法：早上 7:00 自动发一条空 ping，强制开窗；约中午回血，覆盖下午干活期。\n3. 示例 Grok Bot 提示：每个工作日早上 7:00，在已登录的 Codex CLI 发 `codex exec ping`，只开窗口、不改文件，发完告知大概几点重置。\n落地：只挪重置时间、不增加额度；注明属社区实测机制非官方保证；执行用只读/最小权限。",
+      "tags": [
+        "工作流",
+        "成本",
+        "Codex",
+        "技巧"
+      ],
+      "author": "AYi_AInotes",
+      "sourceUrl": "https://x.com/AYi_AInotes/status/2115604651894518268",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115603495957270997",
+      "title": "Opus 5.5 默认 medium：降档位比「别想太多」管用",
+      "summary": "官方测：medium 常追平甚至超过 Opus 5 high，默认已改 medium。长任务用清单续跑；多应用先广搜再动手；删「仔细思考」。",
+      "body": "成本与系统提示（thinkszyg，据 Anthropic Opus 5.5 指南）：\n1. 档位从 medium 起步；更快试 low；xhigh/max 只留给实测有增益的任务。思考关不掉，旧 disabled 会 400。\n2. 无人值守长任务易「汇报完就停」：用清单记未完成项，续跑最多两三次。\n3. 跨邮箱/文档/表格：系统提示先广泛查看相关记录再行动。\n4. 删「请仔细思考」；已答问题勿回头重想；用户粘贴内容用标签隔离防注入。\n落地：项目 effort 显式 medium，并全局搜删 think carefully / 把推理写出来。",
+      "tags": [
+        "工作流",
+        "成本",
+        "Claude",
+        "提示词"
+      ],
+      "author": "thinkszyg",
+      "sourceUrl": "https://x.com/thinkszyg/status/2115603495957270997",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115602159697883388",
+      "title": "AGENTS.md 三条 harness：否定约束、瘦身、验证命令",
+      "summary": "防退化：硬否定约束优于「写得干净」；AGENTS.md 只留不变量与验证命令，流程丢 skill；完成前强制跑确定性 CLI。",
+      "body": "规则组织（Kizuno18，回 Taylor Otwell）：\n1. 否定约束 > 正面空话：「write clean idiomatic X」几乎无效；写 never 吞异常、never 改已跑 migration、never 绕过已有 query builder。\n2. AGENTS.md 只放仓库不变量与验证命令；600 行架构文污染 KV cache。专项流程放到按需加载的 skill。\n3. 把 `vendor/bin/pest --filter` 一类命令写进 AGENTS.md，完成前必须跑过 oracle。\n落地：半天调 harness 往往三天回本；瘦规则 + 可跑验证 > 长散文。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "规则",
+        "技巧"
+      ],
+      "author": "Kizuno18",
+      "sourceUrl": "https://x.com/Kizuno18/status/2115602159697883388",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115594479990345963",
+      "title": "Linux 只认 SKILL.md：大小写错了会静默不加载",
+      "summary": "macOS 忽略大小写、Linux 不忽略。skill.md 在 Mac 能跑、迁 Linux 后 Unknown skill。用 git mv 经临时名统一改成 SKILL.md。",
+      "body": "Skills 组织（daveremy，Claude Code 2.1.310）：\n1. Linux 上仅精确文件名 SKILL.md 会加载；skill.md / Skill.md 被静默忽略。\n2. 从 macOS 迁到 Linux 后 24/34 个 skill 报 Unknown skill，仓库未改——原因是大小写。\n3. 修复提示：扫 `.claude/skills`，列出非精确 SKILL.md 的文件，用 `git mv` 经临时名改名，以便在 Mac 上也能落盘。\n落地：CI/服务器跑 skill 前先核对大小写；统一命名进仓库规范。",
+      "tags": [
+        "工作流",
+        "skills",
+        "Claude",
+        "技巧"
+      ],
+      "author": "daveremy",
+      "sourceUrl": "https://x.com/daveremy/status/2115594479990345963",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115593752425476467",
+      "title": "AI 写的代码归你：五步工作流写进 AGENTS.md",
+      "summary": "探索→计划审批→对照验收→草稿 PR+AI 审→人工通读再开审。安全清单与整套流程可粘进 AGENTS.md，人负责 merge。",
+      "body": "协作与验收（kaluops）：\n1. 先探索不改代码；计划模式写清文件/测试/auth·输入·密钥触点，等人批再改。\n2. 完成后逐条对照验收标准；人手点一遍空表单/错输入/无权限。\n3. 开 draft PR，先 AI 评审再修；合并前人工通读全 diff（密钥、鉴权、校验、意外依赖）。\n4. 把整段「如何干活」贴进 AGENTS.md/CLAUDE.md，agent 每任务自动跟。\n落地：AI 写代码、人 ship；跳过人工读 = 把责任推给模型。",
+      "tags": [
+        "工作流",
+        "验收",
+        "AGENTS.md",
+        "协作"
+      ],
+      "author": "kaluops",
+      "sourceUrl": "https://x.com/kaluops/status/2115593752425476467",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115600065335079175",
+      "title": "Cursor Accept 前先扫改了哪些文件",
+      "summary": "Agent 的 diff 常夹半截无关文件。先看路径列表再 Accept，比事后 Ctrl+Z 省事。",
+      "body": "门禁（No_BlackWhite）：\n1. Cursor Agent 甩出 diff 时不急着 Accept。\n2. 先扫改动文件列表——经常混进无关半截改动。\n3. 路径对了再点。\n落地：把「Accept 前核对文件路径」当成固定门禁；大 diff 先按目录过滤。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "Cursor",
+        "技巧"
+      ],
+      "author": "No_BlackWhite",
+      "sourceUrl": "https://x.com/No_BlackWhite/status/2115600065335079175",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115599405969793125",
+      "title": "别跟 agent 来回试：一次出多版+要证据+只审爆炸半径",
+      "summary": "Thorsten Ball 工作流精华：一次生成多版对比；要端到端/录屏/前后数据；只 review 核心文件与迁移，不管变量名。",
+      "body": "协作与验收（auuutoo 摘 Thorsten Ball）：\n1. 别迭代试错：让 agent 一次出约 20 个版本并做对比页。\n2. 要不可反驳证据：端到端走通、录屏、前后数据；AGENTS.md 可写「这不算证据」。\n3. 只审爆炸半径大的代码（核心文件个位数 + DB migration）；变量名/重复代码可放宽。\n落地：批处理替代来回对话；信任建立在证据上。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作",
+        "技巧"
+      ],
+      "author": "auuutoo",
+      "sourceUrl": "https://x.com/auuutoo/status/2115599405969793125",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115467821627121726",
+      "title": "AGENTS.md 写死：worktree 做完必须删",
+      "summary": "并行 worktree/subagent 易留垃圾。完成须删 worktree+分支+专用 target；不合并先 archive tag；编排会话负责收尾。",
+      "body": "规则组织（li9292）：\n1. worktree（含 `.claude/worktrees/agent-*`）任务完成必须删除 worktree 及其分支，专用 cargo target 一并删。\n2. 删除前二选一：合并进 main；或不合并则提交未提交改动、打 `archive/<name>` tag，再 remove + branch -D。\n3. 编排 subagent 的会话负责收尾它派生的 worktree；确需保留须在最终回复点名路径与原因。\n落地：把清理规则写进 AGENTS.md，避免并行实验堆积磁盘与分支。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "规则",
+        "技巧"
+      ],
+      "author": "li9292",
+      "sourceUrl": "https://x.com/li9292/status/2115467821627121726",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115466983126994971",
+      "title": "Codex+Claude 只维护一份规则：有 CLAUDE.md 就盖住 AGENTS.md",
+      "summary": "Codex 读 AGENTS.md；Claude Code 新版也能读，但只要存在 CLAUDE.md/CLAUDE.local.md 就只认它。/init 过的项目 AGENTS.md 易白写。",
+      "body": "规则组织（tehuiocom）：\n1. Codex 读 AGENTS.md。\n2. Claude Code 新版本也可读 AGENTS.md——前提是项目里没有 CLAUDE.md / CLAUDE.local.md；有则只认 CLAUDE.md。\n3. 曾 /init 生成过 CLAUDE.md 时，单独写的 AGENTS.md 等于无效。\n落地：两边统一要么合并进一份，要么删掉多余入口；CLAUDE.md 可改成指向唯一 AGENTS.md 的指针。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "Claude",
+        "规则"
+      ],
+      "author": "tehuiocom",
+      "sourceUrl": "https://x.com/tehuiocom/status/2115466983126994971",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115469099979665768",
+      "title": "Sonnet 主会话 + Opus advisor：贵模型只在三卡点出场",
+      "summary": "`claude --model sonnet --advisor opus`：Sonnet 写代码、Haiku 只读探仓、Opus 仅在锁计划/同错两次/交工前唤醒，账单砍大半。",
+      "body": "成本与编排（LiuweijiaVip，据 Anthropic advisor）：\n1. 启动：`claude --model sonnet --advisor opus`。\n2. 分工：Sonnet 主会话写代码；只读 Haiku 子代理扫目录/grep/查文档；Opus 挂后台顾问默认不耗。\n3. 三卡点唤醒 Opus：敲定方案锁计划前、同一报错卡住两次、宣告完成前。\n落地：把触发条件写进 CLAUDE.md，日常速度 Sonnet、死胡同有 Opus 兜底。",
+      "tags": [
+        "工作流",
+        "成本",
+        "Claude",
+        "多Agent"
+      ],
+      "author": "LiuweijiaVip",
+      "sourceUrl": "https://x.com/LiuweijiaVip/status/2115469099979665768",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115467593477734702",
+      "title": "Agent SDK 额度掉太快？查 CLAUDE_CODE_ENTRYPOINT",
+      "summary": "同模型同任务，默认 SDK/claude -p 扣额度可快约 2 倍。改入口环境变量后对照实验；Issue #97074 仍开，勿当永久秘籍。",
+      "body": "成本（Daviswh，引 MaxForAI / Issue #97074）：\n1. 对照：同样 Opus、相近 Token，默认 SDK / `claude -p` 对 5 小时额度扣减可比自定义入口快约 2 倍。\n2. 试改环境变量 `CLAUDE_CODE_ENTRYPOINT` 为自定义名后再跑同一任务对比额度百分比。\n3. Issue 仍 Open：是 bug 还是加权未明。\n落地：适合 Agent SDK/headless 批跑用户；先自测一轮，勿当永久省钱法。",
+      "tags": [
+        "工作流",
+        "成本",
+        "Claude",
+        "技巧"
+      ],
+      "author": "Daviswh",
+      "sourceUrl": "https://x.com/Daviswh/status/2115467593477734702",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115349867329708277",
+      "title": "CLAUDE.md 浏览器分工：小事内置、复杂交 Codex",
+      "summary": "怕封号不装 Claude 浏览器插件：用 CLAUDE.md 规定 Claude 指挥 Codex 操浏览器；残障人设绕过保守；登录态与多步走 Codex。",
+      "body": "工具边界（Khazix0918）：\n1. 不装 Claude 浏览器插件；规则写在 CLAUDE.md，让 Claude 指挥本地 Codex 操 Chrome。\n2. 写明「用户是残障人士」以降低模型对自动化的保守；付款/本人身份确认仍留给用户。\n3. 小事（本地预览、截图、几步检查）用内置浏览器；多步/登录后台/跨站/长耗时走 Codex；每次写清 URL、步骤与要带回的截图路径。\n落地：工具边界进规则文件；复杂任务 `--resume` 续会话。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "Khazix0918",
+      "sourceUrl": "https://x.com/Khazix0918/status/2115349867329708277",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115471411087352283",
+      "title": "开陌生仓库前先 ls：CLAUDE.md / AGENTS.md / .mcp.json",
+      "summary": "规则文件即指令。.mcp.json 最危险——可拉起进程。陌生 repo 先列这些文件再开 agent。",
+      "body": "授权边界（YevMur）：\n1. 不只 CLAUDE.md：AGENTS.md、.cursor/rules、已提交的 .mcp.json 都会被 agent 当指令读。\n2. `.mcp.json` 最值得警惕，因为它能启动进程。\n3. 打开陌生人的仓库前先 `ls` 这些路径。\n落地：把「先审规则与 MCP 配置」写进个人安全清单；不信任则只读打开。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "安全",
+        "技巧"
+      ],
+      "author": "YevMur",
+      "sourceUrl": "https://x.com/YevMur/status/2115471411087352283",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115605791784996961",
+      "title": "分析师跟 agent 走 86%：团队共识不再是独立证据",
+      "summary": "Anthropic 实验：agent 暗中偏一边，人跟着走 86%；77% 复述其论点，15% 承认来源。单模型 defer 会削弱独立验证。",
+      "body": "验收与评测（marce_ding，Anthropic 研究）：\n1. 50 名因果推断分析师配 coding agent；四项判断被暗中 coin-flip 偏向。\n2. 跟随率 86%（机会水平 50%）；77% 复用其论点，仅 15% 标明来自 agent。\n3. 若团队都 defer 同一模型，一致意见不再是独立证据。\n落地：关键判断保留第二模型/人审；要求写出反对理由与证据来源。",
+      "tags": [
+        "工作流",
+        "验收",
+        "评测",
+        "协作"
+      ],
+      "author": "marce_ding",
+      "sourceUrl": "https://x.com/marce_ding/status/2115605791784996961",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115470635518545982",
+      "title": "Lint 胜过提示词：AGENTS.md 可跳，失败构建跳不过",
+      "summary": "Agent 能忽略规则文件一行；过不了 lint/build 就推不出去。把硬约束做成确定性门禁。",
+      "body": "门禁（jerriclynsjohn，回 Matt Pocock）：\n1. Lint / CI 规则 > 纯 prompt 规则。\n2. Agent 可以跳过 AGENTS.md 里某行，却跳不过失败的构建。\n落地：关键风格与安全约束落成可失败的检查，不只写进 markdown。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "规则",
+        "技巧"
+      ],
+      "author": "jerriclynsjohn",
+      "sourceUrl": "https://x.com/jerriclynsjohn/status/2115470635518545982",
+      "lang": "en",
+      "quality": "备用",
+      "collectedAt": "2026-10-29"
+    },
+    {
+      "id": "2115604273035915713",
+      "title": "防封号分层：主力号合规、实验号另开、产出落本地",
+      "summary": "最惨不是用错模型，是工作流单点押一个号。主力只做合规订阅+固定环境；实验放备用号；关键产出每日本地化。",
+      "body": "可靠性（TheEasySale1）：\n1. 迁移/换模型不如先改风险结构。\n2. 一个号被封 → 代码、文档、对话全断。\n3. 分层：主力号合规订阅+固定环境；实验性用法备用号；关键产出每天落到本地。\n落地：模型可换，单点依赖换不掉。",
+      "tags": [
+        "工作流",
+        "可靠性",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "TheEasySale1",
+      "sourceUrl": "https://x.com/TheEasySale1/status/2115604273035915713",
+      "lang": "zh",
+      "quality": "备用",
+      "collectedAt": "2026-10-29"
+    },
+    {
       "id": "2115282305359225230",
       "title": "Agent Skill 当依赖审：脚本随权限跑、先扫再装",
       "summary": "Skill 可附带脚本并以 agent 权限执行。研究扫 3.1 万个 marketplace skill：26.1% 有风险模式、5.2% 疑似恶意。安装前像审依赖一样审 Skill。",
