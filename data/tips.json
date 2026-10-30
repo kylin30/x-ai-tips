@@ -2,6 +2,310 @@
   "version": 1,
   "tips": [
     {
+      "id": "2115966850739982825",
+      "title": "双 agent 同仓：共用 AGENTS.md，切换前先 commit",
+      "summary": "两 agent 互不读对方笔记。无 CLAUDE.md 时 Claude 也会读 AGENTS.md（与 Codex 同文件）。共用一份，各自追加改动，切换前 commit。",
+      "body": "多 agent 协作（realMagog）：\n1. 同仓两 agent 若各写各的笔记，等于互盲；修笔记层，别只怪 agent。\n2. Claude Code 在无 CLAUDE.md 时会读 AGENTS.md，与 Codex 同一文件。\n3. 只维护一份 AGENTS.md；每个 agent 把自己改了什么追加进去；切工具前先 commit。\n落地：共享状态落在 git+AGENTS.md，不靠会话记忆交接。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "协作",
+        "技巧"
+      ],
+      "author": "realMagog",
+      "sourceUrl": "https://x.com/realMagog/status/2115966850739982825",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115966696184061999",
+      "title": "别在「下载」文件夹开 Claude/Codex：防指令注入",
+      "summary": "恶意页可把 CLAUDE.md/AGENTS.md 丢进下载目录。AI 会当项目指令执行。只在自建作业目录启动；陌生规则先人读；登录与钱的事不交给 AI。",
+      "body": "授权边界（taka_ai_shain）：\n1. 勿在 Downloads 启动 Claude Code / Codex：攻击者可把「给 AI 的指示书」塞进网页下载的文件。\n2. AI 会把该目录下的 CLAUDE.md/AGENTS.md 当成对自己的指令。\n3. 自定：只在一个作业文件夹启动；非本人写的规则先读再信；登录、付钱、账号设置禁止 AI 动手。\n落地：工作目录白名单 + 人审陌生 md；属安全门禁，不是可选习惯。",
+      "tags": [
+        "工作流",
+        "安全",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "taka_ai_shain",
+      "sourceUrl": "https://x.com/taka_ai_shain/status/2115966696184061999",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115964509319815237",
+      "title": "CLAUDE.md 老被跳过：可检查项改成 hook",
+      "summary": "全大写约束拦不住「说完对不起再犯」。逐行拆文件：判断留散文，脚本能验的改成 hook 强制执行。",
+      "body": "规则强制（TradesJuic73188）：\n1. 模型会跳过 CLAUDE.md，被问到会道歉，下一轮照样跳。\n2. 加大写、加语气不够；要靠 hooks。\n3. 逐行过 CLAUDE.md：需人判断的留散文；脚本能检查的（格式、测试、禁路径）做成 hook。\n落地：建议类写 md，门禁类写 hook；否则规则只是愿望。",
+      "tags": [
+        "工作流",
+        "hooks",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "TradesJuic73188",
+      "sourceUrl": "https://x.com/TradesJuic73188/status/2115964509319815237",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115959117445537826",
+      "title": "销售/运营 agent：六行操作边界合同",
+      "summary": "每个工作流一份 markdown 边界合同：触发、可读输入、禁止触点、输出形态、升级人、完成定义。放进 agent 上下文。",
+      "body": "授权边界（samwoods）：\n1. 管销售或运营流水线的 agent，各给一份 operational boundary contract。\n2. 一份短 markdown，每个工作流大约六行：Trigger（何时醒来）、Input（可读什么/不可读什么）、其余项覆盖禁止动作、产出形态、何时升级给人、怎样算完成。\n3. 合同进 agent 上下文，而不是口头嘱咐。\n落地：边界写死再跑自动化；先合同后工具权限。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "协作",
+        "技巧"
+      ],
+      "author": "samwoods",
+      "sourceUrl": "https://x.com/samwoods/status/2115959117445537826",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115957773636600257",
+      "title": "文档与代码冲突时跟代码：CLAUDE.md 加一句",
+      "summary": "实验：Claude 79/80 次发现 CLAUDE.md 过时仍跟旧文件。加一句：冲突跟代码，并在最终回复列出所有不一致。",
+      "body": "规则组织（SeanJHKwon，据 Georgia Tech 类实验叙述）：\n1. 配置文件与代码故意冲突时：Claude Code 多数时候看见冲突，仍跟旧配置。\n2. 修法：在 CLAUDE.md 加一句——「当文档与现有代码不一致时，跟代码，并在最终回复列出发现的每处不一致。」\n3. 把「发现过时」变成可验收的交付物，而不只靠自觉。\n落地：冲突策略写进规则；最终回复必须带 mismatch 清单。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "验收",
+        "技巧"
+      ],
+      "author": "SeanJHKwon",
+      "sourceUrl": "https://x.com/SeanJHKwon/status/2115957773636600257",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115956866044006498",
+      "title": "子代理未点名模型会继承父级：搜索别用顶模",
+      "summary": "未指定模型的子代理跑在父会话模型上，文件搜索也会烧 Opus。CLAUDE.md：搜索用 sonnet，判断/安全审用 opus，仅刻意时继承顶模。",
+      "body": "成本与子代理（daveremy）：\n1. Claude Code 子代理未点名模型时继承父级；主会话顶模 → 扫文件也顶模。\n2. 九月一周转录里测到这笔成本。\n3. 写入 CLAUDE.md：每个子代理声明模型；搜索/普查/扫文件用 sonnet；安全审一类判断用 opus；只有刻意时才继承顶模。然后让 agent 统计历史用了哪些模型。\n落地：默认降档搜索类子代理；顶模留给判断。",
+      "tags": [
+        "工作流",
+        "成本",
+        "子代理",
+        "技巧"
+      ],
+      "author": "daveremy",
+      "sourceUrl": "https://x.com/daveremy/status/2115956866044006498",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115956751162060859",
+      "title": "子代理要干净窗：Codex fork 父上下文会污染 skill",
+      "summary": "子代理本意是只带任务 prompt 的新窗口。Codex 部分模型会 fork 父对话，code-review 等 skill 易被脏上下文带偏。",
+      "body": "子代理上下文（yibie，引 Matt Pocock）：\n1. 子代理价值：干净上下文；父把任务写入 prompt，子只带这份去查代码/做 review。\n2. Codex 默认不全是这样：部分模型生成子代理时直接 fork 父对话，继承整窗。\n3. 后果：code-review 一类 skill 容易被父窗闲聊与无关文件带偏。\n落地：核对你用的模型是否 fork；需要干净审时强制独立会话或显式清上下文配置。",
+      "tags": [
+        "工作流",
+        "子代理",
+        "Codex",
+        "技巧"
+      ],
+      "author": "yibie",
+      "sourceUrl": "https://x.com/yibie/status/2115956751162060859",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115940642316587285",
+      "title": "翻旧会话：把重复重活提炼成 skill",
+      "summary": "让 Claude Code 扫历史会话，给最费劲、最重复的任务建 skill。少解释、更稳、更省 token。",
+      "body": "Skills 组织（Jakubnkl）：\n1. 提醒：让 Claude Code 过一遍过去会话，为最吃力、最重复的任务创建 skill。\n2. 不必每次重讲同一套流程；固化成可复用 skill。\n3. 会话更快、更一致，也更省 token。\n落地：每月抽一次「高频任务 → skill」复盘；skill 名与触发条件写清楚。",
+      "tags": [
+        "工作流",
+        "skills",
+        "复盘",
+        "技巧"
+      ],
+      "author": "Jakubnkl",
+      "sourceUrl": "https://x.com/Jakubnkl/status/2115940642316587285",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115933555327218150",
+      "title": "CLAUDE.md 越长越不听：细则放进 skills",
+      "summary": "长 CLAUDE.md 遵守率下降。文件保持短；详细规则放 skills，例如仅在 UI 代码时才加载 widget/state 规则。",
+      "body": "规则组织（petersindex）：\n1. 长 CLAUDE.md 更容易被忽略。\n2. 做法：CLAUDE.md 保持短；细则挪进 skills。\n3. 例：Flutter 的 widget/state 规则只在真正改 UI 时加载。\n落地：常驻规则 ≤ 短文；场景规则按需 skill。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "skills",
+        "技巧"
+      ],
+      "author": "petersindex",
+      "sourceUrl": "https://x.com/petersindex/status/2115933555327218150",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115926830829953446",
+      "title": "CLAUDE.md 从 150 行压到 50：是搬家不是删规矩",
+      "summary": "不是删规则，是换存放处。CLAUDE.md 每次开聊都读，宜 <200 行；超了更不听话。细则分到别处。",
+      "body": "规则瘦身（kanauo2）：\n1. 把 CLAUDE.md 从约 150 行减到约 50 行：删的是「位置」，不是规矩本身。\n2. 该文件每次开会话都会读；经验阈值低于 200 行；超长后更难听从。\n3. 分法至少两种（如 skills / 子目录说明），让常驻提示只留不变量。\n落地：先量行数；常驻层与按需层分开。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "kanauo2",
+      "sourceUrl": "https://x.com/kanauo2/status/2115926830829953446",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115861983924797458",
+      "title": "别让 Opus 自评「做完了」：Stop hook 当裁判",
+      "summary": "官方向用法：Stop → scripts/verify.sh，失败写入 ledger。模型提案完成，脚本决定能不能停。",
+      "body": "验收门禁（0xarcos，称 Anthropic/官方向 tip）：\n1. 别让 Opus 5.5 自己给「done」打分。\n2. 每次将停时跑 Stop hook：例如 `scripts/verify.sh`，失败记入 failures.yaml 一类 ledger。\n3. 模型继续做功能并提出完成；真正放行的是脚本。\n落地：完成定义 = 可跑检查；Stop hook 是硬闸，不是建议。",
+      "tags": [
+        "工作流",
+        "hooks",
+        "验收",
+        "技巧"
+      ],
+      "author": "0xarcos",
+      "sourceUrl": "https://x.com/0xarcos/status/2115861983924797458",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115894900721914323",
+      "title": "双文件仓：六分之一 CLAUDE.md 从不提 AGENTS.md",
+      "summary": "抽查公开仓：同时有两文件时，约 1/6 的 CLAUDE.md 不提 AGENTS.md，Claude 就不加载，与 Codex 各走各规。",
+      "body": "规则同步（roeishous）：\n1. 从公开 GitHub 抽了约 3905 份 CLAUDE.md / AGENTS.md。\n2. 两文件都有的仓里，约六分之一 CLAUDE.md 从不提及 AGENTS.md → Claude Code 不加载，两工具规则分叉。\n3. 另有约 15% 只写「Read AGENTS.md」却可能缺实质衔接（帖中续述）。\n落地：CLAUDE.md 显式引用并摘要 AGENTS.md；或单一源生成两文件防漂移。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "roeishous",
+      "sourceUrl": "https://x.com/roeishous/status/2115894900721914323",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115888850065146318",
+      "title": "CLAUDE.md 超长：多花钱还更不听话",
+      "summary": "该文件每会话都进输入；官方建议 <200 行。更长既加输入费，又降低遵守率——付双倍买更不听话的 agent。",
+      "body": "成本与瘦身（trenchixbt）：\n1. CLAUDE.md 每个会话都加载，按输入 token 计费。\n2. Anthropic 文档侧建议压在约 200 行内；更长会降低遵守。\n3. 结果：多花钱，还让 agent 更不听。\n落地：量行数与引用；细则迁 skill/hook；常驻只留不变量。",
+      "tags": [
+        "工作流",
+        "成本",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "trenchixbt",
+      "sourceUrl": "https://x.com/trenchixbt/status/2115888850065146318",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115706171210527144",
+      "title": "大象写设计、金鱼挑刺：零上下文审稿",
+      "summary": "Google 开源 EGM：带全项目上下文的「大象」写设计；零上下文「金鱼」子代理专挑刺。最能暴露默认假设。",
+      "body": "协作与验收（the123456ai，EGM 工作流）：\n1. 「大象」带着全部项目上下文写设计文档。\n2. 「金鱼」是零上下文子代理，专门挑刺。\n3. README 称大量 Google 工程师在用；支持 Claude Code 与 Codex。\n落地：让没看过前文的审稿者（人或 agent）审一轮；默认真相靠脏上下文藏不住。",
+      "tags": [
+        "工作流",
+        "验收",
+        "子代理",
+        "技巧"
+      ],
+      "author": "the123456ai",
+      "sourceUrl": "https://x.com/the123456ai/status/2115706171210527144",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115687051320295906",
+      "title": "多 coding agent 轮换：用 AGENTS.md 统一交接",
+      "summary": "Claude 额度没了切 Codex 常失忆。用开放格式 AGENTS.md 统一规矩；多工具认同一份，减少重讲。",
+      "body": "多工具交接（lu58397）：\n1. Claude Code 写一半额度没了切 Codex，对方不知道刚才干了啥，又要重讲。\n2. 统一规矩：AGENTS.md 开放格式，Codex、Cursor、Gemini 等可认；Claude 在无 CLAUDE.md 等条件下也会靠拢。\n3. 开源 Skill/交接层可抄，把进度与约束落盘。\n落地：切工具前更新 AGENTS.md + commit；会话不是唯一真相源。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "协作",
+        "技巧"
+      ],
+      "author": "lu58397",
+      "sourceUrl": "https://x.com/lu58397/status/2115687051320295906",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115638241781252492",
+      "title": "自演进 harness：错两次写 md，三次做 skill，次次则 hook",
+      "summary": "同一失误 2 次→CLAUDE.md；同一指示 3 次→skill；每次都要→hook；跨文件夹→plugin。把失误当永久信号。",
+      "body": "复盘与组织（note_ai_mousigo）：\n1. Self-Evolving Harness 梯子：同样失误两次 → 写入 CLAUDE.md；同样指示三次 → 做成 skill；每次都需要 → hook；跨文件夹复用 → plugin。\n2. 海外常见做法：AI 失误不当一次性，当永久留存的信号。\n3. 每掉一次坑，规则层升级一层，下次少掉。\n落地：建「失误→升级层」复盘清单；别只口头骂模型。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "skills",
+        "hooks"
+      ],
+      "author": "note_ai_mousigo",
+      "sourceUrl": "https://x.com/note_ai_mousigo/status/2115638241781252492",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115961992888635884",
+      "title": "ChatGPT 规划出提示词，再交给 Codex 执行",
+      "summary": "先用强模型聊清想法、产出可复制提示词，再发给 Codex。规划用强档，执行用中低档；卡住再切回强模型。",
+      "body": "流程拆分与成本（MaxJason_Loop）：\n1. 先和 ChatGPT 聊清想法，让它给出可直接复制的提示词。\n2. 把该提示词发给 Codex 执行。\n3. 规划阶段用最强模型；执行阶段用中低档省 token；遇难题再切回强模型。\n落地：计划与执行分会话/分档位；提示词是交接物。",
+      "tags": [
+        "工作流",
+        "成本",
+        "提示词",
+        "技巧"
+      ],
+      "author": "MaxJason_Loop",
+      "sourceUrl": "https://x.com/MaxJason_Loop/status/2115961992888635884",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
+      "id": "2115873172272652518",
+      "title": "/doctor prompt-audit：扫过时模型与矛盾指令",
+      "summary": "升级 Claude Code 后跑 /doctor prompt-audit。扫 CLAUDE.md、local、AGENTS.md 等，揪仍指向旧模型或互相打架的行。",
+      "body": "规则卫生（bubosees）：\n1. CLAUDE.md 可能还在对已经不在的模型说话。\n2. 更新到较新 Claude Code（帖称 v2.1.283+）后，在项目跑 `/doctor prompt-audit`。\n3. 它会读 CLAUDE.md、CLAUDE.local.md、AGENTS.md 等并标出问题行。\n落地：大版本升级后必跑一次 audit；删旧 workaround 与矛盾包管理器指令。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "bubosees",
+      "sourceUrl": "https://x.com/bubosees/status/2115873172272652518",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-30"
+    },
+    {
       "id": "2115604651894518268",
       "title": "Codex 5 小时窗：早 7 点空 ping 把重置提前",
       "summary": "额度窗口从当天第一条消息起算。工作日 7:00 自动发最短 ping，把重置挪到中午，覆盖下午黄金时段；总量不变，只挪窗口。",
