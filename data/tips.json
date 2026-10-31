@@ -5895,6 +5895,261 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-28"
+    },
+    {
+      "id": "2116164607593316365",
+      "title": "升到 v2.1.283 后跑 /doctor prompt-audit",
+      "summary": "Claude Code 可审计 CLAUDE.md/AGENTS.md/.claude 规则：标出旧模型规则、死路径、互相打架的指令。只出报告，你同意才改。",
+      "body": "规则复盘（nushijin）：\n1. `claude update` 升到 v2.1.283+。\n2. 在项目里执行：`/doctor prompt-audit`。\n3. 会扫 CLAUDE.md、AGENTS.md、.claude/ 与 ~/.claude/ 里的 rules/skills。\n4. 标出：给旧模型写的规则、指向不存在文件的路径、互相冲突的指令。\n5. 默认只出报告，点同意才改。\n落地：加规则前先审计；别用叠规则掩盖过时指令。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "复盘",
+        "技巧"
+      ],
+      "author": "nushijin",
+      "sourceUrl": "https://x.com/nushijin/status/2116164607593316365",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116150835742912637",
+      "title": "有 CLAUDE.md 时 AGENTS.md 默认不读：改 /config",
+      "summary": "Claude Code v2.1.277+ 可读 AGENTS.md，但树里只要有 CLAUDE.md（含 CLAUDE.local.md）就整份跳过。/config 改成 claude-md-and-agents-md；Codex 侧注意 32KiB 上限。",
+      "body": "规则组织（chaog）：\n1. Claude Code 从 v2.1.277 起原生读 AGENTS.md。\n2. 默认阴规则：目录或上层只要有 CLAUDE.md（包括私人的 CLAUDE.local.md），AGENTS.md 整份不读。\n3. 要两份都加载：/config → Project instructions → claude-md-and-agents-md。\n4. 也可让 CLAUDE.md 只留一行 @AGENTS.md，再加 Claude 专属几条。\n5. Codex：AGENTS.md 合并后默认上限约 32 KiB（project_doc_max_bytes），超出不加载；AGENTS.override.md Claude 不读。\n落地：AGENTS.md 当唯一来源；CLAUDE.md 薄导入；超长规则拆文件。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "chaog",
+      "sourceUrl": "https://x.com/chaog/status/2116150835742912637",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2115989410647093309",
+      "title": "@AGENTS.md 每会话必载；按需文件放 .claude/rules",
+      "summary": "「请读 AGENTS.md」靠自觉；要用 @AGENTS.md 强制导入。但 @ 每会话都加载，大地图型 @docs 省不了上下文。按需文件用 .claude/rules 配 paths。",
+      "body": "规则组织（resetsin6days）：\n1. CLAUDE.md 写「请读 AGENTS.md」只在模型决定打开时才生效。\n2. 正确写法：@AGENTS.md（强制导入）。\n3. 代价：@ 导入每会话都会加载；把整本地图 @docs 链进去，上下文省不下来。\n4. 只在相关路径需要的文件，放进 .claude/rules/ 并用 paths 限定。\n落地：常驻规则用 @；情境规则用 rules+paths。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "上下文",
+        "技巧"
+      ],
+      "author": "resetsin6days",
+      "sourceUrl": "https://x.com/resetsin6days/status/2115989410647093309",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116096300194132081",
+      "title": "Codex/Claude 互通四步：一份规则 + 短 HANDOFF",
+      "summary": "共享规则只写 AGENTS.md；CLAUDE.md 一行 @AGENTS.md。根目录放 ≤30 行 HANDOFF（任务/改了啥/下一步/还坏着）。任务结束 commit，HANDOFF 定期清空。",
+      "body": "多工具交接（CY160909，补充 prolibertine）：\n1. 规则只写一份：共享规则进 AGENTS.md；CLAUDE.md 只写 @AGENTS.md。\n2. 根目录放 HANDOFF.md，建议 ≤30 行：当前任务、改了什么与最近 commit、下一步、还坏着的/试过没用的。\n3. 每个任务结束必须 commit；HANDOFF 隔一阵清空，防变成第二个上下文黑洞。\n4. 不装记忆插件也能换工具/换人接手。\n落地：规则单源 + 短交接文件 + git 当真相。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "协作",
+        "技巧"
+      ],
+      "author": "CY160909",
+      "sourceUrl": "https://x.com/CY160909/status/2116096300194132081",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116111479414165837",
+      "title": "装 Skill 三步验收：list → 读 SKILL.md → 触发一次",
+      "summary": "别急着 npx skills add。先 --list，再读 SKILL.md，再真实触发一次。装上≠用上；多工具共用时路径和选择器最易翻车。",
+      "body": "Skills 验收（dustADD）：\n1. 不要一行 `npx skills add` 就完事。\n2. 先 `--list` 确认装到哪。\n3. 再读 SKILL.md，看触发条件与边界。\n4. 最后真实触发一次，确认被选中并生效。\n5. Claude / Cursor / Codex 共用时，路径和选择器最容易翻车。\n落地：装 Skill 也要有验收卡；装上≠用上。",
+      "tags": [
+        "工作流",
+        "skills",
+        "验收",
+        "技巧"
+      ],
+      "author": "dustADD",
+      "sourceUrl": "https://x.com/dustADD/status/2116111479414165837",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116119319159660827",
+      "title": "Claude 定案验收，Codex 干活：省主会话 token",
+      "summary": "Claude Code 定方案、拆任务、验收；Codex CLI 读代码、实现、调试。任务说明写文件，Bash 后台启 Codex；主会话只收摘要，返工续接原会话。",
+      "body": "成本与分工（mwxxxzzz）：\n1. Claude Code：定方案、拆任务、验收。\n2. Codex CLI：读代码、实现、调试、验证。\n3. Claude 把任务说明写进文件，用 Bash 后台启动 Codex。\n4. 完整日志留文件；主会话只接收结果摘要。\n5. 验收时看改动和关键证据；返工续接原 Codex，不重开烧上下文。\n落地：贵模型管门禁与拆分；实现放便宜/专用 CLI。",
+      "tags": [
+        "工作流",
+        "成本",
+        "协作",
+        "技巧"
+      ],
+      "author": "mwxxxzzz",
+      "sourceUrl": "https://x.com/mwxxxzzz/status/2116119319159660827",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116184722992746827",
+      "title": "交付差的是 harness，不是模型智商",
+      "summary": "模型只选下一步；循环、沙箱、记忆、护栏、验收、可观测才是干活的圈。同模型换验收与权限，交付可差一截。",
+      "body": "Harness（meenochtec）：\n1. 模型只负责选下一步；真正干活的是 harness。\n2. Claude Code / Codex / Cursor 本质是模型外那圈代码：循环、沙箱、记忆、护栏、验收、可观测。\n3. 同一模型，换一套验收和权限，交付质量可差一截——差的不是智商，是 harness。\n落地：先改门禁与权限，再怪模型；评工具看验收环而不是聊天口感。",
+      "tags": [
+        "工作流",
+        "验收",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "meenochtec",
+      "sourceUrl": "https://x.com/meenochtec/status/2116184722992746827",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116149254288810423",
+      "title": "子代理要用 Skill：在 skills 字段显式列出",
+      "summary": "子代理是干净上下文，不继承主对话 Skill。自定义子代理要带某 Skill 审查/研究时，必须在文件头 skills 栏显式列出，否则它会自己编标准。",
+      "body": "Skills 继承（swordBluesy）：\n1. 痛点：以为子代理会自动继承主对话的 Skill。\n2. 事实：子代理是干净上下文，不继承。\n3. 做法：在子代理定义文件头的 skills 字段显式列出要用的 Skill。\n4. 否则审查/研究标准全是它自己编的。\n落地：派子代理前核对 skills 显式清单；继承不是默认。",
+      "tags": [
+        "工作流",
+        "skills",
+        "子代理",
+        "技巧"
+      ],
+      "author": "swordBluesy",
+      "sourceUrl": "https://x.com/swordBluesy/status/2116149254288810423",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116000831795282052",
+      "title": "并行代理设上限：每个只领可独立验收的任务",
+      "summary": "同时跑十几个代理，人会先成瓶颈。限制并行数；每个代理只负责一个能独立验收的任务；超出的排队，不再多开窗口。",
+      "body": "协作吞吐（cccdick）：\n1. 同时跑十几个代理，人会先成为瓶颈。\n2. 限制并行数。\n3. 每个代理只负责一个能独立验收的任务。\n4. 超出的排队，不再多开窗口。\n落地：并行上限 = 你能验收的上限，不是机器能开的上限。",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收",
+        "技巧"
+      ],
+      "author": "cccdick",
+      "sourceUrl": "https://x.com/cccdick/status/2116000831795282052",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116010021851205749",
+      "title": "任务交付留四件：输入、输出、失败原因、验收结果",
+      "summary": "留下状态和失败路径比多做功能更值钱。每个任务记录输入、输出、失败原因和验收结果，方便复盘，也让下一轮代理能接手。",
+      "body": "复盘与交接（cccdick）：\n1. 留下状态和失败路径，比多做功能更值钱。\n2. 交付要求每个任务留下：输入、输出、失败原因、验收结果。\n3. 既方便复盘，也让下一轮代理能接手。\n落地：无失败路径的交付 = 下一任从零猜。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "协作",
+        "技巧"
+      ],
+      "author": "cccdick",
+      "sourceUrl": "https://x.com/cccdick/status/2116010021851205749",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116184069377507718",
+      "title": "Claude 没变笨：是 CLAUDE.md 太长了",
+      "summary": "忽略规则的帖子套路相同：上百行、三个版本前的模型名、两条互相取消的规则。官方建议控制在约 200 行内，冲突规则先删再加。",
+      "body": "规则瘦身（bubosees）：\n1. 不是 Claude 变笨，是 CLAUDE.md 变长。\n2. 常见症状：上百行；三个版本前的模型名；两条互相取消的规则。\n3. Anthropic 文档建议保持约 200 行以内。\n4. 规则冲突时先删再加，别叠第三条「这次真的要听」。\n落地：长度与冲突是服从问题的主因；先审计再加规则。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "成本",
+        "技巧"
+      ],
+      "author": "bubosees",
+      "sourceUrl": "https://x.com/bubosees/status/2116184069377507718",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2115999353584427516",
+      "title": "系统提示先删大半，再只加回会坏的部分",
+      "summary": "Addy Osmani：Claude Code 自带系统提示为新模型砍掉超 80%，编码评测无明显下降。循环：删一段 → 看模型缺什么 → 只加回必要项。",
+      "body": "提示词瘦身（CuriousDevX，据 Addy Osmani）：\n1. 先删掉大部分系统提示，再只加回「没有它就会坏」的部分。\n2. 例：Claude Code 在 Opus 5 / Fable 5 一代，自带系统提示砍掉超 80%，编码评测无明显下降。\n3. 循环：删一些 → 看模型漏什么 → 只加回必要项。\n落地：新模型默认更懂；过时细则是税，不是资产。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "成本",
+        "技巧"
+      ],
+      "author": "CuriousDevX",
+      "sourceUrl": "https://x.com/CuriousDevX/status/2115999353584427516",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116207222782881947",
+      "title": "保留历史验收标准：防新功能悄悄弄坏上周",
+      "summary": "把每次上线功能的验收标准记成清单（PR 描述或 specs）。Agent 做下一件时，连旧标准一起回归，抓住「新功能弄坏上周」的静默回归。",
+      "body": "验收回归（NightShiftLabs8）：\n1. 保留每次上线功能的验收标准清单（PR 描述、specs 目录均可）。\n2. Agent 构建下一件时，回去把旧标准也跑一遍。\n3. 用来抓住「新功能悄悄弄坏上周」的静默回归。\n落地：验收标准是累积资产；新任务默认附带旧 AC 回归。",
+      "tags": [
+        "工作流",
+        "验收",
+        "门禁",
+        "技巧"
+      ],
+      "author": "NightShiftLabs8",
+      "sourceUrl": "https://x.com/NightShiftLabs8/status/2116207222782881947",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2115989715375755637",
+      "title": "别在下载文件夹启动代理：AGENTS.md 可挟持指令",
+      "summary": "在 ~/Downloads 开 coding agent，恶意 AGENTS.md 可能改设置、装恶意 npm、外传 OAuth。只在自建项目目录启动；陌生规则先人审。",
+      "body": "授权边界（userHandle / Rebora 警示）：\n1. 别在 ~/Downloads 直接启动 AI coding agent。\n2. 目录若被放入恶意 AGENTS.md，代理可能按文件指示改设置、装恶意 npm，甚至外传 OAuth 权杖。\n3. AGENTS.md 本意是项目规范，也会被当成指令源。\n落地：工作目录白名单；陌生 md 先人读；登录与密钥操作禁止交给代理。",
+      "tags": [
+        "工作流",
+        "安全",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "userHandle",
+      "sourceUrl": "https://x.com/userHandle/status/2115989715375755637",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116040556178788608",
+      "title": "规模化前先搭规则/Skills/自动检查",
+      "summary": "Agent 不是加得越多越快。没护栏时错误和 Token 一起放大。规模前先把约束和验收自动化搭好，比堆数量更优先。",
+      "body": "扩容门禁（juicebro888）：\n1. 「规则 / Skills / 自动检查」应是前置条件。\n2. Agent 不是加得越多越快；没护栏时，错误和 Token 会一起放大。\n3. 规模前，先搭好约束和验收自动化，比堆数量更优先。\n落地：先 harness 与门禁，再加并行度。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "skills",
+        "技巧"
+      ],
+      "author": "juicebro888",
+      "sourceUrl": "https://x.com/juicebro888/status/2116040556178788608",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-10-31"
     }
   ]
 }
