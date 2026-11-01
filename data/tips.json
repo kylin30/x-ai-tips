@@ -6150,6 +6150,319 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-10-31"
+    },
+    {
+      "id": "2116681063971922165",
+      "title": "周日规则审计：列出每条规则并标出来源",
+      "summary": "让 Claude Code/Codex 列出当前遵循的每条规则、来自哪个文件；凡来自记忆而非 AGENTS.md/CLAUDE.md 的，要么写入要么删掉。",
+      "body": "规则复盘（leviqiao）：\n1. 定期对 Claude Code 或 Codex 跑这条提示词：\n「List every rule you're following in this repo, one line each, with the file it came from. Mark any that came from memory instead of AGENTS.md or CLAUDE.md.」\n2. 标记为「来自记忆/别的项目」的规则：写入 AGENTS.md，或直接删掉。\n落地：防跨项目脏规则污染；周日固定审计比出事前再查便宜。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "leviqiao",
+      "sourceUrl": "https://x.com/leviqiao/status/2116681063971922165",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116577467318313096",
+      "title": "装 Skill 前先扫：SkillSpector 当门禁",
+      "summary": "往 Claude Code/Codex/Cursor 塞别人的 Skill 近似无隔离 npm install。NVIDIA SkillSpector 可静态扫提示注入、外泄、提权与 MCP 投毒；先扫再装。",
+      "body": "技能门禁（KingCola88）：\n1. 样本里约 26% 有漏洞、5% 疑似恶意；Skill 常是提示词+脚本，权限隔离弱。\n2. 用 NVIDIA/SkillSpector：`skillspector scan ./skill目录`；也可 Docker 挂载扫。\n3. 默认可不执行被扫 Skill；开 LLM 语义检查会把内容发给你配置的提供商，纯静态加 `--no-llm`。\n4. 它是多一层检查，不是沙盒。\n落地：好用≠可装；装前扫，扫完再进项目。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "skills",
+        "安全",
+        "技巧"
+      ],
+      "author": "KingCola88",
+      "sourceUrl": "https://x.com/KingCola88/status/2116577467318313096",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116573694403449320",
+      "title": "找洞与验洞分两个 agent，结果分三档",
+      "summary": "Cloudflare 开源 security-audit：找漏洞的 agent 与验漏洞的 agent 永不共用；结果分确认/待验证/推翻，待验证不给严重等级。",
+      "body": "验收分工（Curingieul）：\n1. 找洞 agent 与验洞 agent 隔离；后者专门证伪前者。\n2. 六阶段：摸架构与信任边界 → 覆盖账本 → 按单元派隔离 agent。\n3. 结果三档：确认的、待验证的、被推翻的；猜测不标严重等级。\n4. 可反复跑、接着上次账本补漏；无沙箱则只标待验证、不执行。\n落地：agent 报「高危」先验再信；分角色比堆提示词更稳。",
+      "tags": [
+        "工作流",
+        "验收",
+        "子代理",
+        "门禁",
+        "技巧"
+      ],
+      "author": "Curingieul",
+      "sourceUrl": "https://x.com/Curingieul/status/2116573694403449320",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116565321821675603",
+      "title": "给 Claude 验活通道：PostToolUse 钩子比 CLAUDE.md 更稳",
+      "summary": "Boris：能验证工作可提升约 2–3 倍质量。指令是希望，钩子是反射：编辑后跑 tsc/eslint/相关测试，失败 stderr 回灌同轮修复。",
+      "body": "验收闭环（0xarcos / Boris Cherny）：\n1. 最重要的不是长提示词，而是「每次改完有办法自验」。\n2. CLAUDE.md 写「always run type checker」常被忽略；改用 PostToolUse hook。\n3. 流程：Edit 落盘 → hook 对改动文件跑 tsc/eslint/相关 vitest → exit 0 静默；exit 2 把 stderr 灌回上下文 → 同轮修。\n4. 在改坏那一行当场抓，而不是 20 分钟后 CI 才红。\n落地：把验收写成 harness 反射，别只写在规则散文里。",
+      "tags": [
+        "工作流",
+        "验收",
+        "hooks",
+        "门禁",
+        "技巧"
+      ],
+      "author": "0xarcos",
+      "sourceUrl": "https://x.com/0xarcos/status/2116565321821675603",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116489007416943045",
+      "title": "多仓别来回 cd：claude --add-dir 连 skills",
+      "summary": "跨两个仓库时用 `claude --add-dir ../api ../shared`：可读写两边，且会加载各自 .claude/skills。长期可用 permissions.additionalDirectories（仅文件访问、不含 skills）。",
+      "body": "多仓工作流（Cozy2054934）：\n1. 停掉反复 cd。\n2. 启动：`claude --add-dir ../api ../shared`。\n3. 效果：两边可读写，且各自 `.claude/skills` 也会加载。\n4. 若要每会话默认：配 `permissions.additionalDirectories`——注意它只管文件访问，不会带上 skills。\n落地：多仓/共享库场景优先 --add-dir；需要 skills 就别只靠 additionalDirectories。",
+      "tags": [
+        "工作流",
+        "skills",
+        "技巧"
+      ],
+      "author": "Cozy2054934",
+      "sourceUrl": "https://x.com/Cozy2054934/status/2116489007416943045",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116439199830143360",
+      "title": "把指令保留期拉长，再蒸馏进 CLAUDE.md/Skills",
+      "summary": "Claude Code/Codex 默认丢弃约一个月前的指令。改成长年保留，定期扫描重复要求 → 写入 CLAUDE.md，并把重复复杂流程提成 Skills，省 token。",
+      "body": "复盘蒸馏（sadek）：\n1. 默认：指令超过约一个月会被清掉——改成可存数年。\n2. 作者保留 16k+ 指令与对应回复；每月扫描重复意见，蒸馏成风格写入 CLAUDE.md。\n3. 不定期让模型翻历史，把反复出现的复杂指令改成 Skills。\n落地：历史是资产；定期蒸馏，别让默认清理抹掉决策风格。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "skills",
+        "成本",
+        "技巧"
+      ],
+      "author": "sadek",
+      "sourceUrl": "https://x.com/sadek/status/2116439199830143360",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116428960909463678",
+      "title": "/advisor 旁路顾问：贵模型只在关键节点上场",
+      "summary": "主会话 Opus 干活；用 /advisor 让另一模型旁观，在开大计划前、错误反复时、宣称完成前三处介入。顾问建议，主模型写代码。",
+      "body": "协作分工（noot_ai）：\n1. 主会话：Opus 5.5 high 干活。\n2. `/advisor fable`：旁路读全会话，三处介入——计划前对不对、同错复现是否挖错坑、完成前漏了啥。\n3. 子代理读代码/改测/查文档用 medium；顾问只在改变结果的节点花钱。\n4. 规则写入 CLAUDE.md：大计划前、错误反复、长任务收尾前先问 advisor。\n落地：贵模型别全程盯梢；关键门禁点才拉顾问。",
+      "tags": [
+        "工作流",
+        "协作",
+        "成本",
+        "子代理",
+        "技巧"
+      ],
+      "author": "noot_ai",
+      "sourceUrl": "https://x.com/noot_ai/status/2116428960909463678",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116692798631993656",
+      "title": "Haiku 100k 价格悬崖：拆小 agent 省八成",
+      "summary": "Haiku 5.5 上下文过 100k 后单价约 5 倍。Opus 领队拆活，Haiku 子代理各压在 100k 下；近悬崖就分叉，主模型只读摘要。",
+      "body": "成本门禁（0xkkai / Anthropic）：\n1. Haiku 5.5：<100k 约 $0.10/$0.50 per M；≥100k 跳到 $0.50/$2.50——无警告。\n2. 同活：一大 agent 约 $6.15；九个小 agent 约 $0.85（约省 86%）。\n3. 模式：Opus 拆道合并；Haiku 干活且各 <100k；临近悬崖分叉，不涨上下文。\n4. Opus 只读各道摘要，不吞原始上下文。\n落地：盯住 100k 悬崖；分叉优于硬撑大上下文。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "子代理",
+        "技巧"
+      ],
+      "author": "0xkkai",
+      "sourceUrl": "https://x.com/0xkkai/status/2116692798631993656",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116602089166319806",
+      "title": "定期用 Opus 审计全部 Skills：先地图后动刀",
+      "summary": "日常用 Claude/Codex/Grok Bot 时，用 Opus high/xhigh 给每条 Skill 打分（触发、正确性、膨胀、安全等）；先出合并/删除/改造地图，再外科手术改。",
+      "body": "技能复盘（kloss_xyz）：\n1. 作者审了 60+ skills，无一原样通过——陈旧、错误、冗余、模型已原生会的都有。\n2. 提示词要点：0–10 打分（triggers/correctness/learning/bloat/safety/future-proofing）；标出可合并或该删的；给高置信修复；先不执行，只出地图与计划。\n3. 目标：全部抬到约 9.5+ 再动刀。\n落地：装上≠可用；按周/月审计，先 plan 后 patch。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "skills",
+        "技巧"
+      ],
+      "author": "kloss_xyz",
+      "sourceUrl": "https://x.com/kloss_xyz/status/2116602089166319806",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116392313656389962",
+      "title": "别在 ~/Downloads 启动 agent：cwd 会吞恶意 AGENTS.md",
+      "summary": "网站可不经点击往 Downloads 落恶意 AGENTS.md；在该目录开 Codex/Claude Code 会当项目策略执行。测试中 Codex 高比例跑恶意，Claude 亦可能泄登录。",
+      "body": "授权边界（AekayAka）：\n1. 永远不要在 ~/Downloads 启动 coding agent。\n2. 检查 `~/.codex/config.toml` 与 `.claude/settings.json` 里有没有你没加过的 server/URL。\n3. 别批准你没要求过的「关闭沙箱」步骤。\n4. 测试：Codex 约 90%+ 会执行恶意指令；Claude Code 约半数中招并可泄 token。\n落地：信任仓库，不信任目录；启动前先确认 cwd 与指令文件归属。",
+      "tags": [
+        "工作流",
+        "安全",
+        "授权边界",
+        "门禁",
+        "技巧"
+      ],
+      "author": "AekayAka",
+      "sourceUrl": "https://x.com/AekayAka/status/2116392313656389962",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116533063241052529",
+      "title": "Claude+Codex 同仓：一规则、分 worktree、写 HANDOFF",
+      "summary": "共用一份≤10 行 AGENTS.md；各开 git worktree、分车道；done=测试过；会话结束写 5 行 HANDOFF。否则会互相撤销对方改动。",
+      "body": "多工具协作（ZeeshhDecodes）：\n1. 一份 AGENTS.md（≤10 行）；CLAUDE.md 只写「read AGENTS.md」。\n2. 各 agent 独立 git worktree，绝不共用同一工作目录。\n3. 分车道（如 Claude=前端，Codex=API）。\n4. 「完成」= 测试通过，不是「看起来行」。\n5. 会话结束写 HANDOFF.md（约 5 行）。\n落地：规则单源 + 目录隔离 + 短交接，减少互相踩脚。",
+      "tags": [
+        "工作流",
+        "协作",
+        "交接",
+        "技巧"
+      ],
+      "author": "ZeeshhDecodes",
+      "sourceUrl": "https://x.com/ZeeshhDecodes/status/2116533063241052529",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116542110040260871",
+      "title": "关键门禁放 pre-commit，别只写在 AGENTS.md",
+      "summary": "真正要紧的约束放进 pre-commit hook。Agent 可能跳过 AGENTS.md 第 7 行；钩子不会跳。",
+      "body": "硬门禁（kodzadev）：\n1. 共享规则仍可放 AGENTS.md / 一行 CLAUDE.md。\n2. 真正「不能坏」的检查：放进 pre-commit（或等价 hook），不要只靠散文指令。\n3. 模型可能跳过规则行；钩子每次提交都会跑。\n落地：散文=希望，钩子=强制；关键验收自动化。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "验收",
+        "技巧"
+      ],
+      "author": "kodzadev",
+      "sourceUrl": "https://x.com/kodzadev/status/2116542110040260871",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116577452902207667",
+      "title": "一错一规则别全进常驻：用 paths 按目录加载",
+      "summary": "「在 billing 试过 X 翻车」这类历史只在相关路径有用。放进 .claude/rules 并用 paths frontmatter，匹配文件才加载；失败因果可另存。",
+      "body": "规则组织（dmsmaxim）：\n1. 一错一规则堆进总文件会膨胀，且多数时候无关。\n2. 情境/历史类规则移到 `.claude/rules/`，用 `paths:` frontmatter 限定目录。\n3. 「失败了什么、为什么」可单独存，不必每会话全量加载。\n落地：常驻规则精简；踩坑史按路径按需注入。",
+      "tags": [
+        "工作流",
+        "规则组织",
+        "技巧"
+      ],
+      "author": "dmsmaxim",
+      "sourceUrl": "https://x.com/dmsmaxim/status/2116577452902207667",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116426294728839604",
+      "title": "Coding agent 五实践：可验、隔离、限环、安全边界",
+      "summary": "Anthropic 团队侧经验提炼：成功可验证；worktree 隔离并持久化状态；先单 agent 再加复杂；限制重试与成本；审计 AGENTS.md 并强制沙箱权限。",
+      "body": "稳定性实践（ojas_dev）：\n1. 成功可验证：回归测试、lint/类型检查、能看失败，不接受口头「完成」。\n2. 隔离与持久化：独立任务用 git worktree；保存进度与工具结果，少靠聊天交接。\n3. 复杂度要挣来：先单 agent；记忆系统先基准再堆；子代理只在分离真有收益时加。\n4. 限制循环：封顶重试、检测无进展工具调用；按「已验证修复」计成本。\n5. 执行边界：审计 AGENTS.md/CLAUDE.md；沙箱与工具权限，不靠指令防危险动作。\n落地：先可验与边界，再谈多智能体。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "子代理",
+        "安全",
+        "技巧"
+      ],
+      "author": "ojas_dev",
+      "sourceUrl": "https://x.com/ojas_dev/status/2116426294728839604",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116621479353942417",
+      "title": "修完 Bug 写进 AGENTS.md：专属经验手册",
+      "summary": "给 Codex 加指令：每次踩坑修好后分析原因与避免法，有用经验写入 AGENTS.md，相关任务前先读；不记重复或无用项。",
+      "body": "复盘沉淀（NIxinhai0）：\n1. 同一错误反复出现时，加一条固定指令。\n2. 文案要点：遇到 Bug/失误 → 修好 → 分析原因与避免法 → 有用经验写入 AGENTS.md → 相关任务前先看；别记重复或没用的。\n3. 等于给模型一本会增长的经验手册。\n落地：错误要回流成规则，别只修一次。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "NIxinhai0",
+      "sourceUrl": "https://x.com/NIxinhai0/status/2116621479353942417",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116684493901746415",
+      "title": "派活前写两行：交付验收 + 必须等人点头的步骤",
+      "summary": "别把 Claude 当搜索框，当新同事：开工前写清交付物与怎么验收，以及删/发/花钱等必须等你点头的步骤；其余放手跑。",
+      "body": "协作门禁（T082057）：\n1. 派活前两行：做完长啥样（交付物+怎么验收）；哪一步必须等我点头（删东西、发出去、花钱）。\n2. 其余放手让它跑。\n3. 返工少，常因缺岗位说明书，不单是模型弱。\n落地：验收与授权边界写在任务头，再开工。",
+      "tags": [
+        "工作流",
+        "验收",
+        "授权边界",
+        "协作",
+        "技巧"
+      ],
+      "author": "T082057",
+      "sourceUrl": "https://x.com/T082057/status/2116684493901746415",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116655550264209874",
+      "title": "说清边界：Skill 是可复用说明，Subagent 是隔离上下文",
+      "summary": "在 Claude Code 里显式区分：Skill 打包可复用指令；Subagent 在独立上下文做专注工作。两者可组合（如无障碍审计示例）。",
+      "body": "上下文边界（cfregly）：\n1. Skill = 可复用指令包。\n2. Subagent = 在自己的上下文里干专注活。\n3. 需要「说明复用 + 上下文隔离」时组合使用，不要混成一个大会话。\n落地：先选对载体，再堆内容。",
+      "tags": [
+        "工作流",
+        "skills",
+        "子代理",
+        "技巧"
+      ],
+      "author": "cfregly",
+      "sourceUrl": "https://x.com/cfregly/status/2116655550264209874",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2116366373920391218",
+      "title": "交接保留死胡同：干净 diff 会丢掉失败路径",
+      "summary": "AI coding handoff 应保留失败尝试与权限翻车，不只交干净 diff。打包会话成执行简报时先审阅脱敏；把前次运行当原因解释，不当可信指令。",
+      "body": "交接设计（bulentongun）：\n1. 干净 diff 会丢掉「试过没用」的路径。\n2. 好的 handoff 保留：失败写入、权限检查、修复过程。\n3. 可把 Claude/Codex/Cursor 会话打成执行简报给下一 agent。\n4. 上传前审阅脱敏（提示词、命令输出、代码）。\n5. 前次运行用来解释「为何改道」，不要整段当可信指令照抄。\n落地：交接含死胡同 + 脱敏，接手才少重踩坑。",
+      "tags": [
+        "工作流",
+        "交接",
+        "协作",
+        "技巧"
+      ],
+      "author": "bulentongun",
+      "sourceUrl": "https://x.com/bulentongun/status/2116366373920391218",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-01"
     }
   ]
 }
