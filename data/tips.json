@@ -6463,6 +6463,306 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-11-01"
+    },
+    {
+      "id": "2117046998134399211",
+      "title": "防范围蔓延：只改约定文件与接口",
+      "summary": "在 AGENTS.md/copilot-instructions 写死：只动任务点名的文件；新接口/包/顶层目录须先约定；禁止为过限而关 lint；遗留排除名单只准缩短。",
+      "body": "范围门禁（TheCultOfAI / Alex Vainshtein）：\n1. 小改动常被 agent 扩成新接口层或新包；评审规则：未事先约定的文件与接口，diff 直接拒。\n2. 写入 AGENTS.md 或 .github/copilot-instructions.md：\n- 只改任务/计划里点名的文件；要动别的先停下来问。\n- 未经约定不新增接口、包或顶层目录；新目录须先在规则文件登记。\n- 不得自行抬高体积/复杂度上限，也不得加 lint-disable 钻空子。\n- 遗留 lint 排除名单只许变短：改到合规就从名单删掉。\n落地：把「保持小」写成可核对的 diff 规则；限额进 linter，CI 比口头叮嘱稳。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "验收",
+        "技巧"
+      ],
+      "author": "TheCultOfAI",
+      "sourceUrl": "https://x.com/TheCultOfAI/status/2117046998134399211",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117055813575712776",
+      "title": "验收别写愿望清单：改成可跑的三条",
+      "summary": "「错误要处理好」不是验收。改成可逐条跑过的 case（如幂等、超时不重扣、金额不符拒单），对照收活比「感觉差不多」省来回。",
+      "body": "可测验收（JasonYu0205）：\n1. 提示词里写「错误要处理好、边界要覆盖」，agent 仍会 done 一堆互相打架的逻辑。\n2. 那是愿望清单。改成可核对 case，例如支付回调：\n① 同一笔回调打两次，只落一笔账\n② 超时重试不重复扣\n③ 金额对不上直接拒，写失败日志\n3. 每条都能跑一遍看过不过；对照这三条收，比「感觉差不多」省返工。\n落地：Vibe Coding 省打字，省不掉把「什么叫做完」写清楚。",
+      "tags": [
+        "工作流",
+        "验收",
+        "技巧"
+      ],
+      "author": "JasonYu0205",
+      "sourceUrl": "https://x.com/JasonYu0205/status/2117055813575712776",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117052395335147735",
+      "title": "接话与干活拆开：Router 不下场写代码",
+      "summary": "多任务时让 Router 管全局与分配，Worker 独立上下文执行；后续同任务消息可直达 Worker；摘要进上下文、全文外置；活着≠在推进，要独立进度监控。",
+      "body": "调度拆分（ziziran2 解读 DeepSeek Super-agent）：\n1. 同时多任务、中途补需求/等 CI 时，谁接话很关键。\n2. Router 保留全局：收消息、分配、协调；不顺手写代码，避免堵接待窗口。Worker 在独立上下文干活。\n3. 三点常被忽略：① 已属某任务的更新可直达对应 Worker；② 眼前摘要进提示词，完整记录外置按需追溯；③ 进程未退出≠在推进，要独立监控进度。\n4. 实验显示中位完成更快，但缓存读 token 更高；仓库是研究原型，observe≠沙箱，Router/Worker 常 danger-full-access。\n落地：评多 agent 时除了「开了几个」，还要测取消、断线恢复、串线与真实费用。",
+      "tags": [
+        "工作流",
+        "协作",
+        "缓存",
+        "技巧"
+      ],
+      "author": "ziziran2",
+      "sourceUrl": "https://x.com/ziziran2/status/2117052395335147735",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117033245351244012",
+      "title": "Claude 内置体检：/doctor 到 /skill-doctor",
+      "summary": "汇总可直接用的体检命令：/doctor、prompt-audit、/skill-doctor（看占用与从未用过的技能）、/verify（真构建跑）、/run-skill-generator；多技能时先跑 skill-doctor。",
+      "body": "内置体检（RootAns_Blog，据官方文档整理）：\n1. `/doctor`：安装、闲置技能/MCP、CLAUDE.md 重复、权限；改前会先问。\n2. `/doctor prompt-audit`：查 CLAUDE.md/技能里过时或互相打架的指示（≥v2.1.283）。\n3. `/skill-doctor`：各技能占上下文与实际使用次数，标出从未用过的（≥v2.1.252）。\n4. `/verify`：改完不只看测试绿，还构建并跑起应用。\n5. `/run-skill-generator`：记下本项目 /run 与 /verify 怎么跑（含 DB/env）。\n6. 终端 `claude doctor`：不开会话只读安装状态。\n落地：技能装多了先 /skill-doctor——闲置技能也会占列表上下文。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "技巧",
+        "CLAUDE.md"
+      ],
+      "author": "RootAns_Blog",
+      "sourceUrl": "https://x.com/RootAns_Blog/status/2117033245351244012",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117004002361766098",
+      "title": "加长提示词前，先贴一条见本",
+      "summary": "反复改「简洁/别承诺」往往越写越长。先附一条合格见本，再短指令，比堆否定句更能稳住语气、结构和长度。",
+      "body": "见本优先（ai_claude_jp）：\n1. 让 AI 写回复草稿时常见：语气不对、结构每天变、写出未授权承诺；于是不断往提示词加条件，却分不清哪句生效。\n2. 建议：加长条件前，先附 1 条合格见本，再短指令。语气/结构/长度用见本比用否定句好传。\n3. 文中自述未做对比实验，效果不保证；官方 Prompting best practices 也强调少量精心例子优于一堆禁令。\n落地：可复制任务先建「见本+核对点」卡片，再迭代提示词。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "技巧"
+      ],
+      "author": "ai_claude_jp",
+      "sourceUrl": "https://x.com/ai_claude_jp/status/2117004002361766098",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2116999127963705629",
+      "title": "稳定前缀能吃缓存：读只要约一成价",
+      "summary": "Agent 每轮重复的 system prompt 与工具定义可走前缀缓存：cache_read≈0.1×、cache_write≈1.25×。固定可缓存块，别每轮改前缀。",
+      "body": "前缀缓存（Umbra_Inference）：\n1. Agent 每轮常送同一段 system prompt + 工具定义；提供商可缓存该前缀。\n2. 计费常见：cache_read≈输入价 10%，cache_write≈1.25×（长时缓存或更高）。\n3. 实测同约 12k token 前缀：第二次读可比第一次写便宜约 6 倍量级。\n4. 用 Anthropic 方言的 cache_control 标记可缓存块；前缀一改就写穿缓存。\n落地：把稳定规则/工具 schema 放前缀并固定；易变内容放后缀。查账单时分清 cache_read / cache_write。",
+      "tags": [
+        "工作流",
+        "缓存",
+        "成本",
+        "技巧"
+      ],
+      "author": "Umbra_Inference",
+      "sourceUrl": "https://x.com/Umbra_Inference/status/2116999127963705629",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2116998782650884149",
+      "title": "主会话 Opus，探索 Haiku，改码 Sonnet",
+      "summary": "按职责拆模型：Opus 编排，Haiku 只读探索，Sonnet 隔离改码测试；对抗审在锁计划前、连错两次后、最终签字前介入，主会话只收摘要 diff。",
+      "body": "模型分工（mirku21）：\n1. 启动主会话可用 `claude --model opus`。\n2. 拆法：Opus 编架构与委派；Haiku 只读探索（快搜）；Sonnet 在隔离上下文改代码跑测；另设对抗角色审计划/连错/PR。\n3. 子 agent 上下文隔离，主会话只收核实后的摘要 diff，避免工具日志灌爆。\n4. 对抗审三个时机：计划锁定前、子 agent 同一错误两次、最终签字前。\n5. 可把树与规则写进 `.claude/agents/` 与 CLAUDE.md。\n落地：大模型只干分叉决策；确定性格的小叉路由给快模型。",
+      "tags": [
+        "工作流",
+        "成本",
+        "协作",
+        "技巧"
+      ],
+      "author": "mirku21",
+      "sourceUrl": "https://x.com/mirku21/status/2116998782650884149",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117018003183427613",
+      "title": "Grok Bot：先 dump 再 reverse，少而精",
+      "summary": "别一上来狂开助手。先一次性交代身份/目标/卡点/工具，再让它反推该建哪些 Bot；1 个总管+几个专员，建完再落 Routine。",
+      "body": "助手规划（LucasLiu1119）：\n1. dump：一次说清你是谁、做什么、目标、卡点、已接工具；先记住，先别建 Bot。\n2. reverse prompt：\n「Based on what you know about me, what do you think would be the best set up of this Grok Bot app? Which bots should I make and what should their responsibilities be? This should enable the best workflow and productivity」\n3. 计划靠谱再搭 workspace；再问各助手 Routine 并落地。\n4. 少而精：1 总管 + 若干专员。职责已清、只差补技能的可跳过 reverse。\n落地：先定工作流边界，再扩助手数量。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "协作"
+      ],
+      "author": "LucasLiu1119",
+      "sourceUrl": "https://x.com/LucasLiu1119/status/2117018003183427613",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117045683454710059",
+      "title": "看 harness 只问三件事",
+      "summary": "换更强模型前先问：有没有自动循环、工具权限是否分层、跑完能否自检回写。模型负责聪明，环境负责不翻车。",
+      "body": "Harness 三问（T082057）：\n1. 有没有自动循环（别靠人手点下一步）。\n2. 工具权限有没有分层（读随便；写/发/花钱必须人点头）。\n3. 跑完有没有自检回写（错了能否自己改一版）。\n落地：模型智商买得到，翻车多半出在环境与门禁。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "技巧"
+      ],
+      "author": "T082057",
+      "sourceUrl": "https://x.com/T082057/status/2117045683454710059",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2116960968823415047",
+      "title": "家目录多余 CLAUDE.md 会挡住 AGENTS.md",
+      "summary": "Claude Code 默认：从工作目录往上只要存在 CLAUDE.md 变体，就不再读团队 AGENTS.md。修复：旁边放只含 @AGENTS.md 的 CLAUDE.md；硬约束用 hook。",
+      "body": "文件优先级（DaDw26 / ImportStatic 文档级核对）：\n1. 仅 AGENTS.md：Claude/Codex 都能读到。\n2. 家目录多一个 stray CLAUDE.md：Claude 改读 CLAUDE.md 并整段跳过 AGENTS.md；Codex 不变。\n3. 仓库里 CLAUDE.local.md 同样会关掉 AGENTS.md。\n4. 修复：在 AGENTS.md 旁放 CLAUDE.md，内容为 `@AGENTS.md`，Claude 专属注记写在 import 下。\n5. 必须遵守的规则用 hook；指令文件无强制保证。\n落地：骂模型「不听话」前，先审计工作目录到 $HOME 的指令文件列表。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "DaDw26",
+      "sourceUrl": "https://x.com/DaDw26/status/2116960968823415047",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2116946925500899371",
+      "title": "Downloads 里的 AGENTS.md 可被当指令",
+      "summary": "网页可无点击往 Downloads 丢伪开发笔记 AGENTS.md；在该目录跑 Claude Code/Codex 会当指令执行。3 分钟自检+永不在 Downloads 开 agent。",
+      "body": "指令投毒（drensonai / MALFEX）：\n1. 页面可向 Downloads 投放看似开发笔记的 AGENTS.md；在该目录启动 agent 会当订单执行，曾被用来诱装恶意 npm。\n2. 三分钟自检：Downloads/Desktop 是否有 AGENTS.md/CLAUDE.md；ANTHROPIC_BASE_URL 是否被改；有无 function-color/function-flag 包；近期 Codex 配置是否被改。\n3. 改法：永不在 ~/Downloads 开 agent；跑前先读任何新指令文件；npm install 需批准；确认 BASE_URL 为空。\n落地：指令文件当可执行代码审；目录即权限边界。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "AGENTS.md",
+        "技巧"
+      ],
+      "author": "drensonai",
+      "sourceUrl": "https://x.com/drensonai/status/2116946925500899371",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2116918291658690560",
+      "title": "别把 Bot 全拉进一个群：改星型+盲审",
+      "summary": "群聊多智能体易 Token 爆炸、互相放水串供。改星型管道：专员互不可见，中枢汇总；独立盲审与待确认清单，比同群互怼更稳。",
+      "body": "多 Bot 拓扑（TammyBuilds）：\n1. 视频里「拉进一个群」看起来能互审，工程上却是贵坑：上下文互相污染、Token 爆、互相放水串供。\n2. 推倒重来方向：星型管道 + 独立盲审——专员不共享彼此完整对话；中枢汇总；可疑点进 OPEN QUESTIONS，不当场定性。\n3. 原始数据区与转述区分开；认错不改 raw。\n落地：协作靠结构化交接，不靠群聊自由辩论。",
+      "tags": [
+        "工作流",
+        "协作",
+        "成本",
+        "技巧"
+      ],
+      "author": "TammyBuilds",
+      "sourceUrl": "https://x.com/TammyBuilds/status/2116918291658690560",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2116974149306310710",
+      "title": "CLAUDE.md 是用户消息，硬禁令用 hook",
+      "summary": "会话结束聊天内容不留；CLAUDE.md 每轮当普通用户消息重读，非系统提示。目标<200 行；路径规则与按需技能；绝不可为用 PreToolUse hook。",
+      "body": "记忆真相（AInewssX）：\n1. 新开 Claude Code 会话是白板；聊天内容结束即丢，/compact 也救不了跨会话。\n2. 真正持久的是磁盘上的 CLAUDE.md，且文档写明它是 system 之后的普通用户消息，不是强制配置。\n3. 「绝不可」类动作别只写 markdown，用 PreToolUse hook。\n4. 单文件目标 <200 行；过长占上下文还易被忽略。import 每次仍会加载。\n5. 路径 scoped rules 按文件匹配加载；skills 按需；可开 auto memory。\n6. 60 秒自检：`/context` 看 CLAUDE.md 是否列出且够短；`/memory`；硬禁令是不是 hook。\n落地：建议放 md，门禁放 hook。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "门禁",
+        "成本",
+        "技巧"
+      ],
+      "author": "AInewssX",
+      "sourceUrl": "https://x.com/AInewssX/status/2116974149306310710",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117045421537427475",
+      "title": "开源工程 Skill：拆分边界与缓存税审计",
+      "summary": "MiniMax 开源 mcode-stack：subagent-split-check 防盲目拆任务；context-tax-audit 查破坏前缀缓存的字段；long-command-check 防终端假死。可作 Claude Code/Codex 插件。",
+      "body": "工程 Skill 栈（LiuweijiaVip / MiniMax-AI/mcode-stack）：\n1. subagent-split-check：定上下文与并行边界，防盲目拆子任务导致 Token 膨胀。\n2. context-tax-audit：排查破坏前缀缓存的微小配置字段，避免长会话命中率暴跌。\n3. long-command-check：判定前台阻塞 vs 后台与超时，防终端挂起让 agent 假死。\n4. 安装：`claude plugin install ronny --marketplace MiniMax-AI/mcode-stack` 或拷入 `~/.agents/skills/`。\n落地：把「别乱拆、别穿缓存、别卡终端」写成可跑检查，而不是散文提醒。",
+      "tags": [
+        "工作流",
+        "skills",
+        "缓存",
+        "技巧"
+      ],
+      "author": "LiuweijiaVip",
+      "sourceUrl": "https://x.com/LiuweijiaVip/status/2117045421537427475",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117053457509327116",
+      "title": "开工前先找「不值得做」的理由",
+      "summary": "一人指挥多 AI 最易做出没人要的软件。先研究返工痛点与现成工具，砍掉大而空功能；SPEC 写清不做的事与可操作验收，再让 Bot 动手。",
+      "body": "先踩刹车（leonfu2012）：\n1. 研究员喊市场大、PM 列二十功能、程序员连夜写——常缺「别人为什么换你的」。\n2. 流程：具体麻烦 → 找不值得做的理由 → 只留仍站得住的小场景。\n3. 例：字幕交付检查——先问现有软件是否已够；砍重训模型/全自动剪辑等大点子；V1 只做术语表+人工确认+改动交接。\n4. 研究任务明确要求保留原链与「不值得再做工具」的理由，写成 RESEARCH.md；产品阶段出 SPEC.md（输入/输出/不做/验收）。\n落地：第一项产出应是被砍掉的功能；人拍板，不让 Bot 投票证明要开工。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作",
+        "技巧"
+      ],
+      "author": "leonfu2012",
+      "sourceUrl": "https://x.com/leonfu2012/status/2117053457509327116",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117056349628490196",
+      "title": "把 ChatGPT 偏好一键迁进 Grok Bot",
+      "summary": "Settings → General → Import：复制提示词给 ChatGPT，把回答贴回并 Add to Memory，主 Bot 会确认「还记得我什么」。",
+      "body": "偏好迁移（szrf6）：\n1. Grok Bot → Settings → General → Import。\n2. Start Import，复制提示词贴进 ChatGPT。\n3. 把回答贴回第二个框，点 Add to Memory。\n4. 主 Bot 会问 What do you remember about me? 以便核对。\n落地：换工具时少重讲一遍个人背景与偏好。",
+      "tags": [
+        "工作流",
+        "技巧"
+      ],
+      "author": "szrf6",
+      "sourceUrl": "https://x.com/szrf6/status/2117056349628490196",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117045660096909395",
+      "title": "评审要固定清单+新会话，结果才稳",
+      "summary": "同 diff 每次找出不同 bug，因阅读顺序随机、凑够条数就停。新会话先写本次检查清单再逐项走；发现须带文件行号；团队规则写进 instructions。",
+      "body": "稳定评审（TheCultOfAI）：\n1. 原因：每次阅读顺序不同，凑够「够了」就停。\n2. 新开会话贴 diff 提示词大意：当陌生人写的；先为本次改动写清单（空值、错误路径、边界、并发等），再逐项；每条发现给文件+行号；跳过风格吹毛。\n3. 团队：code owner 维护评审文件（失败长什么样、吹毛上限、跳过路径、必须证据）；Copilot 可读 .github/copilot-instructions.md 或路径级 .instructions.md。\n落地：清单把「随便看看」变成固定航线；写代码的会话别兼裁判。",
+      "tags": [
+        "工作流",
+        "验收",
+        "复盘",
+        "技巧"
+      ],
+      "author": "TheCultOfAI",
+      "sourceUrl": "https://x.com/TheCultOfAI/status/2117045660096909395",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117002190288290005",
+      "title": "置信门：合成集调阈值，再用真实拒识回炉",
+      "summary": "生产里用 confidence gate：从 CLAUDE.md 搭 eval harness，先合成数据扫阈值，再按真实流量拒识回调，而不是停在合成集。",
+      "body": "置信门（The3KingLeo）：\n1. 从 CLAUDE.md 搭 eval harness，起草 gate prompt 与合成数据集。\n2. 扫阈值后，用真实流量（如 LangSmith）上的拒识再调，别只信合成集。\n落地：门禁阈值要跟线上分布对齐。",
+      "tags": [
+        "工作流",
+        "验收",
+        "技巧"
+      ],
+      "author": "The3KingLeo",
+      "sourceUrl": "https://x.com/The3KingLeo/status/2117002190288290005",
+      "lang": "en",
+      "quality": "备用",
+      "collectedAt": "2026-11-02"
     }
   ]
 }
