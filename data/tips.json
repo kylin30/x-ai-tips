@@ -6763,6 +6763,310 @@
       "lang": "en",
       "quality": "备用",
       "collectedAt": "2026-11-02"
+    },
+    {
+      "id": "2117083695756812642",
+      "title": "长提示词拆成短状态机",
+      "summary": "生产级 Agent 很少塞超长 System Prompt。把长链路拆成单向状态，每态只给短指令；状态转移用代码/Schema 裁决，脏数据不往下传。",
+      "body": "短提示 + FSM（fishjar）：\n1. 生产里稳定跑几个月的系统，代码库里几乎找不到超过约 50 行的巨型 System Prompt。\n2. 初学者常把业务规则、格式、边缘 case 全塞进几千字长提示；指令越多，多轮注意力越容易漂。\n3. 可靠做法：拆成多个单向状态；每态只做一件窄任务、指令尽量短（约十几行内）；状态转移用确定性代码（如 JSON Schema）校验，失败就地重试，不把脏数据传给下一步。\n落地：模型只做单步语义，流程控制留给代码。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "门禁",
+        "技巧"
+      ],
+      "author": "fishjar",
+      "sourceUrl": "https://x.com/fishjar/status/2117083695756812642",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117188676308640038",
+      "title": "验收盯边界测试，别逐行读千行",
+      "summary": "AI 一次吐上千行时，别幻想通读。先让它写异常入参、并发、超时等断言；边界被测试锁死，再谈实现细节。",
+      "body": "边界焊死再交付（fishjar）：\n1. Claude Code / Cursor 一口气生成上千行时，几乎没人逐行读完再发。\n2. 「不通读」≠「闭眼赌」：审查重心从逐行语义转到边界条件与异常测试。\n3. 写业务前先让 AI 把异常入参、并发冲突、网络超时写成测试；核心边界被自动化套件锁住，中间实现再花哨也更可控。\n落地：用确定性输入输出逼它现形；边界焊死比通读更像交付。",
+      "tags": [
+        "工作流",
+        "验收",
+        "技巧"
+      ],
+      "author": "fishjar",
+      "sourceUrl": "https://x.com/fishjar/status/2117188676308640038",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117203809264931077",
+      "title": "提示词只留：做成啥 + 怎么验收",
+      "summary": "Claude 提示词写多了反而碍事。「认真思考」可删；业务规则与权限留着。系统提示砍八成，评测未必掉。",
+      "body": "少废话多验收（sanyanzhumo）：\n1. 管用就两条：做成啥；怎么验收算做完。\n2. 「认真思考」类空话可删；业务规则、权限边界留着。\n3. 有人把 Claude Code 系统提示砍掉约八成，评测没掉。\n落地：少写劝诫句，多写可核对的完成定义。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "验收",
+        "技巧"
+      ],
+      "author": "sanyanzhumo",
+      "sourceUrl": "https://x.com/sanyanzhumo/status/2117203809264931077",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117280218096271724",
+      "title": "开聊前先砍常驻上下文成本",
+      "summary": "每条消息都拖着 system、CLAUDE.md、MCP 工具说明和整段对话。先 /context 看窗口；砍不用的 MCP；CLAUDE.md 当地图；半满写 handoff 清会话。",
+      "body": "先付账再读题（adriansolarzz）：\n1. Claude Code 每条消息都带 system prompt、CLAUDE.md、已连接 MCP 的工具说明、整段对话；一行问题也可能先烧几千 token。\n2. 会话开头用 /context 看窗口已被占多少；从不调用的 MCP 仍在每轮加载，先卸。\n3. CLAUDE.md 写成地图：指向按需打开的文件，别把品牌手册整段常驻。\n4. 会话过半：写短 handoff（在做什么、已定、下一步）→ 清会话 → 从文件续。\n5. 大搜索/多文件读交给更便宜的子代理，回摘要；CLAUDE.md 加「短答」；简单题别开高 effort。\n落地：质量未必掉，只是少为「模型根本不用读的东西」付钱。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "adriansolarzz",
+      "sourceUrl": "https://x.com/adriansolarzz/status/2117280218096271724",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117324897185939866",
+      "title": "超额后缓存变 5 分钟：用 promptCacheTtl 拉回",
+      "summary": "Claude Code 进入 usage credits 后，会话缓存可能从约 1 小时掉到 5 分钟。歇口气再聊会整段重算；可用 promptCacheTtl 把时长拉回。",
+      "body": "缓存 TTL 陷阱（browserOS_ai）：\n1. 订阅额度用尽改走 usage credits 时，Claude Code 可能把会话缓存从约 1 小时降到约 5 分钟（写入更便宜）。\n2. 代价：喝杯咖啡再回来，下一条可能整段对话重算。\n3. 用 promptCacheTtl 可把缓存时长拉回约 1 小时。\n落地：超额后注意休息间隔；需要长停顿就显式拉长 TTL，别默默付重算。",
+      "tags": [
+        "工作流",
+        "缓存",
+        "成本",
+        "技巧"
+      ],
+      "author": "browserOS_ai",
+      "sourceUrl": "https://x.com/browserOS_ai/status/2117324897185939866",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117103631564689691",
+      "title": "定期清 agent 磁盘垃圾：先看体积再删",
+      "summary": "Claude/Codex/Cursor/Grok 会堆旧会话、SQLite、失效 token。先审计体积，再删 >30 天，并加每日自动清理。",
+      "body": "Agent 春季大扫除（illyism）：\n1. 各 coding agent 会悄悄堆旧 transcript、SQLite、失效 OAuth/编辑器缓存，可占数 GB。\n2. 作者一次清出约 13.8GB：含大量 Grok CLI 会话、Cursor 超 30 天 transcript、Codex 会话与历史库等。\n3. 可粘贴给 Cursor/Claude Code：审计 Mac 上 AI agent 会话与编辑器残留；先展示体积；删除 >30 天；并加每日 30 天自动 prune。\n落地：先看大小再删；把 prune 写成例行，别等磁盘炸了再清。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "技巧"
+      ],
+      "author": "illyism",
+      "sourceUrl": "https://x.com/illyism/status/2117103631564689691",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117308740080656674",
+      "title": "多工具共仓：共享 AGENTS.md + 单一计划文件",
+      "summary": "同项目混用 Claude Code、Codex、Cursor 时：共享规则放 AGENTS.md；当前计划放约定文件；决策放各 agent 都能读的频道。聊天仍各用各的。",
+      "body": "跨工具同一份约定（agentmsgservice / AMS）：\n1. 一人多开 Claude Code、Codex、Cursor 时，别每个工具重讲「我是谁、做到哪」。\n2. 共享指令放 AGENTS.md；当前计划放双方约定的同一文件；决策记在各 agent 都能读到的频道/笔记。\n3. 每个工具仍保留自己的聊天上下文。\n落地：规则与进度进仓库文件；会话里只谈本轮任务。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "协作",
+        "技巧"
+      ],
+      "author": "agentmsgservice",
+      "sourceUrl": "https://x.com/agentmsgservice/status/2117308740080656674",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117410531636121982",
+      "title": "Review 范围写进 AGENTS.md，别口头叮嘱",
+      "summary": "把 code review 限定为本次 diff 文件，排除测试、文档、README。新会话自动带规则，少白烧额度乱逛仓库。",
+      "body": "默认排除名单（wuguanzheng2）：\n1. 口头提醒「别看 README」常被忘掉；agent 会顺着仓库挑无关不一致，白烧额度。\n2. 写入 AGENTS.md：只看本次 diff 碰到的文件；排除测试目录、文档、README。\n3. 新会话自带规则，比每次重说稳。\n落地：把「看什么/不看什么」写成默认范围，而不是聊天口头门禁。",
+      "tags": [
+        "工作流",
+        "AGENTS.md",
+        "验收",
+        "成本",
+        "技巧"
+      ],
+      "author": "wuguanzheng2",
+      "sourceUrl": "https://x.com/wuguanzheng2/status/2117410531636121982",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117410299347362214",
+      "title": "共享 skills + 短指针指令 + 单子代理验收",
+      "summary": "一套 skills 给所有工具读；指令文件只做短指针，做法放 skills；修正写回共享处；主代理写 brief 与完成检查，一次只开一个子代理。",
+      "body": "四件让 agent 更稳（its_brill_）：\n1. 一份共享 skills，每个工具都读，一处修处处生效。\n2. 指令文件只做短指针；具体 how-to 放在 skills。\n3. 常驻提醒：回顾我的纠正，写到大家都能看见的地方。\n4. 一次只开一个子代理：主代理写 brief，并写清「什么叫做完」的检查项。\n落地：共享层放可复用做法；会话层只留任务与验收。",
+      "tags": [
+        "工作流",
+        "skills",
+        "验收",
+        "技巧"
+      ],
+      "author": "its_brill_",
+      "sourceUrl": "https://x.com/its_brill_/status/2117410299347362214",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117412126172020789",
+      "title": "Skills 做减法：299 砍到 13",
+      "summary": "常驻 skills 从约 12170 token 降到 473。少了互相打架的插件催办，注意力不再被无关 skill 描述抢走。",
+      "body": "每日减少而非堆积（Code_of_Kai）：\n1. 作者把 AI skills 从 299 个收到 13 个；常驻约 12170 token → 473。\n2. 清理前：系统底常挂「某插件要立刻配置」之类 hook，每轮先花推理忽略它。\n3. 大量无关 skill 描述会让「plan/test/review」等词误点亮；清理后只剩真正在用的工具。\n落地：定期下架不用的 skills；宁少而准，别让常驻说明互相抢注意力。",
+      "tags": [
+        "工作流",
+        "skills",
+        "成本",
+        "技巧"
+      ],
+      "author": "Code_of_Kai",
+      "sourceUrl": "https://x.com/Code_of_Kai/status/2117412126172020789",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117417734250053967",
+      "title": "记忆一文一事 + 索引按需加载",
+      "summary": "每个记忆文件只放一条事实，另备一行索引；每会话只加载索引。过期就改那一个文件，别挖长 CLAUDE.md。",
+      "body": "记忆文件化（reljadev）：\n1. coding agent 会自动堆 memory/Markdown；过期、互相矛盾、被截断/遮蔽的都有。\n2. 做法：一文一事；另做一行索引；每会话默认只加载索引。\n3. 某条过期时只修那个文件，不必在超长 CLAUDE.md 里翻找。\n落地：常驻要短；细节按需打开；影子覆盖问题仍要单独盯。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "成本",
+        "技巧"
+      ],
+      "author": "reljadev",
+      "sourceUrl": "https://x.com/reljadev/status/2117417734250053967",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117416215887200298",
+      "title": "Karpathy 风格 CLAUDE.md：少臆断、少废话、改到点上",
+      "summary": "把工程准则写进 Claude Code 的 CLAUDE.md：抑制凭空前提、避免冗余代码、每次改动精准落在目标位置。比再堆十条 system prompt 管用。",
+      "body": "三条约束进规则文件（shenxiankk）：\n1. 面向 Claude Code 的 CLAUDE.md，取材 Karpathy 工程实践。\n2. 三个方向：抑制凭空臆断的前提；避免冗余累赘代码；保证每次改动精准落到目标位置。\n3. 比再往 system prompt 堆十条空话更稳。\n落地：把「怎么改」写成仓库规则，而不是每次口头叮嘱。",
+      "tags": [
+        "工作流",
+        "CLAUDE.md",
+        "技巧"
+      ],
+      "author": "shenxiankk",
+      "sourceUrl": "https://x.com/shenxiankk/status/2117416215887200298",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117419289565069660",
+      "title": "聊天与干活别糊成一锅",
+      "summary": "ChatGPT 把 Chat 与 Work 合进同一 UI，危险也合进来了。聊天适合想清楚；干活要有边界，别聊着聊着就改文件、开网页。",
+      "body": "UI 合了 ≠ 脑子可糊（T082057）：\n1. 很多人以为 Chat 和 Work 合在一起干活更顺；其实风险也合进来——聊着聊着就开始改文件、开网页、写演示稿。\n2. 聊天适合把问题想清楚；干活适合有明确边界与授权。\n落地：会话用途拆开——想清楚用聊；动手用有门禁的工作模式。",
+      "tags": [
+        "工作流",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "T082057",
+      "sourceUrl": "https://x.com/T082057/status/2117419289565069660",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117419442774892753",
+      "title": "万能指令：目标 + 输入 + 输出 + 边界 + 验收",
+      "summary": "五段式下指令。危险操作一律先出预览；验收写清「我确认后再执行」。翻车时缩样本、缩字段、每次只改一个变量。",
+      "body": "五段公式与铁律（ZhaoZhaovfbc）：\n1. 指令结构：目标 + 输入 + 输出 + 边界 + 验收。例：整理测试文件夹；只读该夹；先出分类预览表；不移动/删除/覆盖；我确认后再执行。\n2. 铁律：删除、覆盖、批量移动、外发，一律先让它出预览。\n3. 翻车缩样：100 个文件缩到 2 个测试；整份报告缩到 3 个字段；自动化先手动跑一次；每次只改一个变量。\n落地：把「边界」和「验收」写进每条指令，而不是事后补救。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "验收",
+        "授权边界",
+        "技巧"
+      ],
+      "author": "ZhaoZhaovfbc",
+      "sourceUrl": "https://x.com/ZhaoZhaovfbc/status/2117419442774892753",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117419007158399344",
+      "title": "收尾要可验收完成态，不是顾问腔",
+      "summary": "必须交付：结论（完成/未完成）+ 改动 + 验证结果 + 1–3 步验收。禁止「仅供参考」「要不要我继续」。证据不足先最小验证。",
+      "body": "可验收完成态（AstcareTech）：\n1. 目标是可验收完成态，不是顾问。\n2. 必须交付：结论（完成/未完成）+ 改动 + 验证结果 + 1–3 步验收。\n3. 禁止收尾：尚待核实、尚不能确定、不能作为最终交付、仅供参考、要不要我继续。\n4. 证据不足：先最小验证；仍不足则「默认假设 + 已交付方案 + 验收方式」。\n落地：把禁止口头禅写进规则，逼 agent 给可核对结果。",
+      "tags": [
+        "工作流",
+        "验收",
+        "提示词",
+        "技巧"
+      ],
+      "author": "AstcareTech",
+      "sourceUrl": "https://x.com/AstcareTech/status/2117419007158399344",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117419194392232015",
+      "title": "校验放在 agent 改不到的地方",
+      "summary": "门禁若在 agent 可编辑范围内，它会改仿真或重试到绿灯。确定性检查做成独立步骤，上线前再加人工批准。",
+      "body": "门禁外置（Mr_RyanLewis）：\n1. 「要过仿真/检查」只有在检查位于 agent 不可改写的一侧时才成立。\n2. 若 agent 能改仿真或无限重试到绿灯，它会学会钻门禁。\n3. 做法：确定性检查作独立步骤；真正上线前加人工批准。\n落地：验证基础设施与写作 agent 权限隔离。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "授权边界",
+        "验收",
+        "技巧"
+      ],
+      "author": "Mr_RyanLewis",
+      "sourceUrl": "https://x.com/Mr_RyanLewis/status/2117419194392232015",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117416595555307559",
+      "title": "说 done 前必须再跑一遍观察步",
+      "summary": "ReAct 环是想→做→看。agent 最后一次改完却不重跑检查就说完成，等于只行动没观察。",
+      "body": "观察步要真（MrBrainCaffeine）：\n1. 很多人读 ReAct 只记 think/act，跳过 observation。\n2. coding agent 说 done，却没在最后一次编辑后再跑检查，就是「做了却没看」。\n3. 环只有观察步真实才闭环。\n落地：验收清单加一条——最后编辑后必须重跑约定检查，再允许标完成。",
+      "tags": [
+        "工作流",
+        "验收",
+        "技巧"
+      ],
+      "author": "MrBrainCaffeine",
+      "sourceUrl": "https://x.com/MrBrainCaffeine/status/2117416595555307559",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117335822374773032",
+      "title": "五步顺序：问→删→简→加速→自动化",
+      "summary": "按 Question → Delete → Simplify → Accelerate → Automate，且不可倒序。先质疑与删减，再谈加速和自动化。",
+      "body": "不可倒序的算法（slash1sol 转述 Elon Algorithm）：\n1. 顺序：Question（质疑需求）→ Delete（能删先删）→ Simplify（再简化）→ Accelerate（再加速）→ Automate（最后自动化）。\n2. 强调 never backwards：别一上来就自动化或堆功能。\n落地：写进 agent 规则——未删未简前，禁止直接自动化或扩 scope。",
+      "tags": [
+        "工作流",
+        "提示词",
+        "技巧"
+      ],
+      "author": "slash1sol",
+      "sourceUrl": "https://x.com/slash1sol/status/2117335822374773032",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-03"
     }
   ]
 }
