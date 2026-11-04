@@ -7067,6 +7067,292 @@
       "lang": "en",
       "quality": "值得一看",
       "collectedAt": "2026-11-03"
+    },
+    {
+      "id": "2117611251576738134",
+      "title": "按任务自改 Harness：propose-probe-compose",
+      "summary": "Harness 是模型外的一切：系统提示、护栏、记忆、工具指引、子代理与技能。Google 开源 Harness² 让代理按任务改 harness，不改权重；从多次试跑差异中学习，并把沉淀记下轮用。",
+      "body": "Harness²（AnnatarXBT 转述）：\n1. Harness = system prompt + guardrails + memory + tool guidance + subagents + skills + scripts + plugins。\n2. 传统做法：人一次性设计，之后每任务套同一固定配置。\n3. Harness² 每任务改配置、不碰权重：propose（写候选改动）→ probe（同任务多版本试跑）→ compose（按差异合成更好 harness）。\n4. 关键：从「跑法差异」学习，不依赖标准答案；定稿与有效教训会记住，下任务不从空白开始。\n落地：把失败 trace 交给「可改 harness」的循环，而不是只换模型。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "工具"
+      ],
+      "author": "AnnatarXBT",
+      "sourceUrl": "https://x.com/AnnatarXBT/status/2117611251576738134",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117690772791452009",
+      "title": "工程师应自管整套 Agent 配置",
+      "summary": "模型选型、工作流阶段、代码评审标准等应由工程师自己配置并试验。买不能控制的现成方案，体验容易掉到最低公分母。",
+      "body": "自管 Agent 配置（BHolmesDev）：\n1. 工程师应拥有并配置完整 agent setup：模型选择、agent workflow 各阶段、code review criteria 等。\n2. 目的是实测什么有效，而不是默认黑盒套件。\n3. 无法控制的 off-the-shelf 方案，体验常被压到 LCD（最低公分母）。\n落地：把「可改的工作流参数」留在团队手里，持续实验。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "协作"
+      ],
+      "author": "BHolmesDev",
+      "sourceUrl": "https://x.com/BHolmesDev/status/2117690772791452009",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117630541264748849",
+      "title": "麦肯锡 50+ Agent 复盘：先工作流后人机位",
+      "summary": "人机协作要刻意画进流程；规则清晰的先自动化；先痛点再上 agent；用例要可复用、可追踪、可验证。不为 agent 而 agent。",
+      "body": "麦肯锡 agent 项目复盘要点（aronhouyu）：\n1. 人仍要参与角色、准确性与关键判断；人机协作必须设计进工作流。\n2. 像培养新人：明确岗位职责，持续反馈，评估投入。\n3. 规则明确、高度标准化 → 规则自动化/预测/简单模型调用更可靠；多步判断、变化多 → 更适合 agent。\n4. 重点是工作流，不为 agent 而 agent：先梳理流程与痛点。\n5. 最好的用例可复用，沉淀组件到统一平台。\n6. 可追踪、可验证；agent 并非处处适用。",
+      "tags": [
+        "工作流",
+        "复盘",
+        "协作"
+      ],
+      "author": "aronhouyu",
+      "sourceUrl": "https://x.com/aronhouyu/status/2117630541264748849",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117769269513793541",
+      "title": "AGENTS.md 只做入口，细则分册按条件读",
+      "summary": "把 AGENTS.md 收成入口：只写「做这类事时去读哪本步骤书」。功能、修 bug、重构、鉴权、DB 等分册，避免入口文件膨胀。",
+      "body": "AGENTS.md 入口化（yoshi8__）：\n1. AGENTS.md 只做入口；详细步骤按作业类型拆成专用步骤书，入口只写「何时读哪本」。\n2. 基本方针：最小文档与代码、选最简设计、区分已确认/未确认/未决定、技术选型可派调查子代理。\n3. 功能/修 bug/保行为重构分册；重构夹带行为变更则拆 PR。\n4. 鉴权、DB、UX 文案、API 契约等在设计与验证时都读对应步骤书。\n5. PR 取可验证最小单位；自动合并范围白名单，敏感改动必须人批。\n落地：入口短、细则分册、条件触发阅读。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "yoshi8__",
+      "sourceUrl": "https://x.com/yoshi8__/status/2117769269513793541",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117604960716370319",
+      "title": "Gisting：系统提示压成 gist token 省解码成本",
+      "summary": "Shopify 把 Sidekick 系统提示从约 6000 token 压到约 1500 gist token（约 4:1），质量不掉。Gisting 与前缀缓存互补，还能降低解码时的 KV 读取成本。",
+      "body": "Gisting 压缩系统提示（parker_brydon / Shopify）：\n1. 问题：长 system prompt 即使有 prefix cache，解码时每个新 token 仍要 attend 全长 KV，带宽成本随长度涨。\n2. 做法：学一组 gist token 嵌入，推理时用 gist 序列替换全文系统提示；模型权重冻结，只训 gist 嵌入（知识蒸馏 + KL）。\n3. 约 4:1：~6000 → ~1500，预测质量基本保持。\n4. 与 prefix caching 不互斥：gisting 额外砍 attention/KV 读取，大批次吞吐更受益。\n落地：固定长系统提示可考虑「压缩表示」，别只迷信缓存。",
+      "tags": [
+        "工作流",
+        "成本",
+        "缓存"
+      ],
+      "author": "parker_brydon",
+      "sourceUrl": "https://x.com/parker_brydon/status/2117604960716370319",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117776341541994588",
+      "title": "规则写进 agents.md 一次，别每天重讲仓库",
+      "summary": "用 /init 生成 agents.md，写清技术栈、风格与禁区。Claude Code 与 Gemini CLI 也会尊重；规则写一次，少在晨会式对话里反复解释仓库。",
+      "body": "agents.md 一次写清（jevlorde）：\n1. Codex 提速技巧里最管用的一条：/init → agents.md 一次写清 stack、style、forbidden zones。\n2. Claude Code 与 Gemini CLI 也会尊重同一份约定。\n3. 配上 codex exec 做 one-shot，少盯聊天框。\n落地：仓库规矩落盘，停止每天重新口头交代。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "jevlorde",
+      "sourceUrl": "https://x.com/jevlorde/status/2117776341541994588",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117588092311748780",
+      "title": "Agent 防护可靠度排序：代码规则高于系统提示",
+      "summary": "防护从强到弱：不暴露工具 → 代码硬规则校验 → 无人规则时问人 → 小模型筛查 → 缩小爆炸半径。系统提示里的规则只是建议。",
+      "body": "Harness Engineering 101 防护排序（realized_dev）：\n1. 不暴露工具（最可靠）\n2. 用代码里的明文规则检查请求\n3. 没有规则能裁决时问人\n4. 用小模型筛查\n5. 缩小爆炸半径\n金句：A rule in the system prompt is advice.（系统提示里的规则只是建议）\n落地：关键禁令进代码/ hook，别只写进 prompt。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "技巧"
+      ],
+      "author": "realized_dev",
+      "sourceUrl": "https://x.com/realized_dev/status/2117588092311748780",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117773200235106416",
+      "title": "用暗语抽查 Agent 是否读了 AGENTS.md",
+      "summary": "在 AGENTS.md 末尾放随机暗语，说明「仅被问及时才透露」。开聊后问暗语，可快速验收 agent 是否真的加载了规则文件。",
+      "body": "AGENTS.md 读取验收（krika2810）：\n1. 在文件末尾加随机 codeword。\n2. 写明：仅当被问及时才揭示。\n3. 开会话后直接问 codeword。\n落地：当作规则文件加载的冒烟测试，再开始正式任务。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "技巧"
+      ],
+      "author": "krika2810",
+      "sourceUrl": "https://x.com/krika2810/status/2117773200235106416",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117708867304116486",
+      "title": "任务切成极小步，每步只喂几百字上下文",
+      "summary": "Agent 不稳往往不是模型笨，而是上下文太大。开源工作流做法：一步一窄任务、短上下文用完即弃；难点是想清在哪一步断开。",
+      "body": "极小步 + 短上下文（hppzyy）：\n1. 很多 Agent「跑不动」不是模型不够聪明。\n2. 做法：任务拆成极小一步；每步只喂几百字上下文，用完就扔。\n3. 同模型下成本下降，跑偏更少。\n4. 最难的是设计「在哪一步断开」，不是写胶水代码。\n落地：先画可切碎的步骤边界，再接模型。",
+      "tags": [
+        "工作流",
+        "成本",
+        "技巧"
+      ],
+      "author": "hppzyy",
+      "sourceUrl": "https://x.com/hppzyy/status/2117708867304116486",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117764464862752874",
+      "title": "子代理价值是隔离上下文，且默认不带 CLAUDE.md",
+      "summary": "Subagent 主要不是加速，而是让脏检索/日志不进主会话。内置 Explore/Plan 启动时不带你的 CLAUDE.md，研究阶段关键规则必须写进交接任务。",
+      "body": "Subagent 与上下文隔离（builtbyangelo）：\n1. 子代理重点不是速度，而是「什么永远不碰主上下文」。\n2. 子代理读文件、跑搜索、吞日志；主会话只收回摘要。\n3. 注意：内置 Explore / Plan 启动时不带你的 CLAUDE.md。\n4. 研究阶段若规则重要，必须写进交给子代理的任务说明。\n落地：主线程只留决策与摘要；规则随任务下发。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "builtbyangelo",
+      "sourceUrl": "https://x.com/builtbyangelo/status/2117764464862752874",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117776359866933718",
+      "title": "写 Agent：模型约 30%，Harness 约 70%",
+      "summary": "给它看什么、能调哪些工具、输出如何校验、记忆存哪，往往比换模型更能拉开差距。拼的是 harness engineering。",
+      "body": "Harness 占比（heqian1006）：\n1. 写 Agent：模型约 30%，其余约 70% 是 harness。\n2. Harness 覆盖：可见上下文、可调工具、输出校验、记忆位置。\n3. 同模型下 harness 好坏，差距常大于换模型。\n4. 口号：Prompt engineering 过时，拼 harness engineering。\n落地：优先把工具边界与校验做硬，再谈提示词修辞。",
+      "tags": [
+        "工作流",
+        "技巧"
+      ],
+      "author": "heqian1006",
+      "sourceUrl": "https://x.com/heqian1006/status/2117776359866933718",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117770155916919086",
+      "title": "AGENTS.md 等同可信代码：启动目录是安全决策",
+      "summary": "Agent 会把工作目录里的 AGENTS.md 当可信指令加载。信任应跟随仓库来源，而不是「文件在不在」。",
+      "body": "AGENTS.md 信任边界（Minglong51）：\n1. AGENTS.md 实质是带 md 扩展名的代码。\n2. Agent 从工作目录加载并当作 trusted。\n3. 因此「在哪个目录开会话」本身是安全决策。\n4. 信任应跟随仓库来源，而不是文件是否存在。\n落地：只在受信仓库根启动；勿在 Downloads/Desktop 乱开。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "技巧"
+      ],
+      "author": "Minglong51",
+      "sourceUrl": "https://x.com/Minglong51/status/2117770155916919086",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117766888004718857",
+      "title": "打开 Agent 的文件夹会决定谁在下命令",
+      "summary": "编码代理会把该文件夹里的 AGENTS.md / CLAUDE.md 当命令执行。项目仓库可以；Downloads 或桌面等于让随机文本定政策。",
+      "body": "启动文件夹即策略源（henryaiagents）：\n1. 你打开 coding agent 的文件夹，本身是安全决策。\n2. 该目录下的 AGENTS.md / CLAUDE.md 会被当成 orders。\n3. 项目仓库：通常没问题；Downloads / Desktop：等于让随机文本定政策。\n落地：固定从受信 repo 根启动 agent。",
+      "tags": [
+        "工作流",
+        "门禁"
+      ],
+      "author": "henryaiagents",
+      "sourceUrl": "https://x.com/henryaiagents/status/2117766888004718857",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117651634180309254",
+      "title": "规则写明：禁止让我粘贴密钥，改读环境变量",
+      "summary": "在 CLAUDE.md / Cursor rules 加硬约定：永远不要让用户粘贴 secret；指出应设置哪个环境变量并从中读取。粘贴后要轮换。",
+      "body": "密钥交互边界（milokits）：\n提示词/规则示例：\n\"Never ask me to paste a secret. Tell me which env variable to set and read it from there.\"\n落地：写进 CLAUDE.md 或 Cursor rules；若曾粘贴过密钥，立即轮换。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "提示词"
+      ],
+      "author": "milokits",
+      "sourceUrl": "https://x.com/milokits/status/2117651634180309254",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117766328983453969",
+      "title": "CLAUDE.md 禁令不是硬锁，硬规矩进 PreToolUse",
+      "summary": "官方说明 CLAUDE.md 与自动记忆非强制配置。真要拦住危险动作，把硬规矩写进 PreToolUse hook；CLAUDE.md 保持短说明，单文件别堆过约 200 行。",
+      "body": "硬锁 vs 上下文（__jingling）：\n1. CLAUDE.md 里的禁令只是上下文，不是硬锁。\n2. 「别 rm -rf」「别直接推 main」写进文件不等于拦住动手。\n3. 官方：它和自动记忆都不是强制配置。\n4. 单文件别堆过约 200 行，越长越不听话。\n5. 硬规矩写进 .claude/settings.json 的 PreToolUse；CLAUDE.md 只留命令与目录约定等给人看的说明。\n落地：政策分层——说明归 md，拦截归 hook。",
+      "tags": [
+        "工作流",
+        "门禁",
+        "技巧"
+      ],
+      "author": "__jingling",
+      "sourceUrl": "https://x.com/__jingling/status/2117766328983453969",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117455419602075701",
+      "title": "开工前先写验收：完成长什么样、一条命令怎么验",
+      "summary": "本月最大工作流升级不是新模型，而是开工前写清 acceptance：done 的定义，以及用一条命令如何验证。之后整体更快。",
+      "body": "验收先行（aldnlog）：\n1. 最大升级不是换模型，是开工前写 acceptance check。\n2. 问两句：what does done look like？how do I verify it in one command？\n3. 之后步骤明显更快。\n落地：任务卡第一行就是验收命令。",
+      "tags": [
+        "工作流",
+        "验收",
+        "技巧"
+      ],
+      "author": "aldnlog",
+      "sourceUrl": "https://x.com/aldnlog/status/2117455419602075701",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117589274296217916",
+      "title": "放弃 one-shot：反馈入库触发 Agent + 贵模改代码便宜模复盘",
+      "summary": "整理 Matt Palmer 日常工程习惯：反馈先入列再触发 Agent；聊天调度、IDE 编码；Skills 跨项目锁版本；旗舰模型改代码、便宜模型读 transcript 复盘省成本。",
+      "body": "Matt Palmer 工作流习惯（cxcx_cxy 整理）：\n1. 放弃 one-shot，收紧反馈闭环。\n2. 反馈先入列：评论/闪念进库 → 看板拖入 Todo → 自动拉起 Cloud Agent；失败看报错重来。\n3. 聊天做调度、编码归 IDE：用 Bot 拆意图，Cursor Agent 改代码；长线进 Projects。\n4. 跨项目攒 Skills，skill lock 锁版本；Bot 与 Cursor 共用 MCP。\n5. 旗舰模型写代码；PR 后把 transcript 喂便宜模型解释改动，Token 可省一个数量级。\n6. 杂活可过夜跑，核心架构与业务拍板留人。\n落地：触发式闭环 + 模型分层。",
+      "tags": [
+        "工作流",
+        "成本",
+        "协作"
+      ],
+      "author": "cxcx_cxy",
+      "sourceUrl": "https://x.com/cxcx_cxy/status/2117589274296217916",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2117581156724166662",
+      "title": "一份 AGENTS.md 喂 Cursor / Claude Code / Codex",
+      "summary": "三家工具换着用时，同一套规矩不要讲第二遍、第三遍。维护一份 AGENTS.md 共同喂给三家，减少重复解释。",
+      "body": "跨工具共享规则（jis544539251207）：\n1. Cursor / Claude Code / Codex 换着用时，最浪费的是同一套规矩讲多遍。\n2. 维护一份 AGENTS.md，三家一起喂。\n落地：规则单一事实源，工具只是执行器。",
+      "tags": [
+        "工作流",
+        "规则",
+        "技巧"
+      ],
+      "author": "jis544539251207",
+      "sourceUrl": "https://x.com/jis544539251207/status/2117581156724166662",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-04"
     }
   ]
 }
