@@ -2,6 +2,294 @@
   "version": 1,
   "tips": [
     {
+      "id": "2118108737080615258",
+      "title": "规则分三层：CLAUDE.md 不等于硬拦",
+      "summary": "拿掉 hook 的可执行位后，agent 照样改了受护文件且报告无错。CLAUDE.md 是上下文不是强制配置；不可撤销且机器可判的红线要进 PreToolUse/权限，并设 onFailure:block。",
+      "body": "规则三层（NatureBlueee）：\n1. 实验：去掉 hook 脚本 +x，Claude Code 仍改了已提交的 migration；文档写明 hook 跑不起来是非阻塞错误，动作继续。\n2. 三层：Always loaded=CLAUDE.md（上下文非强制）；On demand=按路径/技能（可能不到达）；Hard block=hooks/permission（工具跑前由产品拦）。\n3. 分拣两问：破一次能否撤销？机器能否判定？不可撤销+可判定→硬拦；不可撤销+人判→CLAUDE.md+人审 diff；可撤销→抽查，常破再升级。\n4. 红线不要放 on-demand；每条规则尾部标注 [hard block:…] / [spot check:…]，指向真正执行者。\n5. settings 里 PreToolUse + \"onFailure\":\"block\"（需较新版本）：脚本坏了时宁可全拦 Edit/Write，也不要静默放行。\n落地：先 grep CLAUDE.md 里的 must/never，说不出执行者的先标抽查再抽查。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "NatureBlueee",
+      "sourceUrl": "https://x.com/NatureBlueee/status/2118108737080615258",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118133400444035125",
+      "title": "完工前强制交底：擅自决定写成单屏 HTML",
+      "summary": "宣布完成前先自查补漏；把未请示、却影响结果的擅自决定，在仓库外写成一页单屏 HTML，用白话列出，需确认的置顶标红。专治「全部搞定」底下的暗箱改需求。",
+      "body": "强制交底单（RealYDT）：\n1. 长任务最怕结尾一句「全部搞定」，背地里砍需求、改默认配置。\n2. 塞进 CLAUDE.md / AGENTS.md：宣布完工前先自查补漏；再把所有没请示、擅自拍板且影响结果的决定，在代码仓库外生成一页单屏 HTML，用大白话列出，需要确认的置顶标红。\n3. 目的：逼 agent 交底，而不是报喜不报忧。\n落地：全局配置焊进这条，完工先看交底页再验收。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "验收"
+      ],
+      "author": "RealYDT",
+      "sourceUrl": "https://x.com/RealYDT/status/2118133400444035125",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118137909949944249",
+      "title": "双机跑 Claude Code：只同步 agent 知道的东西",
+      "summary": "用 Mutagen 同步 memory/ 与 CLAUDE.md、skills；不同步对话与登录凭证；冲突不让任何一边自动覆盖，避免笔记丢失与互踢下线。",
+      "body": "双机同步边界（wy_ones）：\n1. 同步 memory/ 与 CLAUDE.md：两台 agent 记同一份。\n2. 同步 skills：一边装好，另一边能用。\n3. 不同步对话：活在哪台开的，就在哪台干完。\n4. 不同步登录凭证：同步会导致一台刷新登录、另一台被踢。\n5. 冲突不让任何一边自动赢：两台会同时写 memory，自动覆盖会丢笔记。\n落地：同步「规则与记忆」，隔离「会话与凭证」。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "工具"
+      ],
+      "author": "wy_ones",
+      "sourceUrl": "https://x.com/wy_ones/status/2118137909949944249",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118079731728080930",
+      "title": "开 Agent 前先写一页 Harness：四行门禁",
+      "summary": "先写一页再开 agent：目标一句、范围外、停止条件、如何验证（命令或清单）。贴进 brief，agent 有岗位，你有闸门。",
+      "body": "开跑前 Harness（henryaiagents）：\n1. Multi-agent tip：write the harness before you open the agent。\n2. 一页四行：Goal（一句）/ Out of scope / Stop conditions / How you'll verify（命令或 checklist）。\n3. 把该页贴进 brief：agent 拿到岗位，你拿到闸门。\n落地：没这四行就别开长跑。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "验收"
+      ],
+      "author": "henryaiagents",
+      "sourceUrl": "https://x.com/henryaiagents/status/2118079731728080930",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118093490169209325",
+      "title": "护栏放在动作处：改工具不改客套",
+      "summary": "Confirm-before-delete 从 1/15 到 15/15，靠的是改工具而不是改 agent。Agent 不会可靠遵守礼仪；数据库等动作要用它绕不过去的角色与策略。",
+      "body": "动作层护栏（danlynch / Upstash 基准）：\n1. Confirm-before-delete：改工具后从 1/15 → 15/15。\n2. 教训：Agents won't reliably follow etiquette；把护栏放在动作发生处。\n3. 数据库：角色与策略要让 agent 嘴炮绕不过去（不只靠提示词礼貌）。\n落地：危险写操作进工具/权限模型，别只写「请先确认」。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "danlynch",
+      "sourceUrl": "https://x.com/danlynch/status/2118093490169209325",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118090176543031528",
+      "title": "Sonnet 主驾、Haiku 蜂群、Opus 待命顾问",
+      "summary": "Claude Code 多模型拆分省 token：主会话 Sonnet；Haiku 子代理并行搜索/grep/审计；Opus 仅审最终 diff。搜索与测跑交给 Haiku，主上下文保持小。",
+      "body": "多模型拆分（k0dzilla）：\n1. 命令：claude --model sonnet --advisor opus。\n2. 三个 Haiku 子代理：search（地图仓库）、grep（找调用点）、audit（隔离 worktree 查 diff）。\n3. CLAUDE.md 一条：每次仓库搜索与测跑交给 Haiku，主上下文保持小。\n4. 快决策分叉可走确定性路由，别让大模型看。\n5. 注意：Opus 别每件小事都叫；别让 Haiku 写业务代码。\n落地：Sonnet 建、Haiku 扫、Opus 审。",
+      "tags": [
+        "工作流",
+        "成本",
+        "技巧"
+      ],
+      "author": "k0dzilla",
+      "sourceUrl": "https://x.com/k0dzilla/status/2118090176543031528",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118123627098919350",
+      "title": "CLAUDE.md 拆成全局与仓库两份",
+      "summary": "通用规则与仓库专用规则混在一个文件，会拖垮跨项目复用。通用放 ~/.claude/CLAUDE.md，路径/命令/端口等留在仓库 CLAUDE.md；论文称分开后安全正确率明显上升。",
+      "body": "全局 vs 仓库（nidone_tenshi / Harmony Harness）：\n1. 问题：CLAUDE.md 越养越难带到别的项目——「到处通用」与「仅此仓库」混在一起。\n2. 做法：通用规则 → ~/.claude/CLAUDE.md；依赖路径、命令、端口等 → ./CLAUDE.md。\n3. 换任务只加载通用层，专用调整不串扰。\n4. 论文场景：安全且正确率约 36.7%→66.7%。\n落地：让 Claude 逐行分拣现有 CLAUDE.md 再拆开。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "nidone_tenshi",
+      "sourceUrl": "https://x.com/nidone_tenshi/status/2118123627098919350",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118131243028263420",
+      "title": "文档与代码冲突时跟代码，并列出全部差异",
+      "summary": "在家目录 CLAUDE.md 加一句：文档与现有代码不一致时，按代码写法执行，并在最终回复列出发现的全部差异。全局生效，不必每个项目各写一份。",
+      "body": "跟代码并报差（renkon40）：\n1. 在家目录 ~/.claude/CLAUDE.md（非项目级）加一句：文档与现有代码冲突时，遵循代码写法，并把发现的差异在最后答复全部列出。\n2. Codex 对应可写到 ~/.codex/AGENTS.md。\n3. 可自己改，也可让 AI 检查并补上。\n落地：全局一条冲突处理规则，减少「按过期文档改代码」。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "renkon40",
+      "sourceUrl": "https://x.com/renkon40/status/2118131243028263420",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118130870972473840",
+      "title": "前提写进 Notion 一处，输出歪了先改页面",
+      "summary": "ChatGPT 用内存、Claude 用项目、Claude Code 用 CLAUDE.md，记忆位置各异。把前提集中写在 Notion 一页再让各 AI 读；输出跑偏时先改 Notion，而不是分别调模型。",
+      "body": "单一事实源（rai_ai_lab）：\n1. 各产品记忆口不同：ChatGPT=内存，Claude=项目，Claude Code=CLAUDE.md。\n2. 前提统一写在 Notion 一处，再让各 AI 读。\n3. 输出歪了：先改 Notion 页，而不是分别拧每个模型。\n落地：产品差异在读取层，事实源只维护一份。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "协作"
+      ],
+      "author": "rai_ai_lab",
+      "sourceUrl": "https://x.com/rai_ai_lab/status/2118130870972473840",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118133537023091107",
+      "title": "买权限模型，别买护栏仪表盘安慰剂",
+      "summary": "Agent 安全热潮多是旧访问控制套 LLM 皮。仪表盘挡不住提示注入；要靠作用域凭证、不可逆动作需人批、以及经得起审计的日志。",
+      "body": "权限模型优先（harmszaj5）：\n1. Agent-security boom 多半是旧 access control + LLM 包装。\n2. Guardrail dashboards 挡不住 prompt injection。\n3. 真正有用：scoped credentials、不可逆动作 human approval、能过审计的 logs。\n落地：买/建权限模型，不买「看起来很安全」的安慰剂。",
+      "tags": [
+        "工作流",
+        "规则",
+        "技巧"
+      ],
+      "author": "harmszaj5",
+      "sourceUrl": "https://x.com/harmszaj5/status/2118133537023091107",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118128044476907937",
+      "title": "克隆仓库先人读 AGENTS.md，再放 Agent",
+      "summary": "编码 agent 会服从你从未读过的 README/规则文件，这是新型供应链风险。在克隆仓库跑 agent 前，先自己打开 AGENTS.md 与 rules，一分钟阅读胜过事后轮换全部密钥。",
+      "body": "先人读再放行（paddleurway）：\n1. Coding agent 会服从你从未读过的 README——供应链风险已转到自然语言指令。\n2. 克隆仓库跑 agent 前：自己打开 AGENTS.md 与任何 rules 文件。\n3. 一分钟阅读，胜过事后轮换全部密钥。\n落地：陌生仓库默认「先读规则再授权工具」。",
+      "tags": [
+        "工作流",
+        "规则",
+        "技巧"
+      ],
+      "author": "paddleurway",
+      "sourceUrl": "https://x.com/paddleurway/status/2118128044476907937",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118128979685384205",
+      "title": "AGENTS.md 无人检查只是建议：第二 Agent 扫 diff",
+      "summary": "没人检查的 AGENTS.md 规则只是建议。用第二个 agent 对 diff 做 grep/检查，规则才真正「粘住」。",
+      "body": "第二 Agent 执法（danystarkq）：\n1. an AGENTS.md rule nobody checks is a suggestion。\n2. 用第二个 agent grepping the diff，规则才 stick。\n落地：写规则 + 自动对照 diff 的检查代理，成对出现。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "验收"
+      ],
+      "author": "danystarkq",
+      "sourceUrl": "https://x.com/danystarkq/status/2118128979685384205",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118127382737641642",
+      "title": "同一指示说三次，就写进 CLAUDE.md 一行",
+      "summary": "收藏别人的「神设置」减不了你的重复修正。同一指示说了三次，就在 CLAUDE.md 加一行常设规则（如「余白 8px 单位」），明天先补最近三条修正。",
+      "body": "三次落盘（kobayashiyuto10）：\n1. 收藏别人的免费神设置，减不了你项目里的重复修正指示。\n2. 同一指示说了 3 次 → 往 CLAUDE.md 加 1 行（例：余白按 8px 单位）。\n3. 明天就把最近 3 条修正指示补进去。\n落地：重复口令立刻制度化，停止口头重讲。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "kobayashiyuto10",
+      "sourceUrl": "https://x.com/kobayashiyuto10/status/2118127382737641642",
+      "lang": "other",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118119405343437110",
+      "title": "压缩醒来后先重读 TASK.md 再继续",
+      "summary": "会话被 compact 后 agent 容易懵。在 AGENTS.md/CLAUDE.md 写明：若刚被压缩，先重读 TASK.md 再继续。这些文件压缩后仍会加载回来。",
+      "body": "压缩后复位（SergeForge）：\n1. Compact 后上下文清空，agent 易迷糊。\n2. 在 AGENTS.md / CLAUDE.md 写：if you were just compacted, re-read TASK.md and keep going。\n3. 这些文件压缩后仍会装回，指令还在。\n落地：长任务把「当前任务」落在 TASK.md，并声明压缩后必读。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "SergeForge",
+      "sourceUrl": "https://x.com/SergeForge/status/2118119405343437110",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118108572038909985",
+      "title": "提示词与 skills 落盘自持，换模型只改配置",
+      "summary": "若工作流绑死单一模型，供应商一变就脆。把 prompts、skills、specs 放在自己拥有的纯文本文件里；换模型应是配置变更，而不是整套重写。",
+      "body": "可移植资产（AIFSolopreneurs）：\n1. 单一模型工作流很脆（例：某厂商模型将离开某 IDE）。\n2. Keep prompts, skills, and specs in plain files you own。\n3. Swapping the model should be a config change, not a rewrite。\n落地：问自己：这套栈能跑几个供应商？",
+      "tags": [
+        "工作流",
+        "技巧",
+        "工具"
+      ],
+      "author": "AIFSolopreneurs",
+      "sourceUrl": "https://x.com/AIFSolopreneurs/status/2118108572038909985",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118142820250751320",
+      "title": "单工具怪癖写进 skill，别写进全局 CLAUDE.md",
+      "summary": "某 API/工具的限额只对它成立。让 Claude 把约束写进该工具的 skill 文件，而不是全局 CLAUDE.md，避免一个接口的怪癖变成全项目死规矩。",
+      "body": "约束就近（ReMyndAI）：\n1. 例：six images 是 Codex 限额，规则只应对 Codex 生效。\n2. 把约束写进该工具的 skill 文件，而不是全局 claude.md。\n3. 避免一个 API 的 quirk 变成对一切生效的规则。\n落地：工具特有限制进 skill；跨工具通则才进全局。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "ReMyndAI",
+      "sourceUrl": "https://x.com/ReMyndAI/status/2118142820250751320",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118136716515299415",
+      "title": "仓库只维护一份规则，另一份引用；全局配置进 git",
+      "summary": "同时有 CLAUDE.md 与 AGENTS.md 时只维护一份，另一份引用，避免两套 agent 读到不一致规则。全局配置目录纳入 git，改动能用 diff 审计。",
+      "body": "单一规则源（ericmyus）：\n1. 仓库若同时有 CLAUDE.md 与 AGENTS.md：只维护一份，另一份引用它。\n2. 否则两套 agent 读到的规则迟早对不上。\n3. 把全局配置目录放进 git，审计完 diff 一下就知道改了啥。\n落地：一份真相 + 可审计的配置变更。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "ericmyus",
+      "sourceUrl": "https://x.com/ericmyus/status/2118136716515299415",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
+      "id": "2118137236461855024",
+      "title": "停止要问三件事：停跑、停再启、控制点在哪",
+      "summary": "Stop 不是一个开关。要能停当前跑、能阻止再次启动、并明确控制点。实测只杀进程不够：调度器用新 PID 又拉起来。新护栏先观察误拦再强制。",
+      "body": "停止三问（Mickey1is2Much 转述 krishnan 等）：\n1. Can you stop the run？Can you stop it starting again？At which control point？\n2. 实操：杀进程不够，scheduler 用新 PID 又拉起。\n3. 撤权要覆盖已排队任务，真正跑时再复核权限。\n4. 新护栏先 watch-only，统计误拦；精度与样本量决定团队是否继续读 agent 输出。\n落地：把「停」设计成可演练的控制面，不只 kill。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "规则"
+      ],
+      "author": "Mickey1is2Much",
+      "sourceUrl": "https://x.com/Mickey1is2Much/status/2118137236461855024",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-05"
+    },
+    {
       "id": "2115966850739982825",
       "title": "双 agent 同仓：共用 AGENTS.md，切换前先 commit",
       "summary": "两 agent 互不读对方笔记。无 CLAUDE.md 时 Claude 也会读 AGENTS.md（与 Codex 同文件）。共用一份，各自追加改动，切换前 commit。",
