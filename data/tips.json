@@ -7641,6 +7641,294 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-11-04"
+    },
+    {
+      "id": "2118146941217599841",
+      "title": "Inbox/Outbox + L1–L5：敢放权又兜住风险",
+      "summary": "把可自主推进的事放进 Inbox 让 Agent 做；对外沟通与发布先入 Outbox 等人确认。再用 L1–L5 标自主等级，低风险先跑通再升级。",
+      "body": "主动服务型 Agent 工作流（Barret_China）：\n1. 巡检消息/邮件/日历/仓库，待办进统一 Inbox。\n2. 任务标 L1–L5：L1 整理信息 → L5 端到端交付；级别越高越可独立推进。\n3. HITL：重要决策、对外沟通、发布、敏感操作先进 Outbox，你确认后再继续。\n4. 不停留在 Demo：真实集成、测试、验证；配监控看板看 Inbox/Outbox/进度/异常。\n落地：先让 Agent 在低风险信息整理上交成果，再逐步放开 L4/L5。",
+      "tags": [
+        "工作流",
+        "协作",
+        "验收"
+      ],
+      "author": "Barret_China",
+      "sourceUrl": "https://x.com/Barret_China/status/2118146941217599841",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118150124807622679",
+      "title": "限制若可被 Agent 改写，就不是限制",
+      "summary": "真正管用的红线要放在 Agent 写不到的地方：沙箱、deny、版本钉死。CLAUDE.md 与本地 hook 都偏软。",
+      "body": "护栏放在钥匙外（lifeisameeme）：\n1. Agent 能改限制自己的规则 = 没有限制。\n2. 有效做法：OS 沙箱 + deny；依赖用版本钉与哈希；改配置前备份在 Agent 外。\n3. CLAUDE.md、本地 hook 偏软（可用 --no-verify 绕开）。\n落地：列一条 Agent「绝对碰不到」的硬限制，再检查 CLAUDE.md 里的 never 是否只是建议。",
+      "tags": [
+        "工作流",
+        "护栏",
+        "技巧"
+      ],
+      "author": "lifeisameeme",
+      "sourceUrl": "https://x.com/lifeisameeme/status/2118150124807622679",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118348327297384475",
+      "title": "CLAUDE.md 写「别读 .env」拦不住，要用 deny",
+      "summary": "提示词只影响「想不想做」；真正读写看权限。敏感路径写进 .claude/settings.json 的 permissions.deny。",
+      "body": "软请求 vs 硬墙（NotAIpotato）：\n1. 在 CLAUDE.md 写「别读 .env」拦不住 Claude Code。\n2. 官方：提示/CLAUDE.md 只影响意图；权限规则才管读写。\n3. 在 .claude/settings.json 加：\"permissions\":{\"deny\":[\"Read(./.env)\",\"Read(./.env.*)\"]}\n落地：密钥与禁区一律走 deny，不要只写在 markdown。",
+      "tags": [
+        "工作流",
+        "护栏",
+        "规则"
+      ],
+      "author": "NotAIpotato",
+      "sourceUrl": "https://x.com/NotAIpotato/status/2118348327297384475",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118244548501745751",
+      "title": "PreToolUse 设 onFailure:block，脚本挂了也不放行",
+      "summary": "Claude Code 默认 hook 启动失败是非阻塞。Edit/Write 的 PreToolUse 加上 onFailure:block（需较新版本），缺脚本时宁可全拦。",
+      "body": "Fail-closed 钩子（linklin63793）：\n1. 去掉 hook 的 +x 后，后台 agent 仍改了已提交 migration；日志只是非阻塞 Permission denied。\n2. 默认：hook 启动失败不拦动作。\n3. 做法：PreToolUse 匹配 Edit|Write → 指向脚本 → 加 \"onFailure\":\"block\"（Claude Code 2.1.295+）→ 故意 chmod -x 复测确认仍拦截。\n落地：不可撤销动作的 hook 必须 fail-closed，并定期用坏脚本自测。",
+      "tags": [
+        "工作流",
+        "护栏",
+        "技巧"
+      ],
+      "author": "linklin63793",
+      "sourceUrl": "https://x.com/linklin63793/status/2118244548501745751",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118156301750702508",
+      "title": "CLAUDE.md 是上下文不是强制配置，硬规则进 hook",
+      "summary": "官方写明 CLAUDE.md/AGENTS.md/memory 都是上下文。再写也跟不全；真要紧的规则挪进 hook。",
+      "body": "建议 vs 强制（Otitopcom）：\n1. Claude Code 文档：CLAUDE.md、AGENTS.md、memory 都是「context, not enforced configuration」。\n2. 写再多也不会 100% 遵守。\n3. 规则真要紧 → 挪进 hook（工具执行前拦）。\n落地：把 CLAUDE.md 里的 must/never 扫一遍，说不出执行者的，升级为 hook 或 permissions。",
+      "tags": [
+        "工作流",
+        "护栏",
+        "规则"
+      ],
+      "author": "Otitopcom",
+      "sourceUrl": "https://x.com/Otitopcom/status/2118156301750702508",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118483232199213331",
+      "title": "一份 AGENTS.md 当真源，其它文件只做薄桩",
+      "summary": "多工具各有规则文件名，同一段规矩抄五份必漂移。以 AGENTS.md 为唯一真源，其余生成指向它的薄桩。",
+      "body": "多 Agent 规则税（yinpengxuan）：\n1. Claude/Codex/Gemini/Cursor/Copilot 各一套文件名，同一段规矩抄多份。\n2. 漂移从「两个文件对同一规则说法不一致」那天开始。\n3. 做法：一份 AGENTS.md 当真源，其它文件生成薄桩指回去。\n落地：先合并冲突规则，再定谁生成桩、谁只读。",
+      "tags": [
+        "工作流",
+        "规则",
+        "技巧"
+      ],
+      "author": "yinpengxuan",
+      "sourceUrl": "https://x.com/yinpengxuan/status/2118483232199213331",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118488671708123546",
+      "title": "规则桩设只读：改 CLAUDE.md 被拒，只能改 AGENTS.md",
+      "summary": "薄桩若可写，分叉一夜会改掉真源。桩文件只读；Agent 要改规矩只能打补丁到 AGENTS.md。",
+      "body": "只读桩（yinpengxuan）：\n1. 额外规则：stubs 只读。\n2. Agent 改 CLAUDE.md 或 .cursor/rules → 拒绝，必须改 AGENTS.md。\n3. 避免分叉一夜重写真源。\n落地：配合「AGENTS.md 真源」；用权限/hook 拒绝写桩文件。",
+      "tags": [
+        "工作流",
+        "规则",
+        "护栏"
+      ],
+      "author": "yinpengxuan",
+      "sourceUrl": "https://x.com/yinpengxuan/status/2118488671708123546",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118264339904012664",
+      "title": "Claude Code 与 Codex 共用：规则/技能/MCP 各一份",
+      "summary": "团队换人不必换工具。共享规则进 AGENTS.md 再导入 CLAUDE.md；技能按宿主各放 SKILL.md；MCP 只注册一次到各 Agent。",
+      "body": "双工具兼容（mindbercom）：\n1. 共享规则放 AGENTS.md，导入 CLAUDE.md。\n2. 技能以 SKILL.md 文件夹放进各 Agent 目录。\n3. 一个 MCP server，分别注册到各 Agent。\n落地：新人入职先对齐这三处，而不是强制全员换同一 CLI。",
+      "tags": [
+        "工作流",
+        "规则",
+        "协作"
+      ],
+      "author": "mindbercom",
+      "sourceUrl": "https://x.com/mindbercom/status/2118264339904012664",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118275776332108008",
+      "title": "提示词规则会淡忘，确定性检查不会",
+      "summary": "长会话里文件里的规则会被悄悄忘掉。pre-commit、超时、队列上限不会忘。规则说期望，检查保证发生。",
+      "body": "规则 + 检查（muzil7734）：\n1. 长会话中 Agent 会淡忘文件里的规则。\n2. pre-commit、timeout、队列上限不会忘，坏 diff 打开前就拦下。\n3. 仍写规则，但不单独信任它们。\n落地：每条「必须」配一条机器可跑的检查；只靠提示的标为抽查。",
+      "tags": [
+        "工作流",
+        "验收",
+        "技巧"
+      ],
+      "author": "muzil7734",
+      "sourceUrl": "https://x.com/muzil7734/status/2118275776332108008",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118263706152751328",
+      "title": "说「做完」前强制跑相关测试写进规则",
+      "summary": "Jest --findRelatedTests / Vitest related。把这条写进 CLAUDE.md、AGENTS.md、Cursor rules，习惯变系统。",
+      "body": "完工门禁（Stephensucexful）：\n1. AI 写得越多，测试越要你来守。\n2. 自动化：Jest --findRelatedTests；Vitest related。\n3. 写入 CLAUDE.md / AGENTS.md / Cursor rules：说 done 前必须跑相关测试。\n落地：把「相关测试绿」写进 Definition of Done，不要只口头叮嘱。",
+      "tags": [
+        "工作流",
+        "验收",
+        "规则"
+      ],
+      "author": "Stephensucexful",
+      "sourceUrl": "https://x.com/Stephensucexful/status/2118263706152751328",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118440719928995975",
+      "title": "工单按 Agent 第一读者写：验收标准放最前",
+      "summary": "人需要 why；Agent 需要边界。Acceptance criteria 先行，少写氛围话。",
+      "body": "Agent 可读工单（adikari）：\n1. 写工单时假定第一读者是 Agent。\n2. 验收标准放最前，少 vibe。\n3. 人仍需要 why，但 Agent 需要 edges。\n落地：每张票先写可判定的 AC，再补背景；开干前问 Agent 能否复述边缘条件。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作"
+      ],
+      "author": "adikari",
+      "sourceUrl": "https://x.com/adikari/status/2118440719928995975",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118233610755174428",
+      "title": "CLAUDE.md 定期瘦身：目标 + 怎么验收就够",
+      "summary": "Opus 类模型要的引导更少。一句话说清目标与验收；系统提示删 80% 评测可不掉分。提示词也要大扫除。",
+      "body": "提示词减负（ibx1112599 / Addy Osmani 观点转述）：\n1. 你写的提示词可能 80% 是废话。\n2. 说清目标 + 怎么验收即可。\n3. Claude Code 侧有删 80% 系统提示、评测不掉分的实践。\n落地：打开 CLAUDE.md，删掉重复与空话；留下目标、禁区、验收三块。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "成本"
+      ],
+      "author": "ibx1112599",
+      "sourceUrl": "https://x.com/ibx1112599/status/2118233610755174428",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118202185360003561",
+      "title": "别急着换贵模型，先搭 Harness 五件套",
+      "summary": "记忆文件、技能、护栏、子代理、自动检查。决定长跑不跑偏的是工位，不是模型贵几档。",
+      "body": "Harness 工位（HunZhijie）：\n1. 记忆：规矩写进 CLAUDE.md，每次开工先读。\n2. 技能：常用操作做成固定流程。\n3. 护栏：能删库/花钱的命令先拦住。\n4. 子代理：大活拆段。\n5. 检查：跑完自动测，不过退回。\n落地：普通人先把五样搭齐，再考虑换更贵模型。",
+      "tags": [
+        "工作流",
+        "技巧",
+        "护栏"
+      ],
+      "author": "HunZhijie",
+      "sourceUrl": "https://x.com/HunZhijie/status/2118202185360003561",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118154690487861377",
+      "title": "边界写进 .cursor/rules：Always + globs，开仓少口述",
+      "summary": "常驻硬边界用 Always；按文件类型用 globs。用哨兵句验收规则真进了上下文，别把流程剧本塞进永远加载的规则。",
+      "body": "Cursor Rules 落地（jis544539251207）：\n1. Always：禁区/密钥/收尾检查，每轮都在。\n2. globs：如 **/*.tsx 才挂组件约定。\n3. 扩展名必须 .mdc；普通 .md 不会被加载。\n4. 验收：新开对话问哨兵；打开匹配文件再问条件规则。\n5. Always 别灌风格全书；多步骤剧本放 Skills；跨工具短说明放 AGENTS.md。\n落地：开仓清单六格勾完，再少讲一遍「别碰哪」。",
+      "tags": [
+        "工作流",
+        "规则",
+        "技巧"
+      ],
+      "author": "jis544539251207",
+      "sourceUrl": "https://x.com/jis544539251207/status/2118154690487861377",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118244817113157758",
+      "title": "AGENTS/STATE/KNOWLEDGE：记「已证明」与审批分层",
+      "summary": "项目级记忆要精简可追溯。低风险自动验证后继续；高风险/不可逆始终人批。",
+      "body": "知识结构 + 审批（Jasonchen202406）：\n1. AGENTS.md：规则与文档入口；STATE.md：当前任务/阻塞；KNOWLEDGE.md：已验证结论；Evidence Index：证据与位置。\n2. 记忆应含「已证明什么、今后必须遵守什么」，不只「做过什么」。\n3. 低风险：自动验证后继续；中风险：更完整回归；高风险/不可逆：始终人批。\n落地：先建三文件骨架，再按风险把审批点钉死。",
+      "tags": [
+        "工作流",
+        "规则",
+        "验收"
+      ],
+      "author": "Jasonchen202406",
+      "sourceUrl": "https://x.com/Jasonchen202406/status/2118244817113157758",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118448272742486490",
+      "title": "跨工具共享记忆：把 auto memory 迁进仓库 .agents/memory",
+      "summary": "写代码与审代码若不在同一 harness，纠正过的规则审方看不到。把记忆迁到仓库并在 AGENTS.md 要求开干前读写。",
+      "body": "共享记忆（Voxyz_ai）：\n1. 痛点：Opus 写、Astra 审，记忆锁在单一 harness/本机；换机或上云又要重讲。\n2. 一次指令：把 ~/.claude/projects/ 的 auto memory 迁到 .agents/memory/；先列出密钥类内容勿入库；AGENTS.md（及 CLAUDE.md）写明开干前读 MEMORY.md，新收获也写入并随代码提交。\n3. .claude/settings.local.json 设 autoMemoryDirectory 指向该目录。\n落地：审与写读同一份记忆；提交前扫密钥。",
+      "tags": [
+        "工作流",
+        "协作",
+        "技巧"
+      ],
+      "author": "Voxyz_ai",
+      "sourceUrl": "https://x.com/Voxyz_ai/status/2118448272742486490",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118393573540585939",
+      "title": "预算上限只限损失，不证明理解了任务",
+      "summary": "Visa 测试里失败单仍有一半完成了购买。花钱帽不等于验收。先权威→适用（AC）→支付；条件不清就弃权。",
+      "body": "花费帽 ≠ 任务理解（dburrells）：\n1. Agent 可守住预算仍买错东西。\n2. 实验：22 模型 × 15 购物挑战，通过率 57.2%；失败里 54% 仍完成购买。\n3. 三检：authority → suitability（验收标准）→ payment；需求未清则 abstain。\n落地：有花钱/下单类工具时，先写可判定 AC，再设预算帽。",
+      "tags": [
+        "工作流",
+        "验收",
+        "成本"
+      ],
+      "author": "dburrells",
+      "sourceUrl": "https://x.com/dburrells/status/2118393573540585939",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118314542707200414",
+      "title": "跨家族互审 + A1–A9 脚本验收，再决定是否 push",
+      "summary": "Claude 与 Codex 互审一轮；脚本按检查项验收；只在 DONE/WAITING 停，push 留给人。",
+      "body": "Swarm 验收（ZJM330 / Iruka）：\n1. 多 Agent 分工，人只做最后验收。\n2. Claude 与 Codex 跨家族互审一轮。\n3. 脚本按 A1–A9 验收；仅 DONE 或 WAITING 时停。\n4. push 留给人。\n落地：先把「做完」写成可跑检查清单，再允许说 done。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作"
+      ],
+      "author": "ZJM330",
+      "sourceUrl": "https://x.com/ZJM330/status/2118314542707200414",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-06"
     }
   ]
 }
