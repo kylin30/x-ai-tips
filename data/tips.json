@@ -7929,6 +7929,325 @@
       "lang": "zh",
       "quality": "值得一看",
       "collectedAt": "2026-11-06"
+    },
+    {
+      "id": "2118825045644513583",
+      "title": "纠错写进 AGENTS.md：好 harness 胜过好模型",
+      "summary": "每次纠正加一行规则；危险命令进 deny；改文件后跑测试；大任务先写 plan.md，完成用新会话对照验收。",
+      "body": "Addy Osmani harness 可抄（undefinedKi）：\n1. 建 AGENTS.md/CLAUDE.md；每次纠正加一行（如「用 pnpm 不用 npm」）。\n2. 危险命令进 deny：rm -rf、git push --force、DROP TABLE。\n3. 文件被改就跑测试 hook，让 Agent 立刻看到错。\n4. 规则写明：禁止删测/跳过测试来「变绿」。\n5. 长输出先落盘，只读末尾，省上下文。\n6. 大任务先写 plan.md，含步骤与「done when」。\n7. 做完开新会话，对照 plan.md 复查；别让同一会话自评。\n落地：AGENTS.md 每一行都应对一次真实翻车。",
+      "tags": [
+        "工作流",
+        "规则",
+        "护栏"
+      ],
+      "author": "undefinedKi",
+      "sourceUrl": "https://x.com/undefinedKi/status/2118825045644513583",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118855979051696419",
+      "title": "上线前 Harness 五查：上限、门闸、可回放",
+      "summary": "工具要显式成败；设步数与成本上限；沙箱外写操作要人批；保留可回放工具日志。模型相同≠可靠相同。",
+      "body": "生产 Agent 检查单（anjummatin_gg）：\n失败常见：只把 system prompt 改名成 harness；无线步/成本上限通宵烧币；工具 HTTP 200 但 body 是错；发送/删除/支付无人门闸。\n上线前五查：\n1. 每个工具返回显式成功/失败。\n2. 真实任务评测，改动后重跑。\n3. 单次运行设最大步数 + 成本上限。\n4. 离开沙箱的写操作要人批准。\n5. 工具调用日志可回放。\n落地：先补「步数/成本帽」和「对外写门闸」，再谈模型升级。",
+      "tags": [
+        "工作流",
+        "护栏",
+        "成本"
+      ],
+      "author": "anjummatin_gg",
+      "sourceUrl": "https://x.com/anjummatin_gg/status/2118855979051696419",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118828002020626774",
+      "title": "八文件三角色：规划/实现/评估分会话",
+      "summary": "状态放仓库不放脑子。PLANNER、BUILDER、EVALUATOR 分开会话，避免互相吹捧；评估必须点过真应用才算完成。",
+      "body": "Opus 工作流八文件（0xkkai）：\n1. CLAUDE.md 定全局规则。\n2. PRODUCT.md 只写产品简报（人写）。\n3. CONTRACT.md 把简报拆成功能契约。\n4. FEATURES.json 跟踪每项状态。\n5. HANDOFF.md 跨会话交接下一步。\n6. roles/PLANNER、BUILDER、EVALUATOR 三角色。\n关键：三角色不要同会话，否则会互相附和；评估者必须点过运行中的应用，再回写 FEATURES.json。\n落地：先把「完成」写成可点可测的检查，再让 Builder 开工。",
+      "tags": [
+        "工作流",
+        "验收",
+        "协作"
+      ],
+      "author": "0xkkai",
+      "sourceUrl": "https://x.com/0xkkai/status/2118828002020626774",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118819028009713775",
+      "title": "Opus 写脚本、Haiku 并行扫：贵模型只站关键点",
+      "summary": "让 Opus 写可执行工作流脚本；Haiku 并行扫文件；确定性决策放脚本，判断留给模型。省上下文也省钱。",
+      "body": "文档级编排技巧（misat0x / Anthropic docs）：\n1. Opus 把目标写成可执行 workflow 脚本。\n2. Haiku 并行扫文件、抽候选。\n3. Sonnet 在隔离副本里打补丁。\n4. 独立 verifier 交叉核对后再上报。\nOpus 只出现在：写脚本前、读核实结果后、合入 git 前签字。\n确定性（选文件、重试/停）放脚本；需要判断的留给模型。\n落地：先把循环与扇出写成脚本，别把中间结果全塞进 Opus 上下文。",
+      "tags": [
+        "工作流",
+        "成本",
+        "协作"
+      ],
+      "author": "misat0x",
+      "sourceUrl": "https://x.com/misat0x/status/2118819028009713775",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118863512134987913",
+      "title": "用 ails 体检 CLAUDE.md：先抓 TODO 与缺章节",
+      "summary": "本地 CLI 按规则检查 instruction 文件。空话、占位符、缺结构能一次扫出。语义检查要模型；结构检查免费就够用。",
+      "body": "CLAUDE.md 体检（TryAiLabHQ / ails）：\n1. 用 `npx @reporails/cli@0.6 check` 查 CLAUDE.md、AGENTS.md。\n2. 空目录会提示先建 AGENTS.md。\n3. 烂文件典型问题：TODO 占位（高优先级）、无章节、无目录说明、自相矛盾空话。\n4. 好文件四段：范围、流程、风格、安全。\n坑：首次要下本地模型；离线 `AILS_MODEL_OFFLINE=1` 只做结构检查，抓不住语义矛盾。\n落地：提交前先跑结构体检，清掉 TODO 与缺章节。",
+      "tags": [
+        "规则",
+        "工作流",
+        "技巧"
+      ],
+      "author": "TryAiLabHQ",
+      "sourceUrl": "https://x.com/TryAiLabHQ/status/2118863512134987913",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118863260325924911",
+      "title": "路径已知用工作流，高度不确定才上 Agent",
+      "summary": "生产靠确定性：模型调用嵌进写死路径。可测、可重试、可审计。Demo 拼想象，上线拼流程。",
+      "body": "Agent vs 工作流（zhuihui110）：\n1. 生产扛事的是工作流：模型调用嵌进确定性流程，路径由代码写死。\n2. 流程已知的业务直接用工作流。\n3. 只有路径高度不确定才上 Agent。\n4. 目标：可测试、可重试、可审计。\n落地：列一张「已知路径清单」，能工作流的先别 Agent 化。",
+      "tags": [
+        "工作流",
+        "门禁"
+      ],
+      "author": "zhuihui110",
+      "sourceUrl": "https://x.com/zhuihui110/status/2118863260325924911",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118862613220331880",
+      "title": "长任务开工前先过额度门闸",
+      "summary": "超 10 分钟、开浏览器或拉编码 Agent 前，先估用量。超阈值或估不准就 SKIP，别半路断粮。",
+      "body": "额度门闸（stansKoya）：\n接到预计超 10 分钟、会开浏览器、或会拉起编码 Agent 的任务时：\n1. 读本周/今日已用百分比（没有精确数就说估不准）。\n2. 一句话说清大概还会烧多少。\n3. 已用超阈值（默认周额度 85%）或估不准且任务不可中断 → 回复 SKIP 并写失败原因，不要开工。\n4. 只有 allow 才继续；未经批准不改额度上限、不换账号。\n落地：把这段写进派活说明或首席助理默认规矩。",
+      "tags": [
+        "成本",
+        "工作流",
+        "门禁"
+      ],
+      "author": "stansKoya",
+      "sourceUrl": "https://x.com/stansKoya/status/2118862613220331880",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118868468477132846",
+      "title": "别为每项任务各建 Agent，改用 Skills",
+      "summary": "Anthropic 工程师建议：出错改 SKILL.md 一行，之后每次运行沿用。比对话里反复纠正更稳。",
+      "body": "Skills 优于一任务一 Agent（Zen_with_AI / Anthropic Code Summit）：\n1. 别为每项任务各建智能体。\n2. 用 Skills：流程与修正写在 SKILL.md。\n3. 出错时改文件一行，而不是在对话里反复纠正。\n4. 之后每次运行都会沿用这次修正。\n落地：把重复纠正收成 skill；一个工作流一个 skill，别把手册全塞进 CLAUDE.md。",
+      "tags": [
+        "工作流",
+        "规则",
+        "技巧"
+      ],
+      "author": "Zen_with_AI",
+      "sourceUrl": "https://x.com/Zen_with_AI/status/2118868468477132846",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118850999767187625",
+      "title": "CI 用 denyInsteadOfPrompting：卡住不如干净拒绝",
+      "summary": "无人值守时权限弹窗会挂死。开启后会提示的调用直接 deny，Agent 继续并说明缺什么。",
+      "body": "CI 权限策略（HaStrive / Claude Code 2.1.319）：\n1. `permissions.denyInsteadOfPrompting`：本会等权限弹窗的调用改为直接拒绝，回合继续。\n2. 对终端、子 Agent、队友会话都生效。\n3. 无人值守时：卡住等待 < 干净失败并解释。\n本周检查：\n- CI/隔夜 Agent 打开该开关。\n- 交互会话保持默认弹窗。\n- 记录被 deny 的工具，下次预授权。\n落地：先给 CI profile 单独开 denyInsteadOfPrompting。",
+      "tags": [
+        "护栏",
+        "工作流",
+        "权限"
+      ],
+      "author": "HaStrive",
+      "sourceUrl": "https://x.com/HaStrive/status/2118850999767187625",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118787958685728782",
+      "title": "别让 Agent 改自己的刹车：deny 编辑配置",
+      "summary": "不可逆进 deny；发送/花钱进 ask；禁止 Edit(.claude/**)。硬规则放用户级 settings，项目文件取消不了。",
+      "body": "刹车放钥匙外（Qyravex）：\n1. 不可逆操作 deny（如 Bash(rm *)、Read(.env)）；deny 优先，allow 打不开。\n2. 发送/花钱类 ask（git push、出站请求），每次等人批。\n3. 禁止改自身配置：Edit(./.claude/**)。\n4. 硬规则放 ~/.claude/settings.json（仓库外）；deny 跨作用域合并，项目文件盖不掉。\n5. PreToolUse hook 作第二道闸；exit 2 拦截并说明。\n6. 团队用 managed settings 顶层覆盖。\n落地：先 deny 编辑 .claude/**，再检查项目 settings 能否绕过用户级 deny。",
+      "tags": [
+        "护栏",
+        "权限",
+        "规则"
+      ],
+      "author": "Qyravex",
+      "sourceUrl": "https://x.com/Qyravex/status/2118787958685728782",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118858587992965592",
+      "title": "子 Agent 交接别塞摘要，要交状态或工具调用",
+      "summary": "摘要天生丢信息：子 Agent 用假设填洞。没有可核验句柄（如交易哈希）就不要信交接结果。",
+      "body": "子 Agent 交接（lolipopzahana）：\n1. 段落摘要天生有损。\n2. Agent 交一段话 → 子 Agent 用假设补洞 → 再交回一段话。\n3. 修好摘要不如交状态或工具调用结果。\n4. 交接里没有可核验句柄（如 tx hash），就不要信。\n落地：handoff 模板强制：输入路径、命令/工具结果、验收句柄；禁止只交散文摘要。",
+      "tags": [
+        "协作",
+        "工作流",
+        "验收"
+      ],
+      "author": "lolipopzahana",
+      "sourceUrl": "https://x.com/lolipopzahana/status/2118858587992965592",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118803398321402243",
+      "title": "不可逆规则放 PreToolUse hook，别只写 CLAUDE.md",
+      "summary": "Claude 会忘规则，hook 不会。最重要的红线用 hook 在执行前拦住并询问。",
+      "body": "软规则 vs hook（nosunaaa）：\n1. Claude Code 会忘掉 CLAUDE.md 里的规则。\n2. hook 不会忘。\n3. 最重要的规则放 PreToolUse：在不可逆操作前停下并询问。\n落地：列「不可撤销」清单（删库、强推、对外发送），每条挂 hook，不只写进 markdown。",
+      "tags": [
+        "护栏",
+        "规则",
+        "技巧"
+      ],
+      "author": "nosunaaa",
+      "sourceUrl": "https://x.com/nosunaaa/status/2118803398321402243",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118793371867394307",
+      "title": "Agent Skills 放进仓库，别只活在单次对话",
+      "summary": "技能只在一个会话里，下一任 Agent 看不见，同步还可能悄悄覆盖。放进仓库后人人同读，变更进 git。",
+      "body": "Skills 入库（openrijal）：\n1. 技能只活在单次对话 → 下一 Agent 不知道它存在。\n2. 同步可能把新技能塞进环境而你没察觉。\n3. 放进仓库：每个 Agent 读同一份；改动像普通规则一样进 git。\n落地：把常用 skills 迁到 repo 的 `.agents/` 或 `.claude/skills/`，用 PR 审改。",
+      "tags": [
+        "工作流",
+        "规则",
+        "协作"
+      ],
+      "author": "openrijal",
+      "sourceUrl": "https://x.com/openrijal/status/2118793371867394307",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118773205980622953",
+      "title": "提示词里的规则要配确定性检查",
+      "summary": "规则只写在提示词里等于没检查。做固定校验命令，失败要吵；AGENTS.md 要求每次 PR 前跑。",
+      "body": "有检查的 Bot 才靠谱（twinedon0）：\n案例：卡牌三维属性应和为 100，规则只在提示词里，上线后错了靠人发现。\n做法：\n1. 让 Bot 做固定检查，不要每次新写脚本。\n2. 少量命令：seed、跑流程、截图、check。\n3. 规则破了 check 要大声失败。\n4. AGENTS.md 写一行：每次 PR 前跑它。\n5. 无代码场景：清单验收（回复含工单号、价格不超价目表）。\n落地：先给一条「说 done 前必须跑」的硬检查。",
+      "tags": [
+        "验收",
+        "护栏",
+        "工作流"
+      ],
+      "author": "twinedon0",
+      "sourceUrl": "https://x.com/twinedon0/status/2118773205980622953",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118771645678510134",
+      "title": "缺停止规则：未跑测试前禁止说 done",
+      "summary": "CLAUDE.md 里常见 build，却少写停止条件。补上：测试/构建/截图跑完前拒绝宣称完成。",
+      "body": "停止规则（vibeforgelabs）：\n1. 多数 CLAUDE.md 有 build 关键字，不等于有 harness。\n2. 常缺的是停止规则。\n3. 加上：在 X 跑完前拒绝「done」（X=测试、构建或截图）。\n落地：把「完成定义」写成可执行命令，不写形容词。",
+      "tags": [
+        "验收",
+        "规则",
+        "门禁"
+      ],
+      "author": "vibeforgelabs",
+      "sourceUrl": "https://x.com/vibeforgelabs/status/2118771645678510134",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118813463875309845",
+      "title": "Harness 把「能演示」和「能验收」分开",
+      "summary": "单 Agent 便宜但屏幕没反应；规划/生成/评估三环更贵，却能玩。多花的钱买的是可验收。",
+      "body": "演示 vs 验收（Srnartn）：\n1. 同一次做游戏：单 Agent 二十分钟九刀——屏幕没反应。\n2. 拆成规划、生成、评估三环，六小时两百刀——能玩。\n3. 贵二十倍不是浪费，是 harness 把「能演示」和「能验收」分开了。\n落地：预算按验收环算，不按「第一次看起来能跑」算。",
+      "tags": [
+        "工作流",
+        "验收",
+        "成本"
+      ],
+      "author": "Srnartn",
+      "sourceUrl": "https://x.com/Srnartn/status/2118813463875309845",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118786191566721234",
+      "title": "多 Bot 先填角色表，再写提示词",
+      "summary": "负责、接收、交回、不准做填不满，提示词再长也会互相踩。星型交接经总管，配验收清单。",
+      "body": "多 Bot 分工（kk_ai_lab）：\n1. 先填角色表：负责、接收、交回、不准做。\n2. 表填不满就先别写长提示词。\n3. 星型分工：交接都经过总管，避免互相改稿。\n4. 配派活模板与验收清单。\n落地：开写提示词前，用一页表把边界钉死。",
+      "tags": [
+        "协作",
+        "工作流",
+        "验收"
+      ],
+      "author": "kk_ai_lab",
+      "sourceUrl": "https://x.com/kk_ai_lab/status/2118786191566721234",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118795565282824202",
+      "title": "收工前问一句：反复纠正该写进 CLAUDE.md 吗",
+      "summary": "会话结束前做复盘评分。同类纠正重复出现，就写成常驻规则，下轮不再踩。",
+      "body": "会话末复盘（elrolio）：\n关窗前加评分问题：\n「本会话哪里本可答得更好、少要人带？若有重复纠正，该写进 CLAUDE.md 哪条常驻规则？」\n例：no-tables 规则不粘；月度复盘收紧后，12 题测试从 7 次违规降到 0。\n落地：handoff 笔记末尾固定这一问；重复纠正当天入库。",
+      "tags": [
+        "复盘",
+        "规则",
+        "工作流"
+      ],
+      "author": "elrolio",
+      "sourceUrl": "https://x.com/elrolio/status/2118795565282824202",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118810141894275347",
+      "title": "先看常驻前缀账单，再砍工具与上下文",
+      "summary": "每轮都为系统提示、工具 schema、QWEN.md、skills 付费。用 /context detail 找最贵项；不用的工具 deny 掉。",
+      "body": "常驻上下文开销（swordBluesy / Qwen Code 文档）：\n1. 新会话第一轮跑 `/context detail`，对话空时看到的全是前缀账单。\n2. 记下空闲开销基线（只问一题的输入 token）。\n3. Token 缓存降单价；本页讲的是缩小前缀本身，可叠加。\n4. `permissions.allow` 不省钱，只是自动审批。\n5. 真正移除工具用 `permissions.deny` 或 `tools.disabled`。\n落地：先指出最贵的一项，再决定关工具还是瘦 instruction 文件。",
+      "tags": [
+        "成本",
+        "工作流",
+        "技巧"
+      ],
+      "author": "swordBluesy",
+      "sourceUrl": "https://x.com/swordBluesy/status/2118810141894275347",
+      "lang": "zh",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
+    },
+    {
+      "id": "2118797478057349462",
+      "title": "settings 钉死模型分工：Sonnet 主驾、Haiku 子代理、Opus 顾问",
+      "summary": "一次写进 settings.json，免每天打 flag。常规轮次不烧 Opus；计划锁定与反复报错时再请顾问。",
+      "body": "模型分工钉死（skunzu / Anthropic 文档）：\n在 ~/.claude/settings.json：\n- model: sonnet（主会话写代码）\n- advisorModel: opus（顾问）\n- env.CLAUDE_CODE_SUBAGENT_MODEL: haiku（搜索/grep/测）\nOpus 只在：计划锁定前、同一错误两次、关键签字时介入。\n落地：设一次后只敲 claude；别让日常轮次默认 Opus。",
+      "tags": [
+        "成本",
+        "工作流",
+        "规则"
+      ],
+      "author": "skunzu",
+      "sourceUrl": "https://x.com/skunzu/status/2118797478057349462",
+      "lang": "en",
+      "quality": "值得一看",
+      "collectedAt": "2026-11-07"
     }
   ]
 }
