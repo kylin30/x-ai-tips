@@ -4,11 +4,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "validate": "node scripts/validate-tips.mjs",
-    "build": "npm run validate && vite build",
+    "validate": "node scripts/validate-feed.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:layout": "node test/layout.chrome.mjs",
+    "build": "npm test && npm run validate && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "jsdom": "^31.0.0",
+    "puppeteer-core": "^25.16.0",
     "vite": "^6.4.1"
   }
 }

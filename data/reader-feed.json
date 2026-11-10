@@ -1,0 +1,173 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-11-10T08:35:56+08:00",
+  "items": [
+    {
+      "id": "2119913172039868579",
+      "event_key": "openai-control-room-safety",
+      "vendor": "OpenAI",
+      "title_zh": "OpenAI 发布 Control Room 研究侧安全停机系统",
+      "summary_zh": "Control Room 用于统一跟踪研究基础设施中的模型负载，并在安全或安保关切出现时快速停止。官网与 X 均称可在决定干预后约 35 秒内停止模型输出。状态：已发布。",
+      "importance": 3,
+      "importance_reason_zh": "实质安全/治理基础设施更新，非新旗舰模型发布。",
+      "status_release": "已发布",
+      "sources": [
+        {
+          "url": "https://x.com/OpenAI/status/2119913172039868579",
+          "type": "x_post"
+        },
+        {
+          "url": "https://openai.com/index/control-room/",
+          "type": "vendor_blog"
+        }
+      ],
+      "published_at": "2026-11-10T06:01:00+08:00",
+      "collected_at": "2026-11-10T08:22:35+08:00",
+      "verification_note": "已对照 openai.com/index/control-room/ 公开页复核（含 35 秒表述）。",
+      "revisions": [
+        {
+          "at": "2026-11-10T08:35:56+08:00",
+          "change": "初版写入公开 reader-feed v1"
+        }
+      ]
+    },
+    {
+      "id": "2119867114450268322",
+      "event_key": "anthropic-claude-fable-mythos-5.2-launch",
+      "vendor": "Anthropic",
+      "title_zh": "Anthropic 发布 Claude Fable 5.2 与 Claude Mythos 5.2",
+      "summary_zh": "Claude Fable 5.2 与 Mythos 5.2 已推出，面向高难度技术任务，编码/推理/视觉有提升。Fable 已在全部付费计划、Claude Platform 与主要云上线；API 定价为每百万 tokens 输入 $8、输出 $40（此前 $10/$50）。Mythos 需经生命科学或网络安全验证计划申请。状态：已发布。",
+      "body_zh": "官网确认型号与定价。开发者标识 claude-fable-5-2。Mythos 与 Fable 为同一底层模型，Mythos 面向经核验的有益网络安全/生物医学用途。",
+      "importance": 5,
+      "importance_reason_zh": "主要旗舰模型上线，并伴随广泛可用性与明确价格变化。",
+      "status_release": "已发布",
+      "sources": [
+        {
+          "url": "https://x.com/claudeai/status/2119867114450268322",
+          "type": "x_post"
+        },
+        {
+          "url": "https://x.com/AnthropicAI/status/2119867707546071125",
+          "type": "x_post"
+        },
+        {
+          "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+          "type": "vendor_blog"
+        },
+        {
+          "url": "https://claude.com/pricing",
+          "type": "pricing"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/models/overview",
+          "type": "docs"
+        }
+      ],
+      "published_at": "2026-11-10T02:57:59+08:00",
+      "collected_at": "2026-11-10T08:22:35+08:00",
+      "verification_note": "已对照 Anthropic 发布页、定价页与模型文档复核；X 时间戳与 snowflake 一致。",
+      "revisions": [
+        {
+          "at": "2026-11-10T08:35:56+08:00",
+          "change": "初版写入公开 reader-feed v1"
+        }
+      ]
+    },
+    {
+      "id": "2119853591703998787",
+      "event_key": "meta-muse-ember-launch-pricing-gcp",
+      "vendor": "Meta",
+      "title_zh": "Meta 发布 Muse Ember 并公布 API 定价与云可用性",
+      "summary_zh": "Muse Ember 为 Meta 最小高效模型，面向 agent 重复任务，支持约 1M 上下文。Meta Model API 定价为每百万 tokens 输入 $0.10、输出 $0.50；同时宣布可在 Google Cloud 与 Oracle Cloud 使用（含 Muse Wonder、Muse Spark 1.3）。状态：已发布。",
+      "body_zh": "官网研究博文确认型号 muse-ember-1.0、定价与多云可用性。",
+      "importance": 4,
+      "importance_reason_zh": "重要新模型与 API/云可用性更新（非全面旗舰替代叙事，按约定评为 4 星）。",
+      "status_release": "已发布",
+      "sources": [
+        {
+          "url": "https://x.com/AIatMeta/status/2119853591703998787",
+          "type": "x_post"
+        },
+        {
+          "url": "https://x.com/AIatMeta/status/2119853597542568405",
+          "type": "x_post"
+        },
+        {
+          "url": "https://x.com/AIatMeta/status/2119912647034642817",
+          "type": "x_post"
+        },
+        {
+          "url": "https://research.meta.ai/blog/muse-ember",
+          "type": "vendor_blog"
+        }
+      ],
+      "published_at": "2026-11-10T02:04:15+08:00",
+      "collected_at": "2026-11-10T08:22:35+08:00",
+      "verification_note": "已对照 research.meta.ai 博文复核型号、定价与 Google Cloud/Oracle Cloud 表述。",
+      "revisions": [
+        {
+          "at": "2026-11-10T08:35:56+08:00",
+          "change": "初版写入公开 reader-feed v1；importance 定为 4"
+        }
+      ]
+    },
+    {
+      "id": "2119813353363370134",
+      "event_key": "mistral-studio-apps-agents-workflows-availability",
+      "vendor": "Mistral",
+      "title_zh": "Mistral Studio 扩展 Apps、Managed Agents 与 Workflows",
+      "summary_zh": "官网（2026-11-05）确认 Studio 扩展 managed agents、apps 与 workflows。X 原帖称 Apps/Managed Agents 为公测、Workflows 为 GA，当日可在 Mistral Cloud 使用，私有云/本地约 11 月底——该上线节奏仅见于 X，官网未写同等措辞。状态：已发布/灰度。",
+      "importance": 4,
+      "importance_reason_zh": "重要平台能力更新；上线节奏细节仅有 X 宣布，故资格说明中单独标注。",
+      "status_release": "已发布/灰度",
+      "sources": [
+        {
+          "url": "https://x.com/MistralAI/status/2119813353363370134",
+          "type": "x_post"
+        },
+        {
+          "url": "https://mistral.ai/news/build-with-studio/",
+          "type": "vendor_blog"
+        }
+      ],
+      "published_at": "2026-11-09T23:24:22+08:00",
+      "collected_at": "2026-11-10T08:22:35+08:00",
+      "verification_note": "产品扩展有官网；『Mistral Cloud 当日可用 / 私有云本地月底』节奏仅 X 宣布。",
+      "revisions": [
+        {
+          "at": "2026-11-10T08:35:56+08:00",
+          "change": "初版写入公开 reader-feed v1；标注节奏仅X"
+        }
+      ]
+    },
+    {
+      "id": "2119765512238637559",
+      "event_key": "baidu-ernie-evolve-research",
+      "vendor": "Baidu",
+      "title_zh": "百度发布 ERNIE Evolve 自动研究系统",
+      "summary_zh": "ERNIE Evolve 可在明确研究目标下选择方向、改代码并跑实验，经独立评估后保留改进。官网披露例如确定性 GPU 推理吞吐约提升 33.7%、单请求解码约加快 14.9%。状态：已发布。",
+      "importance": 3,
+      "importance_reason_zh": "实质研究进展，非旗舰模型发布。",
+      "status_release": "已发布",
+      "sources": [
+        {
+          "url": "https://x.com/Baidu_Inc/status/2119765512238637559",
+          "type": "x_post"
+        },
+        {
+          "url": "https://ernie.baidu.com/research/posts/ernie-evolve/",
+          "type": "vendor_blog"
+        }
+      ],
+      "published_at": "2026-11-09T20:14:16+08:00",
+      "collected_at": "2026-11-10T08:22:35+08:00",
+      "verification_note": "已对照 ernie.baidu.com 研究博文复核；发帖账号为百度企业号。",
+      "revisions": [
+        {
+          "at": "2026-11-10T08:35:56+08:00",
+          "change": "初版写入公开 reader-feed v1"
+        }
+      ]
+    }
+  ]
+}
