@@ -1,3 +1,5 @@
+import { safeHttpsUrl } from './urls.js'
+
 const FORBIDDEN_TEXT = ['raw-x', '/home/', '/agent/', 'x-access-token', 'PRIVATE KEY', 'cursor/stores']
 
 export function scanPublicText(raw) {
@@ -87,8 +89,8 @@ export function validateFeed(data) {
       errors.push(`${where} 的 sources 必须是 1 到 20 条来源`)
     } else {
       item.sources.forEach((source, sourceIndex) => {
-        if (!isPlainObject(source) || !nonEmpty(source.url, 2000) || !nonEmpty(source.type, 40)) {
-          errors.push(`${where} 的 sources[${sourceIndex}] 必须包含非空 url 和 type`)
+        if (!isPlainObject(source) || safeHttpsUrl(source.url) === null || !nonEmpty(source.type, 40)) {
+          errors.push(`${where} 的 sources[${sourceIndex}] 必须包含安全的 https url 和 type`)
         }
       })
     }

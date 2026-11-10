@@ -33,6 +33,18 @@ test('同一文件里的重复 id 留给去重，不在结构层失败', () => {
   assert.equal(result.feed.items.length, 2)
 })
 
+test('不安全的来源 URL 让整份 feed 失败', () => {
+  const result = validateFeed(
+    validFeed([
+      validItem({
+        sources: [{ url: 'javascript:alert(1)', type: 'x_post' }],
+      }),
+    ]),
+  )
+  assert.equal(result.ok, false)
+  assert.match(result.errors.join('\n'), /sources/)
+})
+
 test('公开文本扫描拒绝内部路径和密钥片段', () => {
   assert.deepEqual(scanPublicText('{"title_zh":"公开标题"}'), [])
   const hits = scanPublicText('see /home/ubuntu and raw-x and PRIVATE KEY')
