@@ -64,6 +64,37 @@ test('拒绝的输出路径不会在仓库外创建目录', () => {
   assert.equal(existsSync(outsideDir), false)
 })
 
+test('合并结果自己不合法时不替换原文件', () => {
+  const cwd = mkdtempSync(join(tmpdir(), 'reader-ingest-'))
+  mkdirSync(join(cwd, 'data'))
+  const output = join(cwd, 'data', 'reader-feed.json')
+  const sources = (prefix) =>
+    Array.from({ length: 11 }, (_, index) => ({
+      url: `https://example.com/${prefix}-${index}`,
+      type: 'docs',
+    }))
+  const original = `${JSON.stringify(validFeed([validItem({ id: 'same', event_key: 'same-event', sources: sources('old') })]))}\n`
+  writeFileSync(output, original)
+  const input = join(cwd, 'incoming.json')
+  writeFileSync(
+    input,
+    JSON.stringify(
+      validFeed([
+        validItem({
+          id: 'same',
+          event_key: 'same-event',
+          sources: sources('new'),
+          collected_at: '2026-11-10T10:00:00+08:00',
+        }),
+      ]),
+    ),
+  )
+  const result = run(cwd, ['--input', input, '--output', output])
+  assert.equal(result.status, 1)
+  assert.match(result.stderr, /sources/)
+  assert.equal(readFileSync(output, 'utf8'), original)
+})
+
 test('拒绝把 feed 写到仓库目录之外', () => {
   const cwd = mkdtempSync(join(tmpdir(), 'reader-ingest-'))
   const outside = join(tmpdir(), `reader-outside-${Date.now()}.json`)

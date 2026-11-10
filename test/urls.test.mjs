@@ -10,6 +10,7 @@ test('只接受没有用户信息的 https 链接', () => {
   assert.equal(safeHttpsUrl('https://user@example.com/a'), null)
   assert.equal(safeHttpsUrl('http://example.com/a'), null)
   assert.equal(safeHttpsUrl('https:///no-host'), null)
+  assert.equal(safeHttpsUrl('https://.'), null)
   assert.equal(safeHttpsUrl('https://example.com/\u0000'), null)
   assert.equal(safeHttpsUrl(null), null)
 })

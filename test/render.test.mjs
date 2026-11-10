@@ -114,11 +114,56 @@ test('过期提示和安全官网链接同时出现', () => {
   assert.match(links.find((node) => node.getAttribute('href') === 'https://openai.com/index/control-room/').textContent, /官网/)
 })
 
+test('未打开详情时，列表卡片也显示核验说明', () => {
+  const { document } = mount({
+    selectedId: '',
+    items: [validItem({ verification_note: '列表上的核验说明' })],
+  })
+  assert.equal(document.querySelector('article[class*="reader-detail-"]'), null)
+  assert.match(document.querySelector('article').textContent, /列表上的核验说明/)
+})
+
+test('修订记录按时间升序显示', () => {
+  const { document } = mount({
+    selectedId: '2119913172039868579',
+    items: [
+      validItem({
+        revisions: [
+          { at: '2026-11-10T09:00:00+08:00', change: '后写的说明' },
+          { at: '2026-11-10T08:00:00+08:00', change: '先发生的说明' },
+        ],
+      }),
+    ],
+  })
+  const text = document.querySelector('article[class*="reader-detail-"]').textContent
+  assert.ok(text.indexOf('先发生的说明') < text.indexOf('后写的说明'))
+})
+
 test('加载中不把空列表说成没有新闻', () => {
   const { document } = mount({ status: 'loading', items: [] })
   assert.match(document.body.textContent, /正在加载新闻/)
   assert.equal(document.body.textContent.includes('没有符合条件的新闻'), false)
   assert.equal(document.querySelector('article'), null)
+})
+
+test('读取 localStorage 对象本身失败时仍返回空集合', async () => {
+  const { loadReadIdsFrom } = await import('../src/read-state.js')
+  const errors = []
+  const original = console.error
+  console.error = (...args) => {
+    errors.push(args.join(' '))
+  }
+  try {
+    assert.equal(
+      loadReadIdsFrom(() => {
+        throw new Error('blocked')
+      }).size,
+      0,
+    )
+    assert.equal(errors.length, 1)
+  } finally {
+    console.error = original
+  }
 })
 
 test('localStorage 失败时已读集合为空并记录错误', () => {

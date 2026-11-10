@@ -73,6 +73,16 @@ try {
 }
 
 const json = `${JSON.stringify(next, null, 2)}\n`
+const writtenScan = scanPublicText(json)
+if (writtenScan.length > 0) fail(writtenScan.join('\n'))
+let written
+try {
+  written = JSON.parse(json)
+} catch (error) {
+  fail(`合并结果不是合法 JSON，已停止写入：${error.message}`)
+}
+const writtenResult = validateFeed(written)
+if (!writtenResult.ok) fail(`合并结果未通过校验，已停止写入：\n${writtenResult.errors.join('\n')}`)
 const temporary = resolve(parentReal, `.${basename(output)}.${process.pid}.tmp`)
 try {
   writeFileSync(temporary, json)

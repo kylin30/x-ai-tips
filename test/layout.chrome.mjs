@@ -133,6 +133,13 @@ try {
   )
   await assertNoOverflow(page, '桌面筛选')
   await page.screenshot({ path: `${artifactDir}/reader_desktop_filtered.png`, fullPage: true })
+  await page.$eval('input[data-filter="query"]', (node) => {
+    node.value = '没有这条新闻xyz'
+    node.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+  await page.waitForFunction(() => document.body.textContent.includes('没有符合条件的新闻'))
+  const remaining = await page.$$eval('button[class*="reader-open-"]', (nodes) => nodes.length)
+  if (remaining !== 0) throw new Error('搜索没有排除已有新闻')
   console.log('宽度检查通过：390 与 1440')
 } finally {
   if (browser) {

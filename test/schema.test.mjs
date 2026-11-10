@@ -33,6 +33,18 @@ test('同一文件里的重复 id 留给去重，不在结构层失败', () => {
   assert.equal(result.feed.items.length, 2)
 })
 
+test('修订里的 summary_zh 必须是字符串', () => {
+  const result = validateFeed(
+    validFeed([
+      validItem({
+        revisions: [{ at: '2026-11-10T08:35:56+08:00', change: '补充', summary_zh: 5 }],
+      }),
+    ]),
+  )
+  assert.equal(result.ok, false)
+  assert.match(result.errors.join('\n'), /summary_zh/)
+})
+
 test('不安全的来源 URL 让整份 feed 失败', () => {
   const result = validateFeed(
     validFeed([

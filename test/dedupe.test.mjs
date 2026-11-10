@@ -88,6 +88,42 @@ test('字段没有变化时不追加合并说明', () => {
   assert.equal(merged.items[0].revisions.some((revision) => revision.change.startsWith('合并更新')), false)
 })
 
+test('经第三条记录相连的 id 和 event_key 合并成一条', () => {
+  const winner = validItem({
+    id: 'a',
+    event_key: 'shared',
+    title_zh: '应保留',
+    body_zh: '更完整的正文',
+  })
+  const bridge = validItem({
+    id: 'b',
+    event_key: 'shared',
+    title_zh: '桥',
+    published_at: null,
+    sources: [{ url: 'https://example.com/bridge', type: 'other' }],
+  })
+  delete bridge.verification_note
+  const tail = validItem({
+    id: 'b',
+    event_key: 'other',
+    title_zh: '尾',
+    published_at: null,
+    sources: [{ url: 'https://example.com/tail', type: 'other' }],
+  })
+  delete tail.verification_note
+  for (const order of [
+    [winner, bridge, tail],
+    [winner, tail, bridge],
+    [bridge, winner, tail],
+  ]) {
+    const { feed } = dedupeFeed(validFeed(order))
+    assert.equal(feed.items.length, 1, order.map((item) => item.title_zh).join(','))
+    assert.equal(feed.items[0].title_zh, '应保留')
+    assert.equal(feed.items[0]._ids, undefined)
+    assert.equal(feed.items[0].id, 'a')
+  }
+})
+
 test('单份文件内的重复 id 被折成一条', () => {
   const { feed, mergedCount } = dedupeFeed(
     validFeed([

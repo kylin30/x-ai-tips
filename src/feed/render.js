@@ -75,7 +75,8 @@ function appendDetail(doc, parent, item, model) {
     revisions.append(el(doc, 'p', `reader-meta-${SUFFIX}`, '无修订记录'))
   } else {
     const list = el(doc, 'ol', `reader-revision-list-${SUFFIX}`)
-    for (const revision of item.revisions) {
+    const ordered = [...item.revisions].sort((left, right) => Date.parse(left.at) - Date.parse(right.at))
+    for (const revision of ordered) {
       const line = `${formatShanghai(revision.at)} ${revision.change}`
       const extra = [revision.importance ? `星级 ${revision.importance}` : '', revision.summary_zh || '']
         .filter(Boolean)
@@ -200,6 +201,7 @@ export function renderReader(root, model) {
         el(doc, 'p', `reader-meta-${SUFFIX}`, `状态：${item.status_release}`),
         el(doc, 'p', `reader-meta-${SUFFIX}`, `发布时间：${publicationLabel(item.published_at)}`),
         el(doc, 'p', `reader-summary-${SUFFIX}`, item.summary_zh),
+        el(doc, 'p', `reader-reason-${SUFFIX}`, item.verification_note || '无额外核验说明'),
       )
       list.append(card)
     }

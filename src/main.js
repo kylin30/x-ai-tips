@@ -3,7 +3,7 @@ import { filterItems } from './feed/filter.js'
 import { renderReader } from './feed/render.js'
 import { formatShanghai, shanghaiDate, sortForReading } from './feed/time.js'
 import { loadFeed } from './load-feed.js'
-import { loadReadIds, saveReadIds } from './read-state.js'
+import { loadReadIdsFrom, saveReadIds } from './read-state.js'
 import './styles.css'
 
 const app = document.querySelector('#app')
@@ -13,7 +13,7 @@ const state = {
   feed: null,
   filters: { query: '', vendor: 'all', date: 'all', minStars: 1 },
   selectedId: '',
-  readIds: loadReadIds(window.localStorage),
+  readIds: loadReadIdsFrom(() => window.localStorage),
 }
 
 function selectedFromHash() {
@@ -58,7 +58,11 @@ function onToggleRead(id) {
   if (state.readIds.has(id)) state.readIds.delete(id)
   else state.readIds.add(id)
   state.readIds = new Set(state.readIds)
-  saveReadIds(window.localStorage, state.readIds)
+  try {
+    saveReadIds(window.localStorage, state.readIds)
+  } catch (error) {
+    console.error('无法保存本地已读状态', error)
+  }
   draw()
 }
 

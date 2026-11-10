@@ -9,6 +9,7 @@ export function safeHttpsUrl(value) {
   }
   if (url.protocol !== 'https:') return null
   if (url.username || url.password) return null
-  if (!url.hostname.includes('.')) return null
+  const labels = url.hostname.split('.').filter(Boolean)
+  if (labels.length < 2) return null
   return url.href
 }

@@ -106,6 +106,8 @@ export function validateFeed(data) {
             (!Number.isInteger(revision.importance) || revision.importance < 1 || revision.importance > 5)
           ) {
             errors.push(`${where} 的 revisions[${revisionIndex}].importance 必须是 1 到 5 的整数`)
+          } else if (revision.summary_zh !== undefined && !nonEmpty(revision.summary_zh, 4000)) {
+            errors.push(`${where} 的 revisions[${revisionIndex}].summary_zh 必须是非空字符串`)
           }
         })
       }

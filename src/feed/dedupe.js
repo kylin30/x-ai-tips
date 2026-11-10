@@ -38,6 +38,44 @@ function unionRevisions(groups) {
   return [...seen.values()].sort((left, right) => Date.parse(left.at) - Date.parse(right.at))
 }
 
+function identitySets(item) {
+  return {
+    ids: new Set([item.id, ...(item._ids || [])]),
+    keys: new Set([item.event_key, ...(item._keys || [])]),
+  }
+}
+
+function overlaps(left, right) {
+  const current = identitySets(left)
+  const incoming = identitySets(right)
+  for (const id of incoming.ids) if (current.ids.has(id)) return true
+  for (const key of incoming.keys) if (current.keys.has(key)) return true
+  return false
+}
+
+function rememberIdentities(merged, current, incoming) {
+  merged._ids = [
+    ...new Set([...(current._ids || []), ...(incoming._ids || []), current.id, incoming.id, merged.id]),
+  ]
+  merged._keys = [
+    ...new Set([
+      ...(current._keys || []),
+      ...(incoming._keys || []),
+      current.event_key,
+      incoming.event_key,
+      merged.event_key,
+    ]),
+  ]
+  return merged
+}
+
+function withoutIdentities(item) {
+  const copy = { ...item }
+  delete copy._ids
+  delete copy._keys
+  return copy
+}
+
 function chooseWinner(current, incoming) {
   const score = verificationScore(incoming) - verificationScore(current)
   if (score > 0) return incoming
@@ -64,7 +102,7 @@ function mergePair(current, incoming) {
   }
   if (revisions.length > 0) merged.revisions = revisions
   else delete merged.revisions
-  return merged
+  return rememberIdentities(merged, current, incoming)
 }
 
 function absorbConflicts(items, start) {
@@ -72,9 +110,7 @@ function absorbConflicts(items, start) {
   let cursor = start
   for (;;) {
     const current = items[cursor]
-    const other = items.findIndex(
-      (item, index) => index !== cursor && (item.id === current.id || item.event_key === current.event_key),
-    )
+    const other = items.findIndex((item, index) => index !== cursor && overlaps(current, item))
     if (other < 0) break
     const keep = Math.min(cursor, other)
     const drop = Math.max(cursor, other)
@@ -91,7 +127,7 @@ export function dedupeFeed(feed) {
   let mergedCount = 0
   for (const raw of feed.items) {
     const item = structuredClone(raw)
-    const match = items.findIndex((current) => current.id === item.id || current.event_key === item.event_key)
+    const match = items.findIndex((current) => overlaps(current, item))
     if (match < 0) {
       items.push(item)
       continue
@@ -99,7 +135,7 @@ export function dedupeFeed(feed) {
     items[match] = mergePair(items[match], item)
     mergedCount += 1 + absorbConflicts(items, match)
   }
-  return { feed: { ...feed, items }, mergedCount }
+  return { feed: { ...feed, items: items.map(withoutIdentities) }, mergedCount }
 }
 
 export function mergeFeeds(existing, incoming) {

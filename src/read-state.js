@@ -1,5 +1,14 @@
 const STORAGE_KEY = 'llm-news-read-ids-v1'
 
+export function loadReadIdsFrom(getStorage) {
+  try {
+    return loadReadIds(getStorage())
+  } catch (error) {
+    console.error('无法读取本地已读状态', error)
+    return new Set()
+  }
+}
+
 export function loadReadIds(storage) {
   try {
     const raw = storage.getItem(STORAGE_KEY)
