@@ -114,6 +114,13 @@ test('过期提示和安全官网链接同时出现', () => {
   assert.match(links.find((node) => node.getAttribute('href') === 'https://openai.com/index/control-room/').textContent, /官网/)
 })
 
+test('加载中不把空列表说成没有新闻', () => {
+  const { document } = mount({ status: 'loading', items: [] })
+  assert.match(document.body.textContent, /正在加载新闻/)
+  assert.equal(document.body.textContent.includes('没有符合条件的新闻'), false)
+  assert.equal(document.querySelector('article'), null)
+})
+
 test('localStorage 失败时已读集合为空并记录错误', () => {
   const errors = []
   const original = console.error

@@ -147,9 +147,28 @@ export function renderReader(root, model) {
       minStars: Number(starsSelect.value),
     })
   }
+  let composing = false
+  search.addEventListener('compositionstart', () => {
+    composing = true
+  })
+  search.addEventListener('compositionend', () => {
+    composing = false
+    notify()
+  })
   form.addEventListener('change', notify)
-  form.addEventListener('input', notify)
+  form.addEventListener('input', (event) => {
+    if (event.target === search && composing) return
+    notify()
+  })
+  search.placeholder = '搜索标题、摘要、厂商或来源'
   page.append(form)
+  header.querySelector(`.reader-status-${SUFFIX}`).setAttribute('role', 'status')
+
+  if (model.status === 'loading') {
+    page.append(el(doc, 'p', `reader-empty-${SUFFIX}`, '正在加载新闻'))
+    root.append(page)
+    return
+  }
 
   if (model.status === 'error') {
     const alert = el(doc, 'p', `reader-alert-${SUFFIX}`, model.errorMessage || '无法加载新闻数据')
